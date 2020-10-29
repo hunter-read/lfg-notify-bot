@@ -27,6 +27,9 @@ utc utc+1
 nsfw
 ```
 
+## Notes
+While this bot does it's best to parse a user post, due to inconsistencies in how people post, there is no guarantee that the data it collects is 100% accurate. While the bot does try it's best, the very nature of text parsing is difficult and even if I were to try and use some sort of machine learning, there would still be issues. I recommend if you subscribe to this bot, to read through any post it thinks is applicable to your settings. If you see a blatent issue, please add an issue to the github page, or send [u/Perfekthuntr](https://www.reddit.com/user/Perfekthuntr) a message on reddit and I will do my best to investigate.
+
 ## Workings
 Currently I am 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
 
