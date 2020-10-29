@@ -33,3 +33,6 @@ Currently I am 2 bots, one that reads incoming user messages and another that pa
 Requirements:
 * python3
 * praw (pip3 install praw)
+
+## License
+LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
