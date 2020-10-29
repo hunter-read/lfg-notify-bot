@@ -33,7 +33,7 @@ class Database(object):
 
 
 class Post:
-    def __init__(self, post_date=None, game=None, days=set(), timezone=None, time=None, nsfw=0, flair=None, permalink=None):
+    def __init__(self, post_date=None, game=None, days=set(), timezone=None, time=None, nsfw=0, flair=None, permalink=None, online=1):
         self.post_date = post_date
         self.game = game
         self.days = days
@@ -42,9 +42,10 @@ class Post:
         self.nsfw = nsfw
         self.flair = flair
         self.permalink = permalink
+        self.online = online
     
     def save(self, db):
-        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)", [self.game, self.flair, self.timezone, ','.join(day.upper() for day in self.days), self.time, self.nsfw, self.permalink])
+        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)", [self.game, self.flair, self.timezone, ','.join(day.upper() for day in self.days), self.time, self.nsfw, self.permalink, self.online])
         
 class UserRequest:
     def __init__(self, date_created=None, username=None, game=None, days=None, timezone=None, nsfw=0):

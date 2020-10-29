@@ -41,6 +41,9 @@ def read_submissions(db):
         post.permalink = submission.permalink
         post.nsfw = int(submission.over_18)
 
+        online = bool(re.search(r"(online)", submission.title, re.IGNORECASE))
+        post.online = int(online)
+
         timezone = re.search(__tz_regex, fulltext)
         if timezone:
             timezone = timezone.group('timezone').upper()
@@ -67,7 +70,7 @@ def read_submissions(db):
 
         post.save(db)
 
-        if re.search(r"(Player\(s\)\swanted)", submission.link_flair_text, re.IGNORECASE) and re.search(r"(online)", submission.title, re.IGNORECASE) and game is not None:  
+        if re.search(r"(Player\(s\)\swanted)", submission.link_flair_text, re.IGNORECASE) and online and game is not None:  
 
             users = user_search.find_users(db)
             logging.info(f"Users:    {[i[0] for i in users]}")
