@@ -72,4 +72,4 @@ def to_military_time(time):
     if hours == -1 or minutes == -1:
         return None
         
-    return str(hours)+str(minutes)
+    return f"{hours:02d}{minutes:02d}"
