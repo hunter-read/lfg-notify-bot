@@ -3,8 +3,8 @@ import prawcore
 import time
 import re
 import time_parser
-import sqlite3
-from lfg_database import *
+from lfg_database import Database,Post,UserRequest
+import logging
 
 __reddit = praw.Reddit('submissions')
 __subreddit = __reddit.subreddit("lfg")
@@ -27,9 +27,9 @@ def read_submissions(db):
         user_search = UserRequest()
         fulltext = submission.title + submission.selftext
 
-        print("-" * 100)
-        print(f"New Post: {submission.title} ({submission.link_flair_text})")
-        print(f"Link:     https://www.reddit.com{submission.permalink}")
+        logging.info("-" * 100)
+        logging.info(f"New Post: {submission.title} ({submission.link_flair_text})")
+        logging.info(f"Link:     https://www.reddit.com{submission.permalink}")
 
         
         game = game.group(0).upper()
@@ -43,7 +43,7 @@ def read_submissions(db):
         if timezone:
             timezone = timezone.group('timezone')
             corrected = time_parser.correct_timezone(timezone)
-            print(f"Timezone: {timezone.upper()} ({corrected})")
+            logging.info(f"Timezone: {timezone.upper()} ({corrected})")
             post.timezone = corrected
             user_search.timezone = corrected
 
@@ -51,7 +51,7 @@ def read_submissions(db):
         days = re.findall(__day_regex, fulltext)
         if days:
             days = set([day.lower().capitalize() for day in days])
-            print(f"Days:     {','.join(days)}")
+            logging.info(f"Days:     {','.join(days)}")
             post.days = days
             user_search.day_of_week = days
 
@@ -60,7 +60,7 @@ def read_submissions(db):
         if times is not None:
             time = times.group('time')
             mil_time = time_parser.to_military_time(time)
-            print(f"Time:     {time}")
+            logging.info(f"Time:     {time}")
             post.time = mil_time if mil_time else time
 
         post.save(db)
@@ -68,12 +68,12 @@ def read_submissions(db):
         if re.search(r"(Player\(s\)\swanted)", submission.link_flair_text, re.IGNORECASE) and re.search(r"(online)", submission.title, re.IGNORECASE) and game is not None:  
 
             users = user_search.find_users(db)
-            print(f"Users:    {[i[0] for i in users]}")
+            logging.info(f"Users:    {[i[0] for i in users]}")
             for user in users:
                 send_message(user[0], submission.title, submission.permalink, times.group('time'))
             
-        print("-" * 100)
-        print( )
+        logging.info("-" * 100)
+        logging.info("")
 
 
 def send_message(user, title, link, time):
@@ -87,15 +87,16 @@ def send_message(user, title, link, time):
 
 
 def main():
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
     with Database() as db: 
         while True:
             try: 
                 read_submissions(db)
             except prawcore.exceptions.ServerError as err:
-                print (f"Server Error: {err}")
+                logging.error(f"Server Error: {err}")
                 time.sleep(360)
             except praw.exceptions.RedditAPIException as err:
-                print(f"API error: {err}")
+                logging.error(f"API error: {err}")
                 time.sleep(120)
 
 

@@ -2,9 +2,9 @@ import praw
 import prawcore
 import time
 import re
-import sqlite3
 from lfg_database import Database,UserRequest
 import time_parser
+import logging
 
 reddit = praw.Reddit('messages')
 
@@ -19,12 +19,13 @@ def read_messages(db):
         user.username = message.author.name
         
         message.mark_read()
-        print(f"New Message: {message.author.name} - {message.subject}")
+        logging.info(f"New Message: {message.author.name} - {message.subject}")
 
         if re.search(r'stop', message.subject+message.body, re.IGNORECASE):
             user.delete(db)
             message.reply(body="""You have successfully stopped notifications from LFG Notify Bot.  
             If this bot was helpful, please consider making a donation to charity or your GM.""")
+            time.sleep(2)
 
         elif re.search(r'subscribe', message.subject, re.IGNORECASE):
             game = re.findall(game_regex, message.body)
@@ -70,17 +71,19 @@ def read_messages(db):
             &nbsp;  
             ^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr."""
             )
+            time.sleep(2)
 
 def main():
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
     with Database() as db:
         while True:
             try:
                 read_messages(db)
             except prawcore.exceptions.ServerError as err:
-                print (f"Server Error: {err}")
+                logging.error(f"Server Error: {err}")
                 time.sleep(360)
             except praw.exceptions.RedditAPIException as err:
-                print(f"API error: {err}")
+                logging.error(f"API error: {err}")
                 time.sleep(120)
 
 
