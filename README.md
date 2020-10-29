@@ -1,2 +1,35 @@
-# lfg-notify-bot
-Reddit lfg bot
+# Reddit LFG Notification Bot
+This is the source for the https://www.reddit.com/user/LFG_Notify_Bot
+
+## Purpose
+
+I am a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.
+
+I am still in beta, but if this interests you, [send me a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title Subscribe and in the body include the following:
+
+* Game: Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags are not supported yet)
+* Timezone: Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+# or UTC+# format.
+* Day of the Week: Use full day of the week ex. Monday, Tuesday, Friday
+* NSFW: By default all nsfw posts are excluded, if you are okay with nsfw posts, then include "nsfw" in the message
+
+You can include as many games, timezones, or days of the week as you want and I will send you a message when someone posts a game looking for player's that meets your criteria, but currently I only search for posts with [Online] and the flairs GM an player(s) wanted or Player(s) wanted.
+
+Example message body
+```
+5e, PF2e
+Monday, Wednesday
+PST, GMT-7
+```
+```
+40k 5E gurps
+thursdays \ Friday
+utc utc+1
+nsfw
+```
+
+## Workings
+Currently I am 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
+
+Requirements:
+* python3
+* praw (pip3 install praw)

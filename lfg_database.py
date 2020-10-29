@@ -2,7 +2,7 @@ import sqlite3
 
 class Database(object):
 
-    __DB_LOCATION = "lfg_data.db"
+    __DB_LOCATION = "lfg.db"
 
     def __init__(self):
         self.__db_connection = sqlite3.connect(self.__DB_LOCATION)

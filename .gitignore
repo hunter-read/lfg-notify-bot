@@ -1,5 +1,5 @@
 praw.ini
-lfg_data.db
+lfg.db
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
