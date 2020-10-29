@@ -17,7 +17,7 @@ __time_regex = re.compile(r"(?P<time>(([0-9]|[0-1][0-9])(:?[0-5][0-9])?\s*-?\s*(
 def read_submissions(db):
     for submission in __subreddit.stream.submissions(skip_existing=True):
         if submission.link_flair_text is None:
-            logging.warning(f"Found Post with no flair: {__reddit.config.short_url}{submission.permalink}")
+            logging.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
             continue
 
         game = re.search(__game_regex, submission.title)
@@ -30,21 +30,22 @@ def read_submissions(db):
 
         logging.info("-" * 100)
         logging.info(f"New Post: {submission.title} ({submission.link_flair_text})")
-        logging.info(f"Link:     {__reddit.config.short_url}{submission.permalink}")
+        logging.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
 
         
         game = game.group(0).upper()
         post.game = game
         user_search.game = game
 
+        post.flair = submission.link_flair_text
         post.permalink = submission.permalink
         post.nsfw = int(submission.over_18)
 
         timezone = re.search(__tz_regex, fulltext)
         if timezone:
-            timezone = timezone.group('timezone')
+            timezone = timezone.group('timezone').upper()
             corrected = time_parser.correct_timezone(timezone)
-            logging.info(f"Timezone: {timezone.upper()} ({corrected})")
+            logging.info(f"Timezone: {timezone} ({corrected})")
             post.timezone = corrected
             user_search.timezone = corrected
 
@@ -80,7 +81,7 @@ def read_submissions(db):
 def send_message(user, title, link, time):
     __reddit.redditor(user).message('New LFG Post', f"""Title: {title}  
     Start Time (best guess): {time if time else 'Unknown'}  
-    Link: {__reddit.config.short_url}{link}  
+    Link: {__reddit.config.reddit_url}{link}  
     &nbsp;  
     Reply **STOP** to end notifications.
     """)

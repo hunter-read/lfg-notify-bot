@@ -33,7 +33,7 @@ class Database(object):
 
 
 class Post:
-    def __init__(self, post_date=None, game=None, days=None, timezone=None, time=None, nsfw=0, flair=None, permalink=None):
+    def __init__(self, post_date=None, game=None, days=set(), timezone=None, time=None, nsfw=0, flair=None, permalink=None):
         self.post_date = post_date
         self.game = game
         self.days = days
