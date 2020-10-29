@@ -6,14 +6,14 @@ from lfg_database import Database,UserRequest
 import time_parser
 import logging
 
-reddit = praw.Reddit('messages')
+__reddit = praw.Reddit('messages')
 
-game_regex = re.compile(r"(CoC|3.5|[2-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD)", flags=re.IGNORECASE)
-day_regex = re.compile(r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)(?:day))", flags=re.IGNORECASE)
-tz_regex = re.compile(r"((?:GMT|UTC)(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|ADT|AKDT|AKST|AST|CDT|CST|EDT|EGST|EGT|EST|HDT|HST|MDT|MST|MT|PDT|PST|BST|CEST|CET|EEST|EET|WEST|WET|ACDT|ACST|ACT|AEDT|AEST|AET|AWDT|AWST)", flags=re.IGNORECASE)
+__game_regex = re.compile(r"(CoC|3.5|[2-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD)", flags=re.IGNORECASE)
+__day_regex = re.compile(r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)(?:day))", flags=re.IGNORECASE)
+__tz_regex = re.compile(r"((?:GMT|UTC)(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|ADT|AKDT|AKST|AST|CDT|CST|EDT|EGST|EGT|EST|HDT|HST|MDT|MST|MT|PDT|PST|BST|CEST|CET|EEST|EET|WEST|WET|ACDT|ACST|ACT|AEDT|AEST|AET|AWDT|AWST)", flags=re.IGNORECASE)
 
 def read_messages(db):
-    for message in reddit.inbox.stream():
+    for message in __reddit.inbox.stream():
         
         user = UserRequest()
         user.username = message.author.name
@@ -28,7 +28,7 @@ def read_messages(db):
             time.sleep(2)
 
         elif re.search(r'subscribe', message.subject, re.IGNORECASE):
-            game = re.findall(game_regex, message.body)
+            game = re.findall(__game_regex, message.body)
             if not game:
                 message.reply(body="""You must include a valid game from the LFG subreddit game tags list https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags. Other and Flexible LFG tags are not currently supported.  
                 &nbsp;   
@@ -38,10 +38,10 @@ def read_messages(db):
 
             user.game = ",".join(x.upper() for x in game)
 
-            days = re.findall(day_regex, message.body)
+            days = re.findall(__day_regex, message.body)
             user.days = ",".join(set(x.upper() for x in days))
 
-            timezone = re.findall(tz_regex, message.body)
+            timezone = re.findall(__tz_regex, message.body)
             timezone_corrected = set()
             timezone_user= []
             for tz in timezone:
@@ -74,8 +74,15 @@ def read_messages(db):
             time.sleep(2)
 
 def main():
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
-    with Database() as db:
+    log_file = __reddit.config.custom["log_file"]
+    log_level = int(__reddit.config.custom["log_level"])
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
+
+    database = __reddit.config.custom["database"]
+    if not database:
+        logging.error("Database location not set. Exiting")
+        exit(1)
+    with Database(database) as db:
         while True:
             try:
                 read_messages(db)

@@ -17,6 +17,7 @@ __time_regex = re.compile(r"(?P<time>(([0-9]|[0-1][0-9])(:?[0-5][0-9])?\s*-?\s*(
 def read_submissions(db):
     for submission in __subreddit.stream.submissions(skip_existing=True):
         if submission.link_flair_text is None:
+            logging.warning(f"Found Post with no flair: {__reddit.config.short_url}{submission.permalink}")
             continue
 
         game = re.search(__game_regex, submission.title)
@@ -29,7 +30,7 @@ def read_submissions(db):
 
         logging.info("-" * 100)
         logging.info(f"New Post: {submission.title} ({submission.link_flair_text})")
-        logging.info(f"Link:     https://www.reddit.com{submission.permalink}")
+        logging.info(f"Link:     {__reddit.config.short_url}{submission.permalink}")
 
         
         game = game.group(0).upper()
@@ -37,7 +38,7 @@ def read_submissions(db):
         user_search.game = game
 
         post.permalink = submission.permalink
-        post.nsfw = int(submission.is_over_18)
+        post.nsfw = int(submission.over_18)
 
         timezone = re.search(__tz_regex, fulltext)
         if timezone:
@@ -79,7 +80,7 @@ def read_submissions(db):
 def send_message(user, title, link, time):
     __reddit.redditor(user).message('New LFG Post', f"""Title: {title}  
     Start Time (best guess): {time if time else 'Unknown'}  
-    Link: https://reddit.com{link}  
+    Link: {__reddit.config.short_url}{link}  
     &nbsp;  
     Reply **STOP** to end notifications.
     """)
@@ -87,8 +88,16 @@ def send_message(user, title, link, time):
 
 
 def main():
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
-    with Database() as db: 
+    log_file = __reddit.config.custom["log_file"]
+    log_level = int(__reddit.config.custom["log_level"])
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
+
+    database = __reddit.config.custom["database"]
+    if not database:
+        logging.error("Database location not set. Exiting")
+        exit(1)
+
+    with Database(database) as db: 
         while True:
             try: 
                 read_submissions(db)

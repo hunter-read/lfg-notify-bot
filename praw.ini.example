@@ -18,6 +18,11 @@ reddit_url=https://www.reddit.com
 # The URL prefix for short URLs.
 short_url=https://redd.it
 
+log_file=
+#20=info, #30=WARNING
+log_level=30
+database=
+
 [submissions]
 client_id=
 client_secret=

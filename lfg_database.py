@@ -2,28 +2,21 @@ import sqlite3
 
 class Database(object):
 
-    __DB_LOCATION = "lfg.db"
-
-    def __init__(self):
+    def __init__(self, db):
+        self.__DB_LOCATION = db
         self.__db_connection = sqlite3.connect(self.__DB_LOCATION)
         self.__db_cursor = None
 
     def __del__(self):
-        self.close(None, None, None)
+        self.close()
 
     def __enter__(self):
         return self
 
     def __exit__(self, ext_type, exc_value, traceback):
-        self.close(ext_type, exc_value, traceback)
+        self.close()
 
-    def close(self, ext_type, exc_value, traceback):
-        if self.__db_cursor:
-            self.__db_cursor.close()
-        if isinstance(exc_value, Exception):
-            self.__db_connection.rollback()
-        else:
-            self.__db_connection.commit()
+    def close(self):
         self.__db_connection.close()
 
     def query(self, query, params):
@@ -51,7 +44,7 @@ class Post:
         self.permalink = permalink
     
     def save(self, db):
-        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)", [self.game, self.flair, self.timezone, ','.join(self.days), self.time, self.nsfw, self.permalink])
+        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)", [self.game, self.flair, self.timezone, ','.join(day.upper() for day in self.days), self.time, self.nsfw, self.permalink])
         
 class UserRequest:
     def __init__(self, date_created=None, username=None, game=None, days=None, timezone=None, nsfw=0):
@@ -85,7 +78,7 @@ class UserRequest:
             for i in range(num_days):
                 day = self.days.pop()
                 query += "day_of_week like ? "
-                params.append(f"%{day}%")
+                params.append(f"%{day.upper()}%")
                 if i < (num_days - 1):
                     query += "or "
             query += ") "
