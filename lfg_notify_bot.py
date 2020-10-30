@@ -12,7 +12,7 @@ __subreddit = __reddit.subreddit("lfg")
 __game_regex = re.compile(r"(CoC|3.5|[2-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD)", flags=re.IGNORECASE)
 __day_regex = re.compile(r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)(?:day))", flags=re.IGNORECASE)
 __tz_regex = re.compile(r"[^a-zA-Z](?P<timezone>(GMT|UTC)([+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|ADT|AKDT|AKST|AST|CDT|CST|CT|EDT|EGST|EGT|EST|ET|HDT|HST|MDT|MST|MT|PDT|PST|PT|BST|CEST|CET|EEST|EET|WEST|WET|ACDT|ACST|ACT|AEDT|AEST|AET|AWDT|AWST)[^a-zA-Z]", flags=re.IGNORECASE)
-__time_regex = re.compile(r"(?P<time>(([0-9]|[0-1][0-9])(:?[0-5][0-9])?\s*-?\s*(([0-9]|[0-1][0-9])(:?[0-5][0-9])?)?\s*(am|pm))|(?<!(#|/|\d))[0-2][0-9][0-5][0-9]\s*-?\s*([0-2][0-9][0-5][0-9])?)", flags=re.IGNORECASE)
+__time_regex = re.compile(r"(?P<time>(([0-9]|[0-2][0-9])(:?[0-5][0-9])?\s*-?\s*(([0-9]|[0-1][0-9])(:?[0-5][0-9])?)?\s*(am|pm|p\.m|a\.m))|(?<!(#|/|\d))[0-2][0-9][0-5][0-9]\s*-?\s*([0-2][0-9][0-5][0-9])?)", flags=re.IGNORECASE)
 
 def read_submissions(db):
     for submission in __subreddit.stream.submissions(skip_existing=True):
@@ -36,6 +36,7 @@ def read_submissions(db):
         game = game.group(0).upper()
         post.game = game
         user_search.game = game
+        logging.info(f"Game:     {game}")
 
         post.flair = submission.link_flair_text
         post.permalink = submission.permalink

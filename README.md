@@ -37,5 +37,19 @@ Requirements:
 * python3
 * praw (pip3 install praw)
 
+## Future improvements / Known issues
+* Improve time parsing
+    * Start and end time
+    * Support more cases
+    * Remove false positives
+* Multiple game support on submissions
+* Multiple time zone support on submissions
+* 18+ games, or age catching support
+* Support submissions with both online and offline tags
+* Parse for one-shot posts
+* Alternate game name support
+* Unit tests
+
+
 ## License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
