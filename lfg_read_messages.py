@@ -7,6 +7,7 @@ import time_parser
 import logging
 
 __reddit = praw.Reddit('messages')
+__backoff = 5
 
 __game_regex = re.compile(r"(CoC|3.5|[2-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD)", flags=re.IGNORECASE)
 __day_regex = re.compile(r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)(?:day))", flags=re.IGNORECASE)
@@ -15,6 +16,7 @@ __tz_regex = re.compile(r"((?:GMT|UTC)(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|ADT|AKD
 def read_messages(db):
     for message in __reddit.inbox.stream():
         
+        __backoff = 5
         user = UserRequest()
         user.username = message.author.name
         
@@ -74,6 +76,7 @@ def read_messages(db):
             time.sleep(2)
 
 def main():
+    __backoff = 5
     log_file = __reddit.config.custom["log_file"]
     log_level = int(__reddit.config.custom["log_level"])
     logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
@@ -88,10 +91,13 @@ def main():
                 read_messages(db)
             except prawcore.exceptions.ServerError as err:
                 logging.error(f"Server Error: {err}")
-                time.sleep(360)
+                time.sleep(__backoff)
+                __backoff *= 2
             except praw.exceptions.RedditAPIException as err:
                 logging.error(f"API error: {err}")
-                time.sleep(120)
+                time.sleep(__backoff)
+                __backoff *= 2
+
 
 
 if __name__ == "__main__":

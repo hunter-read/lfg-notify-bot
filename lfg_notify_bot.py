@@ -7,6 +7,7 @@ from lfg_database import Database,Post,UserRequest
 import logging
 
 __reddit = praw.Reddit('submissions')
+__backoff = 5
 __subreddit = __reddit.subreddit("lfg")
 
 __game_regex = re.compile(r"(CoC|3.5|[2-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD)", flags=re.IGNORECASE)
@@ -16,6 +17,7 @@ __time_regex = re.compile(r"(?P<time>(([0-9]|[0-2][0-9])(:?[0-5][0-9])?\s*-?\s*(
 
 def read_submissions(db):
     for submission in __subreddit.stream.submissions(skip_existing=True):
+        __backoff = 5
         if submission.link_flair_text is None:
             logging.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
             continue
@@ -93,6 +95,7 @@ def send_message(user, title, link, time):
 
 
 def main():
+    __backoff = 5
     log_file = __reddit.config.custom["log_file"]
     log_level = int(__reddit.config.custom["log_level"])
     logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
@@ -108,10 +111,12 @@ def main():
                 read_submissions(db)
             except prawcore.exceptions.ServerError as err:
                 logging.error(f"Server Error: {err}")
-                time.sleep(360)
+                time.sleep(__backoff)
+                __backoff *= 2
             except praw.exceptions.RedditAPIException as err:
                 logging.error(f"API error: {err}")
-                time.sleep(120)
+                time.sleep(__backoff)
+                __backoff *= 2
 
 
 if __name__ == "__main__":
