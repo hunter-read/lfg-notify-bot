@@ -39,7 +39,9 @@ def read_submissions(db):
         post.nsfw and flags.append("NSFW")
         is_lgbt(fulltext) and flags.append("LGBTQ+")
         is_one_shot(fulltext) and flags.append("One-Shot")
-        is_over_18(fulltext) and flags.append("18+")
+        age_limit = age_limit(fulltext)
+        if age_limit:
+            flags.append(age_limit)
 
         if flags:
             logging.info(f"Flags:    {', '.join(flags)}")
@@ -67,31 +69,28 @@ def read_submissions(db):
             logging.info(f"Time:     {post.time}")
 
         post.save(db)
-        find_users_and_message(db, user_search, post)
+        if players_wanted(post.flair) and post.online and post.game:
+            find_users_and_message(db, user_search, submission.title, post.permalink, post.time, flags)
 
         logging.info("-" * 100)
         logging.info("")
 
 
-def send_message(user, title, link, time):
-    __reddit.redditor(user).message('New LFG Post', f"""Title: {title}  
-    Time (best guess): {time if time else 'Unknown'}  
-    Link: {__reddit.config.reddit_url}{link}  
-    &nbsp;  
-    Reply **STOP** to end notifications.
-    """)
-    time.sleep(2)
-
-
-def find_users_and_message(db, user_search, post):
-    if players_wanted(post.flair) and post.online and post.game:
-        users = user_search.find_users(db)
-        if users:
-            logging.info(f"Users:    {', '.join([i[0] for i in users])}")
-            for user in users:
-                send_message(user[0], submission.title, submission.permalink, post.time)
-        else:
-            logging.info("Users:    None")
+def find_users_and_message(db, user_search, title, link, times, flags):    
+    users = user_search.find_users(db)
+    if users:
+        logging.info(f"Users:    {', '.join([i[0] for i in users])}")
+        for user in users:
+            __reddit.redditor(user[0]).message('New LFG Post',
+                                               f"""Title: {title}  
+                                                Time: {times if times else 'Unknown'}  
+                                                Notes: {', '.join(flags if flags else 'None')}  
+                                                Link: {__reddit.config.reddit_url}{link}  
+                                                &nbsp;  
+                                                Reply **STOP** to end notifications.""")
+            time.sleep(2)
+    else:
+        logging.info("Users:    None")
 
 
 def main():

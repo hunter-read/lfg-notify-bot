@@ -21,8 +21,9 @@ def is_lgbt(text):
     return 1 if re.search(r"lgbtq?[+]?", text, re.IGNORECASE) else 0
 
 
-def is_over_18(text):
-    return 1 if re.search(r"(18|21)[+]", text, re.IGNORECASE) else 0
+def age_limit(text):
+    match = re.search(r"(?:18|21)[+]", text, re.IGNORECASE)    
+    return match.group(0) if match else None
 
 
 def is_one_shot(text):
