@@ -36,7 +36,10 @@ Currently I am 2 bots, one that reads incoming user messages and another that pa
 Requirements:
 * python 3.7+
 * praw (`pip3 install praw`)
-* pytest (For unit tests: `pip3 install pytest`)
+
+Testing:
+* pytest (`py.test`)
+* flake8 (`flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501,F403,F405,W291`)
 
 ## Future improvements / Known issues
 * Alternate game name support
