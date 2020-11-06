@@ -1,7 +1,7 @@
 import re
 
 
-__military_time_regex = re.compile(r"(?P<start>(?:2[0-3]|[0-1][0-9])(?:00|15|30|45))(?:\s?(?:-|to)\s?)?(?P<end>(?:2[0-3]|[0-1][0-9])(?:00|15|30|45))?", flags=re.IGNORECASE)
+__military_time_regex = re.compile(r"(?P<start>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))(?:\s?(?:-|to)\s?)?(?P<end>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))?", flags=re.IGNORECASE)
 __double_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)\s?(?P<period_start>[ap])\.?(?:m(?=-)|(?=-)|m\b|\b)\.?(?:\s?(?:-|to)\s?)?(?P<end>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)?(?(end)\s?(?P<period_end>[ap])\.?m?\b)", flags=re.IGNORECASE)
 __single_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)(?:\s?(?:-|to)\s?)(?P<end>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)\s?(?P<period>[ap])\.?m?\b", re.IGNORECASE)
 
@@ -33,7 +33,7 @@ def parse_time(text):
     # this handles times in 0000 or 2345 or 0000 - 2345 format
     military_time_match = re.search(__military_time_regex, text)
     if military_time_match:
-        return (military_time_match.group("start"), military_time_match.group("end"))
+        return (military_time_match.group("start").replace(":", ""), military_time_match.group("end").replace(":", "") if military_time_match.group("end") else None)
 
     return (None, None)
 
