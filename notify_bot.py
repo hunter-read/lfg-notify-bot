@@ -51,7 +51,7 @@ def read_submissions(db):
         if timezone:
             corrected = set([timezone_to_gmt(tz) for tz in timezone])
             output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
-            logging.info(f"Timezones: {', '.join(output)}")
+            logging.info(f"Timezone: {', '.join(output)}")
             post.timezone = corrected
             user_search.timezone = corrected
 
