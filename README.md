@@ -34,22 +34,12 @@ While this bot does it's best to parse a user post, due to inconsistencies in ho
 Currently I am 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
 
 Requirements:
-* python3
-* praw (pip3 install praw)
+* python 3.7+
+* praw (`pip3 install praw`)
+* pytest (For unit tests: `pip3 install pytest`)
 
 ## Future improvements / Known issues
-* Improve time parsing
-    * Start and end time
-    * Support more cases
-    * Remove false positives
-* Multiple game support on submissions
-* Multiple time zone support on submissions
-* 18+ games, or age catching support
-* Support submissions with both online and offline tags
-* Parse for one-shot posts
 * Alternate game name support
-* Unit tests
-
 
 ## License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
