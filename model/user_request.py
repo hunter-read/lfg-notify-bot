@@ -17,16 +17,20 @@ class UserRequest:
         query += "(" + "or".join([" game like ? " for _ in self.game]) + ") "
         params = [f"%{game}%" for game in self.game]
 
-        if self.nsfw == 0:
-            query += "and nsfw = 0 "
+        if self.nsfw == 1:
+            query += "and nsfw = 1 "
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone like ? " for _ in self.timezone]) + ") "
             params.extend([f"%{timezone}%" for timezone in self.timezone])
+        else: 
+            query += "and timezone is null "
 
         if self.days:
             query += "and (day_of_week is null or " + "or".join([" day_of_week like ? " for _ in self.days]) + ") "
             params.extend([f"%{day}%" for day in self.days])
+        else: 
+            query += "and day_of_week is null "
 
         return db.query(query, params)
 
