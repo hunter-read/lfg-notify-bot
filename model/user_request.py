@@ -17,18 +17,24 @@ class UserRequest:
             query += "and nsfw = 0 "
 
         if self.timezone:
-            query += "and (timezone = '' or " + "or".join([" timezone like ? " for _ in self.timezone]) + ") "
+            query += "and (timezone is null or " + "or".join([" timezone like ? " for _ in self.timezone]) + ") "
             params.extend([f"%{timezone}%" for timezone in self.timezone])
 
         if self.days:
-            query += "and (day_of_week = '' or " + "or".join([" day_of_week like ? " for _ in self.days]) + ") "
+            query += "and (day_of_week is null or " + "or".join([" day_of_week like ? " for _ in self.days]) + ") "
             params.extend([f"%{day}%" for day in self.days])
 
         return db.query(query, params)
 
     def save(self, db):
         self.delete(db)
-        db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", [self.username, ','.join(self.game), ','.join(self.timezone), ','.join(self.days), self.nsfw])
+        params = []
+        params.append(self.username)
+        params.append(','.join(self.game))
+        params.append(','.join(self.timezone) if self.timezone else None)
+        params.append(','.join(self.days) if self.days else None)
+        params.append(self.nsfw)
+        db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", params)
         return
 
     def delete(self, db):

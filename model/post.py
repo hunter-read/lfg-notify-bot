@@ -11,4 +11,13 @@ class Post:
         self.online = kwargs.get("online", 1)
 
     def save(self, db):
-        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)", [','.join(self.game), self.flair, ','.join(self.timezone), ','.join(self.days), self.time, self.nsfw, self.permalink, self.online])
+        params = []
+        params.append(','.join(self.game) if self.game else None)
+        params.append(self.flair)
+        params.append(','.join(self.timezone) if self.timezone else None)
+        params.append(','.join(self.days) if self.days else None)
+        params.append(self.time)
+        params.append(self.nsfw)
+        params.append(self.permalink)
+        params.append(self.online)
+        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)", params)
