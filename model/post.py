@@ -9,7 +9,6 @@ class Post:
         self.flair = kwargs.get("flair", None)
         self.permalink = kwargs.get("permalink", None)
         self.online = kwargs.get("online", 1)
-    
+
     def save(self, db):
         db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)", [','.join(self.game), self.flair, ','.join(self.timezone), ','.join(self.days), self.time, self.nsfw, self.permalink, self.online])
-    

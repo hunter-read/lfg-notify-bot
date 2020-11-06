@@ -1,5 +1,6 @@
 import re
 
+
 __tz_dict = {
     "GMT": "GMT+0",
     "UTC": "GMT+0",
@@ -39,12 +40,13 @@ __tz_dict = {
     "AWDT": "GMT+9",
     "AWST": "GMT+8"
 }
-
 __tz_regex = re.compile(r"\b((?:GMT|UTC)\s?(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|(?:ADT|AKDT|AKST|AST|CDT|CST|EDT|EGST|EGT|EST|HDT|HST|MDT|MST|MT|PDT|PST|BST|CEST|CET|EEST|EET|WEST|WET|ACDT|ACST|ACT|AEDT|AEST|AET|AWDT|AWST)\b)", flags=re.IGNORECASE)
 __gmt_catch_regex = re.compile(r"(?:GMT|UTC)\s?([+-])([0-1]?[0-9]):?(00|30|45)?", flags=re.IGNORECASE)
 
+
 def parse_timezone(text):
-    return set([i.upper() for i in re.findall(__tz_regex, text)])
+    return set([i.strip().upper() for i in re.findall(__tz_regex, text)])
+
 
 def timezone_to_gmt(tz):
     match = re.search(__gmt_catch_regex, tz)
@@ -53,4 +55,3 @@ def timezone_to_gmt(tz):
             return f"GMT{match.group(1)}{int(match.group(2))}:{match.group(3)}"
         return f"GMT{match.group(1)}{int(match.group(2))}"
     return __tz_dict.get(tz.upper(), None)
-

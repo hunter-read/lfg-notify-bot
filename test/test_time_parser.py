@@ -1,4 +1,3 @@
-import os, sys
 import pytest
 from text.time_parser import parse_time, to_military_time
 
@@ -19,6 +18,7 @@ no_time_data = [
     ("12 px"),
     ("12 pmx")
 ]
+
 
 @pytest.mark.parametrize("text", no_time_data)
 def test_parse_time_no_time(text):
@@ -41,6 +41,7 @@ to_military_time_data = [
     ("10", "p", "2200")
 ]
 
+
 @pytest.mark.parametrize("text,period,result", to_military_time_data)
 def test_to_military_time(text, period, result):
     assert to_military_time(text, period) == result
@@ -62,6 +63,7 @@ military_time_data = [
     ("Lorem ipsum 0700 dolor sit amet", "0700", None),
     ("Lorem ipsum 0100 to 2345 dolor sit amet", "0100", "2345")
 ]
+
 
 @pytest.mark.parametrize("text,start_time,end_time", military_time_data)
 def test_parse_time_input_military_time(text, start_time, end_time):
@@ -107,9 +109,11 @@ double_period_time_data = [
     ("7.30 pm - 12 am", "1930", "0000")
 ]
 
+
 @pytest.mark.parametrize("text,start_time,end_time", double_period_time_data)
 def test_parse_time_input_double_period_time(text, start_time, end_time):
     assert parse_time(text) == (start_time, end_time)
+
 
 single_period_time_data = [
     ("7:00 - 11:00 AM.", "0700", "1100"),
@@ -122,6 +126,7 @@ single_period_time_data = [
     ("11-1pm", "1100", "1300"),
     ("10-1am", "2200", "0100")
 ]
+
 
 @pytest.mark.parametrize("text,start_time,end_time", single_period_time_data)
 def test_parse_time_input_single_period_time(text, start_time, end_time):

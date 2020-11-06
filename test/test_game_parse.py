@@ -1,6 +1,7 @@
 import pytest
 from text.game_parser import parse_game
 
+
 game_data = [
     ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", set()),
     ("CoC", {"COC"}),
@@ -45,6 +46,7 @@ game_data = [
     ("WoD", {"WOD"}),
     ("3e, 4e 5e", {"3E", "4E", "5E"})
 ]
+
 
 @pytest.mark.parametrize("text,game", game_data)
 def test_parse_game(text, game):

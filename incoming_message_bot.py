@@ -6,20 +6,20 @@ import logging
 from model import UserRequest, Database
 from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
 
+
 __reddit = praw.Reddit('messages')
-__backoff = 5
+
 
 def read_messages(db):
     for message in __reddit.inbox.stream():
-        
-        __backoff = 5
+
         user = UserRequest()
         user.username = message.author.name
-        
+
         message.mark_read()
         logging.info(f"New Message: {message.author.name} - {message.subject}")
 
-        if re.search(r'stop', message.subject+message.body, re.IGNORECASE):
+        if re.search(r'stop', message.subject + message.body, re.IGNORECASE):
             user.delete(db)
             message.reply(body="""You have successfully stopped notifications from LFG Notify Bot.  
             If this bot was helpful, please consider making a donation to charity or your GM.""")
@@ -43,7 +43,6 @@ def read_messages(db):
                 output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
                 logging.info(f"Timezones: {', '.join(output)})")
                 user.timezone = corrected
-                    
 
             user.nsfw = is_nsfw(message.body)
 
@@ -59,9 +58,9 @@ def read_messages(db):
             &nbsp;  
             If you wish to change these settings, reply to this message, or reply **STOP** to end notifications.  
             &nbsp;  
-            ^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr."""
-            )
+            ^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr.""")
             time.sleep(2)
+
 
 def main():
     __backoff = 5
@@ -85,7 +84,6 @@ def main():
                 logging.error(f"API error: {err}")
                 time.sleep(__backoff)
                 __backoff *= 2
-
 
 
 if __name__ == "__main__":
