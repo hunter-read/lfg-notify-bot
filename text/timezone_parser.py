@@ -1,4 +1,5 @@
 import re
+import typing
 
 
 __tz_dict = {
@@ -44,11 +45,11 @@ __tz_regex = re.compile(r"\b((?:GMT|UTC)\s?(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|(?
 __gmt_catch_regex = re.compile(r"(?:GMT|UTC)\s?([+-])([0-1]?[0-9]):?(00|30|45)?", flags=re.IGNORECASE)
 
 
-def parse_timezone(text):
+def parse_timezone(text: str) -> typing.Set[str]:
     return set([i.strip().upper() for i in re.findall(__tz_regex, text)])
 
 
-def timezone_to_gmt(tz):
+def timezone_to_gmt(tz: str) -> str:
     match = re.search(__gmt_catch_regex, tz)
     if match:
         if match.group(3):

@@ -2,15 +2,16 @@ import praw
 import prawcore
 import time
 import logging
-from text import *
-from model import *
+import typing
+from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit
+from model import Database, UserRequest, Post
 
 
 __reddit = praw.Reddit('submissions')
 __subreddit = __reddit.subreddit("lfg")
 
 
-def read_submissions(db):
+def read_submissions(db: Database):
     for submission in __subreddit.stream.submissions(skip_existing=True):
         if submission.link_flair_text is None:
             logging.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
@@ -39,9 +40,9 @@ def read_submissions(db):
         post.nsfw and flags.append("NSFW")
         is_lgbt(fulltext) and flags.append("LGBTQ+")
         is_one_shot(fulltext) and flags.append("One-Shot")
-        age_limit = age_limit(fulltext)
-        if age_limit:
-            flags.append(age_limit)
+        age_limit_text = age_limit(fulltext)
+        if age_limit_text:
+            flags.append(age_limit_text)
 
         if flags:
             logging.info(f"Flags:    {', '.join(flags)}")
@@ -76,18 +77,18 @@ def read_submissions(db):
         logging.info("")
 
 
-def find_users_and_message(db, user_search, title, link, times, flags):    
+def find_users_and_message(db: Database, user_search: UserRequest, title: str, link: str, times: str, flags: typing.List[str]) -> None:
     users = user_search.find_users(db)
     if users:
         logging.info(f"Users:    {', '.join([i[0] for i in users])}")
         for user in users:
-            __reddit.redditor(user[0]).message('New LFG Post',
-                                               f"""Title: {title}  
-                                                Time: {times if times else 'Unknown'}  
-                                                Notes: {', '.join(flags if flags else 'None')}  
-                                                Link: {__reddit.config.reddit_url}{link}  
-                                                &nbsp;  
-                                                Reply **STOP** to end notifications.""")
+            __reddit.redditor(user[0]).message('New LFG Post matching your criteria',
+                                               (f"Title: {title}  \n"
+                                                f"Time: {times if times else 'Unknown'}  \n"
+                                                f"Notes: {', '.join(flags if flags else 'None')}  \n"
+                                                f"Link: {__reddit.config.reddit_url}{link}  \n"
+                                                "&nbsp;  \n"
+                                                "Reply **STOP** to end notifications."))
             time.sleep(2)
     else:
         logging.info("Users:    None")
@@ -103,9 +104,9 @@ def main():
         logging.error("Database location not set. Exiting")
         exit(1)
 
-    with Database(database) as db: 
+    with Database(database) as db:
         while True:
-            try: 
+            try:
                 read_submissions(db)
             except prawcore.exceptions.ServerError as err:
                 logging.error(f"Server Error: {err}")

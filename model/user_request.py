@@ -1,13 +1,17 @@
+import typing
+from .database import Database
+
+
 class UserRequest:
     def __init__(self, **kwargs):
-        self.username = kwargs.get("username", None)
-        self.date_created = kwargs.get("date_created", None)
-        self.game = kwargs.get("game", set())
-        self.days = kwargs.get("days", set())  # day_of_week
-        self.timezone = kwargs.get("timezone", set())
-        self.nsfw = kwargs.get("nsfw", 0)
+        self.username: str = kwargs.get("username", None)
+        self.date_created: str = kwargs.get("date_created", None)
+        self.game: typing.Set[str] = kwargs.get("game", set())
+        self.days: typing.Set[str] = kwargs.get("days", set())  # day_of_week
+        self.timezone: typing.Set[str] = kwargs.get("timezone", set())
+        self.nsfw: int = kwargs.get("nsfw", 0)
 
-    def find_users(self, db):
+    def find_users(self, db: Database) -> tuple:
         query = "SELECT username FROM user_request WHERE  "
 
         query += "(" + "or".join([" game like ? " for _ in self.game]) + ") "
@@ -26,7 +30,7 @@ class UserRequest:
 
         return db.query(query, params)
 
-    def save(self, db):
+    def save(self, db: Database) -> None:
         self.delete(db)
         params = []
         params.append(self.username)
@@ -35,8 +39,7 @@ class UserRequest:
         params.append(','.join(self.days) if self.days else None)
         params.append(self.nsfw)
         db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", params)
-        return
 
-    def delete(self, db):
+    def delete(self, db: Database) -> None:
         if self.username is not None:
             db.save("DELETE FROM user_request WHERE username = ?", [self.username])

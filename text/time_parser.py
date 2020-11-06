@@ -6,7 +6,7 @@ __double_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00
 __single_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)(?:\s?(?:-|to)\s?)(?P<end>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)\s?(?P<period>[ap])\.?m?\b", re.IGNORECASE)
 
 
-def parse_time(text):
+def parse_time(text: str) -> (str, str):
     # this handles times in 7 - 11:45pm format
     single_period_match = re.search(__single_period_time_regex, text)
     if single_period_match and single_period_match.group("start") and single_period_match.group("end") and single_period_match.group("period"):
@@ -38,7 +38,7 @@ def parse_time(text):
     return (None, None)
 
 
-def to_military_time(time, period):
+def to_military_time(time: str, period: chr) -> str:
     hours = -1
     minutes = -1
     m = re.match(r'(1[0-2]|0?[0-9])[:.]?(00|15|30|45)?', time, re.IGNORECASE)

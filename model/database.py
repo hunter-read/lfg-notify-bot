@@ -1,9 +1,10 @@
 import sqlite3
+import typing
 
 
 class Database(object):
-    def __init__(self, db):
-        self.__DB_LOCATION = db
+    def __init__(self, db: str):
+        self.__DB_LOCATION: str = db
         self.__db_connection = sqlite3.connect(self.__DB_LOCATION)
         self.__db_cursor = None
 
@@ -19,13 +20,13 @@ class Database(object):
     def close(self):
         self.__db_connection.close()
 
-    def query(self, query, params):
+    def query(self, query: str, params: typing.List[str]) -> tuple:
         self.__db_cursor = self.__db_connection.cursor()
         data = list(self.__db_cursor.execute(query, params))
         self.__db_cursor.close()
         return data
 
-    def save(self, query, params):
+    def save(self, query: str, params: typing.List[str]) -> None:
         self.__db_cursor = self.__db_connection.cursor()
         self.__db_cursor.execute(query, params)
         self.__db_connection.commit()

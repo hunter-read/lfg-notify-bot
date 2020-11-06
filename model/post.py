@@ -1,16 +1,20 @@
+import typing
+from .database import Database
+
+
 class Post:
     def __init__(self, **kwargs):
-        self.post_date = kwargs.get("post_date", None)
-        self.game = kwargs.get("game", set())
-        self.days = kwargs.get("days", set())
-        self.timezone = kwargs.get("timezone", set())
-        self.time = kwargs.get("time", None)
-        self.nsfw = kwargs.get("nsfw", 0)
-        self.flair = kwargs.get("flair", None)
-        self.permalink = kwargs.get("permalink", None)
-        self.online = kwargs.get("online", 1)
+        self.post_date: str = kwargs.get("post_date", None)
+        self.game: typing.Set[str] = kwargs.get("game", set())
+        self.days: typing.Set[str] = kwargs.get("days", set())
+        self.timezone: typing.Set[str] = kwargs.get("timezone", set())
+        self.time: str = kwargs.get("time", None)
+        self.nsfw: int = kwargs.get("nsfw", 0)
+        self.flair: str = kwargs.get("flair", None)
+        self.permalink: str = kwargs.get("permalink", None)
+        self.online: int = kwargs.get("online", 1)
 
-    def save(self, db):
+    def save(self, db: Database) -> None:
         params = []
         params.append(','.join(self.game) if self.game else None)
         params.append(self.flair)
