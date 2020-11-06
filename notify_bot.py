@@ -67,7 +67,7 @@ def read_submissions(db):
             logging.info(f"Time:     {post.time}")
 
         post.save(db)
-        find_users_and_message(user_search, post)
+        find_users_and_message(db, user_search, post)
 
         logging.info("-" * 100)
         logging.info("")
@@ -83,7 +83,7 @@ def send_message(user, title, link, time):
     time.sleep(2)
 
 
-def find_users_and_message(user_search, post):
+def find_users_and_message(db, user_search, post):
     if players_wanted(post.flair) and post.online and post.game:
         users = user_search.find_users(db)
         if users:
@@ -96,8 +96,8 @@ def find_users_and_message(user_search, post):
 
 def main():
     log_file = __reddit.config.custom["log_file"]
-    log_level = int(__reddit.config.custom["log_level_message_bot"])
-    logging.basicConfig(format='%(levelname)s:%(asctime)s:%(message)s', level=log_level, filename=log_file, datefmt='%Y-%m-%d %H:%M:%S')
+    log_level = int(__reddit.config.custom["log_level_notify_bot"])
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
 
     database = __reddit.config.custom["database"]
     if not database:

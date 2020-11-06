@@ -66,7 +66,7 @@ def main():
     __backoff = 5
     log_file = __reddit.config.custom["log_file"]
     log_level = int(__reddit.config.custom["log_level_message_bot"])
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level, filename=log_file)
+    logging.basicConfig(format='%(levelname)s:%(asctime)s:%(message)s', level=log_level, filename=log_file, datefmt='%Y-%m-%d %H:%M:%S')    
 
     database = __reddit.config.custom["database"]
     if not database:
