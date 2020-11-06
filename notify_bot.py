@@ -37,7 +37,7 @@ def read_submissions(db):
         post.nsfw = int(submission.over_18)
         flags = []
         post.nsfw and flags.append("NSFW")
-        is_lgbt(submission.title) and flags.append("LGBTQ+")
+        is_lgbt(fulltext) and flags.append("LGBTQ+")
         is_one_shot(fulltext) and flags.append("One-Shot")
         is_over_18(fulltext) and flags.append("18+")
 
