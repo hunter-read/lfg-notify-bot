@@ -31,7 +31,9 @@ day_data = [
     ("thurs", {"THURSDAY"}),
     ("fri", {"FRIDAY"}),
     ("sat", {"SATURDAY"}),
-    ("sun", {"SUNDAY"})
+    ("sun", {"SUNDAY"}),
+    ("weekends", {"SUNDAY", "SATURDAY"}),
+    ("weekdays", {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"})
 ]
 
 

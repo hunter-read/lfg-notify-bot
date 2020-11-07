@@ -23,13 +23,13 @@ class UserRequest:
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone like ? " for _ in self.timezone]) + ") "
             params.extend([f"%{timezone}%" for timezone in self.timezone])
-        else: 
+        else:
             query += "and timezone is null "
 
         if self.days:
             query += "and (day_of_week is null or " + "or".join([" day_of_week like ? " for _ in self.days]) + ") "
             params.extend([f"%{day}%" for day in self.days])
-        else: 
+        else:
             query += "and day_of_week is null "
 
         return db.query(query, params)

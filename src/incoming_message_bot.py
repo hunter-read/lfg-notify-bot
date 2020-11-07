@@ -37,6 +37,7 @@ def read_messages(db: Database):
             user.days = parse_day(message.body)
 
             timezone = parse_timezone(message.body)
+            output = []
             if timezone:
                 corrected = set([timezone_to_gmt(tz) for tz in timezone])
                 output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
@@ -50,9 +51,9 @@ def read_messages(db: Database):
             message.reply(body=(f"You have been successfully subscribed to LFG Notify Bot.  \n"
                                 "&nbsp;  \n"
                                 "Your current settings are:  \n"
-                                f"- Timezone(s): {', '.join(output)}  \n"
                                 f"- Game(s): {', '.join(user.game)}  \n"
-                                f"- Day(s) of the week: {', '.join([day.capitalize() for day in user.days])}  \n"
+                                f"- Timezone(s): {', '.join(output) if output else 'None Input'}  \n"
+                                f"- Day(s) of the week: {', '.join([day.capitalize() for day in user.days]) if user.days else 'None Input'}  \n"
                                 f"- Include NSFW: {'No' if user.nsfw == 0 else 'Yes'}  \n"
                                 "&nbsp;  \n"
                                 "If you wish to change these settings, reply to this message, or reply **STOP** to end notifications.  \n"
