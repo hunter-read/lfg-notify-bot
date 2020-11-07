@@ -71,22 +71,23 @@ def read_submissions(db: Database):
 
         post.save(db)
         if players_wanted(post.flair) and post.online and post.game:
-            find_users_and_message(db, user_search, submission.title, post.permalink, post.time, flags)
+            find_users_and_message(db, user_search, submission.title, post, flags)
 
         logging.info("-" * 100)
         logging.info("")
 
 
-def find_users_and_message(db: Database, user_search: UserRequest, title: str, link: str, times: str, flags: typing.List[str]) -> None:
+def find_users_and_message(db: Database, user_search: UserRequest, title: str, post: Post, flags: typing.List[str]) -> None:
     users = user_search.find_users(db)
     if users:
         logging.info(f"Users:    {', '.join([i[0] for i in users])}")
         for user in users:
             __reddit.redditor(user[0]).message('New LFG Post matching your criteria',
                                                (f"Title: {title}  \n"
-                                                f"Time: {times if times else 'Unknown'}  \n"
-                                                f"Notes: {', '.join(flags if flags else 'None')}  \n"
-                                                f"Link: {__reddit.config.reddit_url}{link}  \n"
+                                                f"Days: {','.join([day.capitalize() for day in post.days]) if post.days else 'Unknown'}  \n"
+                                                f"Time: {post.times if post.times else 'Unknown'}  \n"
+                                                f"Notes: {', '.join(flags) if flags else 'None'}  \n"
+                                                f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
                                                 "&nbsp;  \n"
                                                 "Reply **STOP** to end notifications."))
             time.sleep(2)

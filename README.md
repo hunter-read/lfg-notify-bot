@@ -5,7 +5,7 @@ This is the source for the https://www.reddit.com/user/LFG_Notify_Bot
 
 I am a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.
 
-I am still in beta, but if this interests you, [send me a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title Subscribe and in the body include the following:
+I am still in progress, but if this interests you, [send me a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title "Subscribe" and in the body include the following:
 
 * Game: Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags are not supported yet)
 * Timezone: Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+# or UTC+# format. (Not Required)
