@@ -1,7 +1,7 @@
 import re
 
 
-__military_time_regex = re.compile(r"(?P<start>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))(?:\s?(?:-|to)\s?)?(?P<end>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))?", flags=re.IGNORECASE)
+__military_time_regex = re.compile(r"\b(?P<start>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))(?:\s?(?:-|to)\s?)?(?P<end>(?:2[0-3]|[0-1][0-9]):?(?:00|15|30|45))?\b", flags=re.IGNORECASE)
 __double_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)\s?(?P<period_start>[ap])\.?(?:m(?=-)|(?=-)|m\b|\b)\.?(?:\s?(?:-|to)\s?)?(?P<end>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)?(?(end)\s?(?P<period_end>[ap])\.?m?\b)", flags=re.IGNORECASE)
 __single_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)(?:\s?(?:-|to)\s?)(?P<end>(?:1[0-2]|0?[0-9])[:.]?(?:00|15|30|45)?)\s?(?P<period>[ap])\.?m?\b", re.IGNORECASE)
 

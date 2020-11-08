@@ -7,7 +7,8 @@ from model import UserRequest, Database
 from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
 
 
-__reddit = praw.Reddit('messages')
+__reddit: praw.Reddit = praw.Reddit('messages')
+__logger: logging.Logger = logging.getLogger("message_bot")
 
 
 def read_messages(db: Database):
@@ -17,18 +18,20 @@ def read_messages(db: Database):
         user.username = message.author.name
 
         message.mark_read()
-        logging.info(f"New Message: {message.author.name} - {message.subject}")
+        full_message = message.subject + message.body
+        __logger.info(f"New Message: {message.author.name} - {message.subject}")
 
-        if re.search(r'stop', message.subject + message.body, re.IGNORECASE):
+        if re.search(r'stop', full_message, re.IGNORECASE):
             user.delete(db)
             message.reply(body=("You have successfully stopped notifications from LFG Notify Bot.  \n"
                                 "If this bot was helpful, please consider making a donation to charity or your GM."))
             time.sleep(2)
 
-        elif re.search(r'subscribe', message.subject, re.IGNORECASE):
-            game = parse_game(message.body)
+        elif re.search(r'sub(?:scribe)?', message.subject, re.IGNORECASE) or re.search(r'notify', message.subject, re.IGNORECASE) or re.search(r'lfg', message.subject, re.IGNORECASE) or parse_game(message.subject):
+            game = parse_game(full_message)
             if not game:
-                message.reply(body=("You must include a valid game from the LFG subreddit game tags list https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags. Other and Flexible LFG tags are not currently supported.  \n"
+                message.reply(body=("You must include a valid game from the LFG subreddit game tags list https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags.  \n"
+                                    "Examples include 5e, CoC, GURPS, or PF1e. Other and Flexible LFG tags are not currently supported.  \n"
                                     "&nbsp;  \n"
                                     "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr."))
                 continue
@@ -41,7 +44,6 @@ def read_messages(db: Database):
             if timezone:
                 corrected = set([timezone_to_gmt(tz) for tz in timezone])
                 output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
-                logging.info(f"Timezones: {', '.join(output)})")
                 user.timezone = corrected
 
             user.nsfw = is_nsfw(message.body)
@@ -61,29 +63,45 @@ def read_messages(db: Database):
                                 "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr."))
             time.sleep(2)
 
+        elif re.search(r'bug', message.subject, re.IGNORECASE) or re.search(r'issue', message.subject, re.IGNORECASE) or re.search(r'error', message.subject, re.IGNORECASE):
+            message.reply(body="For error reporting, please message u/Perfekthuntr.")
+
+        else:
+            message.reply(body=("Unknown message sent. If you wish to subscribe to this bot, please send a new message titled 'Subscribe' with your options in the body of the message.  \n"
+                                "If you wish to end notifications reply **STOP** to any message, or send a new message titled 'Stop'.  \n"
+                                "&nbsp;  \n"
+                                "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr."))
+
+
+def init_logger() -> None:
+    log_file = __reddit.config.custom["log_file"]
+    log_level = __reddit.config.custom["log_level_message_bot"]
+
+    hdlr = logging.FileHandler(log_file) if log_file else logging.StreamHandler()
+    str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s:%(asctime)s: %(message)s"
+    hdlr.setFormatter(logging.Formatter(str_format, "%Y-%m-%d %H:%M:%S"))
+
+    __logger.addHandler(hdlr)
+    __logger.setLevel(log_level if log_level else logging.ERROR)
+
 
 def main():
-    __backoff = 5
-    log_file = __reddit.config.custom["log_file"]
-    log_level = int(__reddit.config.custom["log_level_message_bot"])
-    logging.basicConfig(format='%(levelname)s:%(asctime)s:%(message)s', level=log_level, filename=log_file, datefmt='%Y-%m-%d %H:%M:%S')
-
+    init_logger()
+    __logger.info("Starting incoming message bot")
     database = __reddit.config.custom["database"]
     if not database:
-        logging.error("Database location not set. Exiting")
+        __logger.error("Database location not set. Exiting")
         exit(1)
     with Database(database) as db:
         while True:
             try:
                 read_messages(db)
             except prawcore.exceptions.ServerError as err:
-                logging.error(f"Server Error: {err}")
-                time.sleep(__backoff)
-                __backoff *= 2
+                __logger.error(f"Server Error: {err}")
+                time.sleep(10)
             except praw.exceptions.RedditAPIException as err:
-                logging.error(f"API error: {err}")
-                time.sleep(__backoff)
-                __backoff *= 2
+                __logger.error(f"API error: {err}")
+                time.sleep(10)
 
 
 if __name__ == "__main__":

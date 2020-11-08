@@ -19,9 +19,8 @@ reddit_url=https://www.reddit.com
 short_url=https://redd.it
 
 log_file=
-#20=info, #30=WARNING, #40=ERROR
-log_level_message_bot=40
-log_level_notify_bot=40
+log_level_message_bot=ERROR
+log_level_notify_bot=ERROR
 database=lfg_tables.db
 
 [submissions]
