@@ -15,7 +15,7 @@ __logger: logging.Logger = logging.getLogger('notify_bot')
 def read_submissions(db: Database):
     for submission in __subreddit.stream.submissions(skip_existing=True):
         if submission.link_flair_text is None:
-            logging.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
+            __logger.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
             continue
 
         game = parse_game(submission.title)
@@ -82,14 +82,17 @@ def find_users_and_message(db: Database, user_search: UserRequest, title: str, p
     if users:
         __logger.info(f"Users:    {', '.join([i[0] for i in users])}")
         for user in users:
-            __reddit.redditor(user[0]).message('New LFG Post matching your criteria',
+            __reddit.redditor(user[0]).message('New LFG post matching your criteria',
                                                (f"Title: {title}  \n"
-                                                f"Days: {','.join([day.capitalize() for day in post.days]) if post.days else 'Unknown'}  \n"
+                                                f"Timezone(s): {','.join(post.timezone) if post.timezone else 'Unknown'}  \n"
+                                                f"Day(s): {','.join([day.capitalize() for day in post.days]) if post.days else 'Unknown'}  \n"
                                                 f"Time: {post.time if post.time else 'Unknown'}  \n"
                                                 f"Notes: {', '.join(flags) if flags else 'None'}  \n"
                                                 f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
                                                 "&nbsp;  \n"
-                                                "Reply **STOP** to end notifications."))
+                                                "Reply **STOP** to end notifications.  \n"
+                                                "&nbsp;  \n"
+                                                "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above"))
             time.sleep(2)
     else:
         __logger.info("Users:    None")
