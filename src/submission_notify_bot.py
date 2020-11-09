@@ -3,7 +3,7 @@ import prawcore
 import time
 import logging
 import typing
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit
+from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit
 from model import Database, UserRequest, Post
 
 

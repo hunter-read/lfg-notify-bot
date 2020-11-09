@@ -1,5 +1,5 @@
 import pytest
-from text.game_parser import parse_game
+from service.game_parser import parse_game
 
 
 game_data = [

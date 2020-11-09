@@ -1,5 +1,5 @@
 import pytest
-from text.timezone_parser import timezone_to_gmt, parse_timezone
+from service.timezone_parser import timezone_to_gmt, parse_timezone
 
 
 timezone_data = [

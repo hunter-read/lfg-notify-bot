@@ -1,5 +1,5 @@
 import pytest
-from text.day_parser import parse_day
+from service.day_parser import parse_day
 
 
 no_day_data = [

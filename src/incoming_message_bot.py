@@ -4,7 +4,7 @@ import time
 import re
 import logging
 from model import UserRequest, Database
-from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
+from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
 
 
 __reddit: praw.Reddit = praw.Reddit('messages')
