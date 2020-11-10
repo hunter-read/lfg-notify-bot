@@ -27,3 +27,10 @@ def abbreviation_to_day(text: str) -> str:
     for key, value in abbreviation_dict.items():
         if re.search(key, text, re.IGNORECASE):
             return value
+
+
+def sort_days(days: typing.Set[str]) -> typing.List[str]:
+    days_sorted = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+    if days:
+        return [day.capitalize() for day in days_sorted if day in days]
+    return None

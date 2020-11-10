@@ -4,7 +4,7 @@ import time
 import re
 import logging
 from model import UserRequest, Database
-from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
+from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days
 
 
 __reddit: praw.Reddit = praw.Reddit('messages')
@@ -55,7 +55,7 @@ def read_messages(db: Database):
                                 "Your current settings are:  \n"
                                 f"- Game(s): {', '.join(user.game)}  \n"
                                 f"- Timezone(s): {', '.join(output) if output else 'None Input'}  \n"
-                                f"- Day(s) of the week: {', '.join([day.capitalize() for day in user.days]) if user.days else 'None Input'}  \n"
+                                f"- Day(s) of the week: {', '.join(sort_days(user.days)) if user.days else 'None Input'}  \n"
                                 f"- Include NSFW: {'No' if user.nsfw == 0 else 'Yes'}  \n"
                                 "&nbsp;  \n"
                                 "If you wish to change these settings, reply to this message, or reply **STOP** to end notifications.  \n"

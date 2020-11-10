@@ -1,5 +1,5 @@
 import pytest
-from service.day_parser import parse_day
+from service.day_parser import parse_day, sort_days
 
 
 no_day_data = [
@@ -40,3 +40,14 @@ day_data = [
 @pytest.mark.parametrize("text,result", day_data)
 def test_parse_day(text, result):
     assert parse_day(text) == result
+
+
+days_to_sort_data = [
+    ({"SUNDAY", "FRIDAY", "SATURDAY"}, ["Friday", "Saturday", "Sunday"]),
+    ({"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"}, ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
+]
+
+
+@pytest.mark.parametrize("input,result", days_to_sort_data)
+def test_sort_days(input, result):
+    assert sort_days(input) == result

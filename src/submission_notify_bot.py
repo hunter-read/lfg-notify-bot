@@ -3,7 +3,7 @@ import prawcore
 import time
 import logging
 import typing
-from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit
+from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days
 from model import Database, UserRequest, Post
 
 
@@ -60,7 +60,7 @@ def read_submissions(db: Database):
 
         days = parse_day(fulltext)
         if days:
-            __logger.info(f"Days:     {','.join([day.capitalize() for day in days])}")
+            __logger.info(f"Days:     {','.join(sort_days(days))}")
             post.days = days
             user_search.days = days
 
@@ -84,8 +84,8 @@ def find_users_and_message(db: Database, user_search: UserRequest, title: str, p
         for user in users:
             __reddit.redditor(user[0]).message('New LFG post matching your criteria',
                                                (f"Title: {title}  \n"
-                                                f"Timezone(s): {','.join(post.timezone) if post.timezone else 'Unknown'}  \n"
-                                                f"Day(s): {','.join([day.capitalize() for day in post.days]) if post.days else 'Unknown'}  \n"
+                                                f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
+                                                f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
                                                 f"Time: {post.time if post.time else 'Unknown'}  \n"
                                                 f"Notes: {', '.join(flags) if flags else 'None'}  \n"
                                                 f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
