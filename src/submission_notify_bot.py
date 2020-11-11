@@ -60,7 +60,7 @@ def read_submissions(db: Database):
 
         days = parse_day(fulltext)
         if days:
-            __logger.info(f"Days:     {','.join(sort_days(days))}")
+            __logger.info(f"Days:     {', '.join(sort_days(days))}")
             post.days = days
             user_search.days = days
 
