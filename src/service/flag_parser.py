@@ -22,7 +22,7 @@ def is_lgbt(text: str) -> int:
 
 
 def age_limit(text: str) -> str:
-    match = re.search(r"(?:18|21)[+]", text, re.IGNORECASE)
+    match = re.search(r"(?:18|19|20|21)[+]", text, re.IGNORECASE)
     return match.group(0) if match else None
 
 
