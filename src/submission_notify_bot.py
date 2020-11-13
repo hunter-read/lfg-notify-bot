@@ -29,7 +29,7 @@ def read_submissions(db: Database):
         __logger.info("-" * 100)
         __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
         __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
-        __logger.info(f"Author: {submission.author.name}")
+        __logger.info(f"Author:   {submission.author.name}")
 
         post.game = game
         user_search.game = game
@@ -107,8 +107,8 @@ def init_logger() -> None:
     log_level = __reddit.config.custom["log_level_notify_bot"]
 
     hdlr = logging.FileHandler(log_file) if log_file else logging.StreamHandler()
-    str_format = "%(levelname)s:%(name)s: %(message)s" if log_file else "%(levelname)s: %(message)s"
-    hdlr.setFormatter(logging.Formatter(str_format))
+    str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s: %(message)s"
+    hdlr.setFormatter(logging.Formatter(str_format, "%Y-%m-%d %H:%M:%S"))
 
     __logger.addHandler(hdlr)
     __logger.setLevel(log_level if log_level else logging.ERROR)

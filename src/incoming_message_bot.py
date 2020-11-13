@@ -78,7 +78,7 @@ def init_logger() -> None:
     log_level = __reddit.config.custom["log_level_message_bot"]
 
     hdlr = logging.FileHandler(log_file) if log_file else logging.StreamHandler()
-    str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s:%(asctime)s: %(message)s"
+    str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s: %(message)s"
     hdlr.setFormatter(logging.Formatter(str_format, "%Y-%m-%d %H:%M:%S"))
 
     __logger.addHandler(hdlr)
