@@ -29,6 +29,7 @@ def read_submissions(db: Database):
         __logger.info("-" * 100)
         __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
         __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
+        __logger.info(f"Author: {submission.author.name}")
 
         post.game = game
         user_search.game = game
@@ -70,18 +71,23 @@ def read_submissions(db: Database):
             __logger.info(f"Time:     {post.time}")
 
         post.save(db)
+
         if players_wanted(post.flair) and post.online and post.game:
-            find_users_and_message(db, user_search, submission.title, post, flags)
+            find_users_and_message(db, user_search, submission.author.name, submission.title, post, flags)
 
         __logger.info("-" * 100)
         __logger.info("")
 
 
-def find_users_and_message(db: Database, user_search: UserRequest, title: str, post: Post, flags: typing.List[str]) -> None:
+def find_users_and_message(db: Database, user_search: UserRequest, title: str, author: str, post: Post, flags: typing.List[str]) -> None:
     users = user_search.find_users(db)
-    if users:
-        __logger.info(f"Users:    {', '.join([i[0] for i in users])}")
-        for user in users:
+    if not users:
+        __logger.info("Users:    None")
+        return
+
+    __logger.info(f"Users:    {', '.join([i[0] for i in users])}")
+    for user in users:
+        if user != author:
             __reddit.redditor(user[0]).message('New LFG post matching your criteria',
                                                (f"Title: {title}  \n"
                                                 f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
@@ -94,8 +100,6 @@ def find_users_and_message(db: Database, user_search: UserRequest, title: str, p
                                                 "&nbsp;  \n"
                                                 "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above"))
             time.sleep(2)
-    else:
-        __logger.info("Users:    None")
 
 
 def init_logger() -> None:
