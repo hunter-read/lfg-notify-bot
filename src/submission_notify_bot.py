@@ -73,7 +73,7 @@ def read_submissions(db: Database):
         post.save(db)
 
         if players_wanted(post.flair) and post.online and post.game:
-            find_users_and_message(db, user_search, submission.author.name, submission.title, post, flags)
+            find_users_and_message(db, user_search, submission.title, submission.author.name, post, flags)
 
         __logger.info("-" * 100)
         __logger.info("")
