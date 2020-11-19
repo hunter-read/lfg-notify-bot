@@ -7,12 +7,11 @@ from model import UserRequest, Database
 from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days
 
 
-__reddit: praw.Reddit = praw.Reddit('messages')
 __logger: logging.Logger = logging.getLogger("message_bot")
 
 
-def read_messages(db: Database):
-    for message in __reddit.inbox.stream():
+def read_messages(db: Database, reddit: praw.Reddit):
+    for message in reddit.inbox.stream():
         message.mark_read()
         reply = parse_incoming_message(db, message)
         message.reply(reply)
@@ -73,9 +72,9 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
                 "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr.")
 
 
-def init_logger() -> None:
-    log_file = __reddit.config.custom["log_file"]
-    log_level = __reddit.config.custom["log_level_message_bot"]
+def init_logger(reddit: praw.Reddit) -> None:
+    log_file = reddit.config.custom["log_file"]
+    log_level = reddit.config.custom["log_level_message_bot"]
 
     hdlr = logging.FileHandler(log_file) if log_file else logging.StreamHandler()
     str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s: %(message)s"
@@ -86,16 +85,17 @@ def init_logger() -> None:
 
 
 def main():
-    init_logger()
+    reddit: praw.Reddit = praw.Reddit('messages')
+    init_logger(reddit)
     __logger.info("Starting incoming message bot")
-    database = __reddit.config.custom["database"]
+    database = reddit.config.custom["database"]
     if not database:
         __logger.error("Database location not set. Exiting")
         exit(1)
     with Database(database) as db:
         while True:
             try:
-                read_messages(db)
+                read_messages(db, reddit)
             except prawcore.exceptions.ServerError as err:
                 __logger.error(f"Server Error: {err}")
                 time.sleep(10)
