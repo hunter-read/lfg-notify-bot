@@ -3,7 +3,7 @@ import prawcore
 import time
 import logging
 import typing
-from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days
+from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days, using_vtt
 from model import Database, UserRequest, Post
 
 
@@ -14,72 +14,25 @@ __logger: logging.Logger = logging.getLogger('notify_bot')
 
 def read_submissions(db: Database):
     for submission in __subreddit.stream.submissions(skip_existing=True):
-        if submission.link_flair_text is None:
-            __logger.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
-            continue
-
-        game = parse_game(submission.title)
-        if not game:
-            continue
 
         post = Post()
         user_search = UserRequest()
-        fulltext = submission.title + submission.selftext
+        flags = []
 
         __logger.info("-" * 100)
-        __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
-        __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
-        __logger.info(f"Author:   {submission.author.name}")
+        parse_submission(submission, post, user_search, flags)
 
-        post.game = game
-        user_search.game = game
-        __logger.info(f"Game:     {', '.join(game)}")
-
-        post.flair = submission.link_flair_text
-        post.permalink = submission.permalink
-        post.nsfw = int(submission.over_18)
-        flags = []
-        post.nsfw and flags.append("NSFW")
-        is_lgbt(fulltext) and flags.append("LGBTQ+")
-        is_one_shot(fulltext) and flags.append("One-Shot")
-        age_limit_text = age_limit(fulltext)
-        if age_limit_text:
-            flags.append(age_limit_text)
-
-        if flags:
-            __logger.info(f"Flags:    {', '.join(flags)}")
-
-        post.online = is_online(submission.title)
-
-        timezone = parse_timezone(fulltext)
-        if timezone:
-            corrected = set([timezone_to_gmt(tz) for tz in timezone])
-            output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
-            __logger.info(f"Timezone: {', '.join(output)}")
-            post.timezone = corrected
-            user_search.timezone = corrected
-
-        days = parse_day(fulltext)
-        if days:
-            __logger.info(f"Days:     {', '.join(sort_days(days))}")
-            post.days = days
-            user_search.days = days
-
-        start_time, end_time = parse_time(fulltext)
-        if start_time:
-            post.time = f"{start_time} - {end_time}" if end_time else start_time
-            __logger.info(f"Time:     {post.time}")
-
-        post.save(db)
+        if post.flair:
+            post.save(db)
 
         if players_wanted(post.flair) and post.online and post.game:
-            find_users_and_message(db, user_search, submission.author.name, submission.title, post, flags)
+            find_users_and_message(db, user_search, submission, post, flags)
 
         __logger.info("-" * 100)
         __logger.info("")
 
 
-def find_users_and_message(db: Database, user_search: UserRequest, title: str, author: str, post: Post, flags: typing.List[str]) -> None:
+def find_users_and_message(db: Database, user_search: UserRequest, submission: praw.models.Submission, post: Post, flags: typing.List[str]) -> None:
     users = user_search.find_users(db)
     if not users:
         __logger.info("Users:    None")
@@ -87,9 +40,9 @@ def find_users_and_message(db: Database, user_search: UserRequest, title: str, a
 
     __logger.info(f"Users:    {', '.join([i[0] for i in users])}")
     for user in users:
-        if user != author:
+        if user != submission.author.name:
             __reddit.redditor(user[0]).message('New LFG post matching your criteria',
-                                               (f"Title: {title}  \n"
+                                               (f"Title: {submission.title}  \n"
                                                 f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
                                                 f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
                                                 f"Time: {post.time if post.time else 'Unknown'}  \n"
@@ -100,6 +53,60 @@ def find_users_and_message(db: Database, user_search: UserRequest, title: str, a
                                                 "&nbsp;  \n"
                                                 "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above"))
             time.sleep(2)
+
+
+def parse_submission(submission: praw.models.Submission, post: Post, user_search: UserRequest, flags: typing.List[str]):
+    if not submission.link_flair_text:
+        __logger.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
+
+    fulltext = submission.title + submission.selftext
+
+    __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
+    __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
+    __logger.info(f"Author:   {submission.author.name}")
+
+    game = parse_game(submission.title)
+    post.game = game
+    user_search.game = game
+    __logger.info(f"Game:     {', '.join(game)}")
+
+    post.flair = submission.link_flair_text
+    post.permalink = submission.permalink
+    post.nsfw = int(submission.over_18)
+
+    flags = []
+    post.nsfw and flags.append("NSFW")
+    is_lgbt(fulltext) and flags.append("LGBTQ+")
+    is_one_shot(fulltext) and flags.append("One-Shot")
+    vtt = using_vtt(fulltext)
+    vtt and flags.append(vtt)
+    age_limit_text = age_limit(fulltext)
+    if age_limit_text:
+        flags.append(age_limit_text)
+
+    if flags:
+        __logger.info(f"Flags:    {', '.join(flags)}")
+
+    post.online = is_online(submission.title)
+
+    timezone = parse_timezone(fulltext)
+    if timezone:
+        corrected = set([timezone_to_gmt(tz) for tz in timezone])
+        output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
+        __logger.info(f"Timezone: {', '.join(output)}")
+        post.timezone = corrected
+        user_search.timezone = corrected
+
+    days = parse_day(fulltext)
+    if days:
+        __logger.info(f"Days:     {', '.join(sort_days(days))}")
+        post.days = days
+        user_search.days = days
+
+    start_time, end_time = parse_time(fulltext)
+    if start_time:
+        post.time = f"{start_time} - {end_time}" if end_time else start_time
+        __logger.info(f"Time:     {post.time}")
 
 
 def init_logger() -> None:
