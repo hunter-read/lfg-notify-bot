@@ -21,7 +21,7 @@ def read_messages(db: Database):
         full_message = message.subject + message.body
         __logger.info(f"New Message: {message.author.name} - {message.subject}")
 
-        if re.search(r'stop', full_message, re.IGNORECASE):
+        if re.search(r'stop', full_message, re.IGNORECASE) or re.search(r"unsubscribe", full_message, re.IGNORECASE):
             user.delete(db)
             message.reply(body=("You have successfully stopped notifications from LFG Notify Bot.  \n"
                                 "If this bot was helpful, please consider making a donation to charity or your GM."))
