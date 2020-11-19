@@ -49,6 +49,8 @@ def test_to_military_time(text, period, result):
 
 
 military_time_data = [
+    ("noon", "1200", None),
+    ("midnight", "0000", None),
     ("0000", "0000", None),
     ("0700", "0700", None),
     ("0715", "0715", None),
@@ -121,6 +123,8 @@ def test_parse_time_input_double_period_time(text, start_time, end_time):
 
 
 single_period_time_data = [
+    ("noon to 6pm", "1200", "1800"),
+    ("midnight to 6am", "0000", "0600"),
     ("7:00 - 11:00 AM.", "0700", "1100"),
     ("7:00 - 11:00 A.M.", "0700", "1100"),
     ("7-11a", "0700", "1100"),

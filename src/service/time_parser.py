@@ -7,6 +7,9 @@ __single_period_time_regex = re.compile(r"(?P<start>(?:1[0-2]|0?[0-9])[:.]?(?:00
 
 
 def parse_time(text: str) -> (str, str):
+
+    text = re.sub(r"\bnoon\b", "1200", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bmidnight\b", "0000", text, flags=re.IGNORECASE)
     # this handles times in 7 - 11:45pm format
     single_period_match = re.search(__single_period_time_regex, text)
     if single_period_match and single_period_match.group("start") and single_period_match.group("end") and single_period_match.group("period"):

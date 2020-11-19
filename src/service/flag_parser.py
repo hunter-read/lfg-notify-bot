@@ -31,7 +31,7 @@ def is_one_shot(text: str) -> int:
 
 
 def using_vtt(text: str) -> str:
-    match = re.search(r"(roll\s?20|r20)|(fantasy ground)|(tabletop sim)|(foundry vtt)", text, re.IGNORECASE)
+    match = re.search(r"(roll\s?20|r20)|(fantasy ground)|(tabletop sim)|(foundry vtt)", text, flags=re.IGNORECASE)
     if match:
         if match.group(1):
             return "Roll20"

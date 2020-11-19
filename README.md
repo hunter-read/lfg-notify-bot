@@ -43,8 +43,8 @@ Testing:
 * flake8 (`flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501`)
 
 ## Future improvements / Known issues
-* Alternate game name support
-* Day/Time timezone manipulation
+* Game module support (Feature)
+* Day/Time timezone manipulation w/user_request start time support (Feature)
 
 ## License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
