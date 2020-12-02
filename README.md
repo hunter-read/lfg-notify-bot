@@ -30,7 +30,7 @@ While this bot does it's best to parse a user post, due to inconsistencies in ho
 ## License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
 
-#Developer Info
+# Developer Info
 Currently made of 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
 
 ##Requirements
