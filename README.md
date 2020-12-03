@@ -27,17 +27,32 @@ This is a bot that aims to make using r/lfg easier to use and provide notificati
 ## Notes
 While this bot does it's best to parse a user post, due to inconsistencies in how people post, there is no guarantee that the data it collects is 100% accurate. While the bot does try it's best, the very nature of text parsing is difficult. I recommend if you subscribe to this bot, to read through any post it thinks is applicable to your settings. If you see a blatant issue, please add an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues), or send [u/Perfekthuntr](https://www.reddit.com/user/Perfekthuntr) a message on reddit and I will do my best to investigate. The bot will also try and note if the post is LGBTQ+ friendly, 18+/21+, or a One-Shot and provide the game times if possible, though results may vary.
 
+# FAQ
+* **Q:** How do I find the bot?  
+  **A:** [Here](https://www.reddit.com/user/lfg_notify_bot)
+  
+* **Q:** I sent the bot a message, but I haven't gotten any messages back, is it working?  
+  **A:** When you subscribe, the bot should send a reply with your settings. Make sure you send a [**message**](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) and **do not use** the reddit chat feature. There is also a [status page](https://stats.uptimerobot.com/KQlMrsqmqr) in case the bot goes down for some reason.
+  
+* **Q:** How do you set the bot to notify you of specific flairs and the Online tag?  
+  **A:** Currently due to covid only games with the Online tag are included. And any post that has "Player(s) wanted" or "GM and player(s) wanted" are included. So you don't need to include that information in your message to the bot.  
+  
+* **Q:** Does this also work for finding in person groups?  
+  **A:** Not currently. When the pandemic has begun to wane and the world returns back to normal I do plan on adding offline tag support. Until then I do not want to encourage offline play. Stay safe everyone.  
+  
+* **Q:** Can't you already do the same thing just by using the search tool?  
+  **A:** Think of this as push notifications.  
+  
+* **Q:** Can the bot do \<insert feature here\>?  
+  **A:** Probably not yet, but you can submit an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues) or leave a comment if you see a feature you want.  
+  
+* **Q:** How can I help?  
+  **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features.  
+If you want to thank me you can always ask your GM if they need any resources, most pour a ton of energy into the game and want everyone to have fun. Whether it be a book or artwork or maps/tokens on some VTT, support your GM in some way. Or just let them know how much fun the game is and thank them (seriously though, just saying "Thanks, that was a lot of fun, can't wait until next session" can make being a GM awesome).  
+Or become a GM for a group, as the number of players way overshadows the number of Game Masters. There are tons of resources for a new GM in any system and trust me when I say that it can be quite rewarding. It may seem daunting at first, but if you are honest with your players and communicate, everyone can have fun. I love the tabletop community, and want to see it grow, and this is the best way.  
+
+* **Q:** You should make an app/website.  
+  **A:** I can't do front-end ui design to save my life, unless you thought the early 90's internet looked amazing (also I hate javascript). Plus I like reddit and overall the lfg subreddit is full of good people.
+  
 ## License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
-
-# Developer Info
-Currently made of 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
-
-##Requirements
-* python 3.7+
-* praw (`pip3 install praw`)
-
-Testing:
-* pytest (`py.test`)
-* flake8 (`flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501`)
-
