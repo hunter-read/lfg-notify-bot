@@ -14,7 +14,8 @@ def read_messages(db: Database, reddit: praw.Reddit):
     for message in reddit.inbox.stream():
         message.mark_read()
         reply = parse_incoming_message(db, message)
-        message.reply(reply)
+        if reply:
+            message.reply(reply)
         time.sleep(2)
 
 
@@ -24,6 +25,8 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
     full_message = message.subject + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
+    if re.search(r'username mention', message.subject):
+        return None
 
     if re.search(r'(stop|unsubscribe)', full_message, re.IGNORECASE):
         user.delete(db)
