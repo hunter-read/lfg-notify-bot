@@ -21,8 +21,8 @@ class UserRequest:
             query += "and nsfw = 1 "
 
         if self.timezone:
-            query += "and (timezone is null or " + "or".join([" timezone like ? " for _ in self.timezone]) + ") "
-            params.extend([f"%{timezone}%" for timezone in self.timezone])
+            query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
+            params.extend([f"\\b{timezone}\\b" for timezone in self.timezone])
         else:
             query += "and timezone is null "
 

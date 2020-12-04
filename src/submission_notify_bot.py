@@ -4,6 +4,7 @@ import time
 import logging
 import typing
 import traceback
+import re
 from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days, using_vtt
 from model import Database, UserRequest, Post
 
@@ -40,20 +41,38 @@ def find_users_and_message(db: Database, user_search: UserRequest, submission: p
         return
 
     __logger.info(f"Users:    {', '.join([i[0] for i in users])}")
-    for user in users:
-        if user != submission.author.name:
-            __reddit.redditor(user[0]).message('New LFG post matching your criteria',
-                                               (f"Title: {submission.title}  \n"
-                                                f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
-                                                f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
-                                                f"Time: {post.time if post.time else 'Unknown'}  \n"
-                                                f"Notes: {', '.join(flags) if flags else 'None'}  \n"
-                                                f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
-                                                "&nbsp;  \n"
-                                                "Reply **STOP** to end notifications.  \n"
-                                                "&nbsp;  \n"
-                                                "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above"))
-            time.sleep(2)
+    for i in range(len(users)):
+        if users[i] != submission.author.name:
+            try:
+                __reddit.redditor(users[i][0]).message('New LFG post matching your criteria',
+                                                (f"Title: {submission.title}  \n"
+                                                    f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
+                                                    f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
+                                                    f"Time: {post.time if post.time else 'Unknown'}  \n"
+                                                    f"Notes: {', '.join(flags) if flags else 'None'}  \n"
+                                                    f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
+                                                    "&nbsp;  \n"
+                                                    "Reply **STOP** to end notifications.  \n"
+                                                    "&nbsp;  \n"
+                                                    "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above"))
+                i += 1
+            except praw.exceptions.RedditAPIException as err:
+                __logger.error(f"API error: {err}")
+                if "RATELIMIT" not in str(err):
+                    raise err
+
+                match = re.search(r"(\d+)\s(minute|second)", str(err))
+                if match:
+                    sleep_time = int(match.group(1))
+                    if match.group(2) == "minute":
+                        sleep_time *= 60
+                    sleep_time += 1
+                    __logger.error(f"Sleeping for {sleep_time} seconds")
+                    time.sleep(sleep_time)
+    
+            time.sleep(3)
+        else:
+            i += 1
 
 
 def parse_submission(submission: praw.models.Submission, post: Post, user_search: UserRequest, flags: typing.List[str]):
@@ -139,7 +158,7 @@ def main():
                 time.sleep(10)
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
-                time.sleep(10)
+                time.sleep(60)
             except Exception as e:
                 __logger.error(traceback.format_exc())
                 raise e

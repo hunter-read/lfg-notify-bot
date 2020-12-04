@@ -1,11 +1,16 @@
 import sqlite3
 import typing
+import re
 
+def regexp(expr, item):
+    reg = re.compile(expr)
+    return reg.search(item) is not None
 
 class Database(object):
     def __init__(self, db: str):
         self.__DB_LOCATION: str = db
         self.__db_connection = sqlite3.connect(self.__DB_LOCATION)
+        self.__db_connection.create_function("REGEXP", 2, regexp)
         self.__db_cursor = None
 
     def __del__(self):
