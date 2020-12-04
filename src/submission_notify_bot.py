@@ -63,11 +63,9 @@ def find_users_and_message(db: Database, user_search: UserRequest, submission: p
 
                 match = re.search(r"(\d+)\s(minute|second)", str(err))
                 if match:
-                    sleep_time = int(match.group(1))
+                    sleep_time = int(match.group(1)) + 1
                     if match.group(2) == "minute":
                         sleep_time *= 60
-                    sleep_time += 1
-                    __logger.error(f"Sleeping for {sleep_time} seconds")
                     time.sleep(sleep_time)
     
             time.sleep(3)
