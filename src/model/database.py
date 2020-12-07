@@ -2,9 +2,11 @@ import sqlite3
 import typing
 import re
 
+
 def regexp(expr, item):
     reg = re.compile(expr)
     return reg.search(item) is not None
+
 
 class Database(object):
     def __init__(self, db: str):

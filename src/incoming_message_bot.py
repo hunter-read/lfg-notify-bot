@@ -26,7 +26,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     full_message = message.subject + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
     if re.search(r'reddit', message.subject):
-        return None    
+        return None
     if re.search(r'username mention', message.subject):
         return ("Hello, if you want to [use my features](https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md), please [send a message to me](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) to subscribe.  "
                 "I currently do not support submission tagging  "
