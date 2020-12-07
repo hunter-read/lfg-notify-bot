@@ -22,7 +22,7 @@ class UserRequest:
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
-            params.extend([f"\\b{timezone}\\b" for timezone in self.timezone])
+            params.extend([f"\\b{timezone}\\b".replace('+', '\\+') for timezone in self.timezone])
         else:
             query += "and timezone is null "
 

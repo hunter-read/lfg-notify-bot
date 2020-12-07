@@ -2,7 +2,7 @@ import re
 
 
 def players_wanted(text: str) -> int:
-    return 1 if re.search(r"(Player\(s\)\swanted)", text, re.IGNORECASE) else 0
+    return 1 if text and re.search(r"(Player\(s\)\swanted)", text, re.IGNORECASE) else 0
 
 
 def is_nsfw(text: str) -> int:

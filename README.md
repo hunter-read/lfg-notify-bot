@@ -47,8 +47,8 @@ While this bot does it's best to parse a user post, due to inconsistencies in ho
   **A:** Probably not yet, but you can submit an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues) or leave a comment if you see a feature you want.  
   
 * **Q:** How can I help?  
-  **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features.  
-If you want to thank me you can always ask your GM if they need any resources, most pour a ton of energy into the game and want everyone to have fun. Whether it be a book or artwork or maps/tokens on some VTT, support your GM in some way. Or just let them know how much fun the game is and thank them (seriously though, just saying "Thanks, that was a lot of fun, can't wait until next session" can make being a GM awesome).  
+  **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features. And if the bot was helpful, [leave a comment on reddit with your success story or a good/bad bot message](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories).  
+I don't accept donations, but you can always ask your GM if they need any resources, most pour a ton of energy into the game and want everyone to have fun. Whether it be a book or artwork or maps/tokens on some VTT, support your GM in some way. Or just let them know how much fun the game is and thank them (seriously though, just saying "Thanks, that was a lot of fun, can't wait until next session" can make being a GM awesome).  
 Or become a GM for a group, as the number of players way overshadows the number of Game Masters. There are tons of resources for a new GM in any system and trust me when I say that it can be quite rewarding. It may seem daunting at first, but if you are honest with your players and communicate, everyone can have fun. I love the tabletop community, and want to see it grow, and this is the best way.  
 
 * **Q:** You should make an app/website.  

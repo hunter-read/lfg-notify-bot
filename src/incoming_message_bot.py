@@ -25,24 +25,29 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
     full_message = message.subject + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
+    if re.search(r'reddit', message.subject):
+        return None    
     if re.search(r'username mention', message.subject):
-        return None
+        return ("Hello, if you want to [use my features](https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md), please [send a message to me](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) to subscribe.  "
+                "I currently do not support submission tagging  "
+                "&nbsp;  \n"
+                "^^This ^^comment ^^was ^^done ^^automatically. ^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
     if re.search(r'(stop|unsubscribe)', full_message, re.IGNORECASE):
         user.delete(db)
         return ("You have successfully stopped notifications from LFG Notify Bot.  \n"
-                "If this bot was helpful, please consider making a donation to charity or your GM.")
+                "If this bot was helpful, please consider making a donation to charity or your GM and letting me know that I was a [good bot here](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories/).")
 
     elif re.search(r'(bug|issue|error|feature|suggestion)', full_message, re.IGNORECASE):
-        return "For error reporting or feature requests, please message u/Perfekthuntr."
+        return "For error reporting or feature requests, please message my [human](https://www.reddit.com/user/Perfekthuntr)."
 
     elif re.search(r'(sub(?:scribe)?|notify|lfg(?!\spost))', message.subject, re.IGNORECASE) or parse_game(message.subject):
         game = parse_game(full_message)
         if not game:
-            return ("You must include a valid game from the LFG subreddit game tags list https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags.  \n"
+            return ("You must include a valid game from the [LFG subreddit game tags list](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags).  \n"
                     "Examples include 5e, CoC, GURPS, or PF1e. Other and Flexible LFG tags are not currently supported.  \n"
                     "&nbsp;  \n"
-                    "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr.")
+                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
         user.game = game
         user.nsfw = is_nsfw(message.body)
@@ -64,15 +69,15 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
                 f"- Day(s) of the week: {', '.join(sort_days(user.days)) if user.days else 'None Input'}  \n"
                 f"- Include NSFW: {'No' if user.nsfw == 0 else 'Yes'}  \n"
                 "&nbsp;  \n"
-                "If you wish to change these settings, reply to this message, or reply **STOP** to end notifications.  \n"
+                "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                 "&nbsp;  \n"
-                "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr.")
+                "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
     else:
-        return ("Unknown message sent. If you wish to subscribe to this bot, please send a new message titled 'Subscribe' with your options in the body of the message.  \n"
+        return ("Unknown message sent. If you wish to subscribe to this bot, please send a new message titled 'Subscribe' with your [options](https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md) in the body of the message.  \n"
                 "If you wish to end notifications reply **STOP** to any message, or send a new message titled 'Stop'.  \n"
                 "&nbsp;  \n"
-                "^^For ^^error ^^reporting, ^^please ^^message ^^u/Perfekthuntr.")
+                "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
 
 def init_logger(reddit: praw.Reddit) -> None:
