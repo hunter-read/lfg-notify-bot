@@ -7,6 +7,7 @@ Called an exterminator to deal with bugs. (Bug fixes and stability improvements.
 * Fixed GMT+-1 searching flaging incorrect timezones.
 * Improved bot messaging with users.
 * Ratelimit handling improvements.
+* Readme updates.
 * Other bug fixes that I'm too lazy to document because this is a hobby project and I doubt anyone will read this.
 * Probably added some bugs to fix later.
 
