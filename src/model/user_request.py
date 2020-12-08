@@ -32,18 +32,28 @@ class UserRequest:
         else:
             query += "and day_of_week is null "
 
-        return db.query(query, params)
+        query += "order by notification_count asc"
+        data = db.query(query, params)
+        if data:
+            return [UserRequest(username = i[0]) for i in data]
+        return []
 
     def save(self, db: Database) -> None:
-        self.delete(db)
         params = []
-        params.append(self.username)
         params.append(','.join(self.game))
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.days) if self.days else None)
         params.append(self.nsfw)
-        db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", params)
+        if db.query("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [self.username])[0]:
+            params.append(self.username)
+            db.save("UPDATE user_request SET game = ?, timezone = ?, day_of_week = ?, nsfw = ? WHERE username = ?", params)
+        else:
+            params.insert(0, self.username)
+            db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", )
 
     def delete(self, db: Database) -> None:
         if self.username is not None:
             db.save("DELETE FROM user_request WHERE username = ?", [self.username])
+
+    def update_notification_count(self, db: Database) -> None:
+        db.save("UPDATE user_request SET notification_count = notification_count + 1 WHERE username = ?", [self.username])
