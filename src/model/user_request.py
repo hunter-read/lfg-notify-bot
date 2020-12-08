@@ -35,7 +35,7 @@ class UserRequest:
         query += "order by notification_count asc"
         data = db.query(query, params)
         if data:
-            return [UserRequest(username = i[0]) for i in data]
+            return [UserRequest(username=i[0]) for i in data]
         return []
 
     def save(self, db: Database) -> None:
@@ -49,7 +49,7 @@ class UserRequest:
             db.save("UPDATE user_request SET game = ?, timezone = ?, day_of_week = ?, nsfw = ? WHERE username = ?", params)
         else:
             params.insert(0, self.username)
-            db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", )
+            db.save("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", params)
 
     def delete(self, db: Database) -> None:
         if self.username is not None:

@@ -46,6 +46,7 @@ __gmt_catch_regex = re.compile(r"(?:GMT|UTC)\s?([+-])([0-1]?[0-9]):?(00|30|45)?"
 
 
 def parse_timezone(text: str) -> typing.Set[str]:
+    text = text.replace("\u2212", "-")
     return set([i.strip().upper() for i in re.findall(__tz_regex, text)])
 
 

@@ -8,6 +8,8 @@ username = "TestRedditor"
 testUser = Redditor(None, username, None, None)
 db = Database("")
 db.save = MagicMock()
+db.query = MagicMock(return_value=[0])
+
 
 unsubscribe_data = [
     ("subscribe", "STOP"),
@@ -87,6 +89,7 @@ def test_subscribe(subject, body, reply_text, db_data):
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
-    db.save.assert_any_call("DELETE FROM user_request WHERE username = ?", [username])
+    db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [username])
     db.save.assert_called_with("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", [username, db_data[0], db_data[1], db_data[2], db_data[3]])
     db.save.reset_mock()
+    db.query.reset_mock()
