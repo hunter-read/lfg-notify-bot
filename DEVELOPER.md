@@ -4,6 +4,7 @@ Currently made of 2 bots, one that reads incoming user messages and another that
 ## Requirements
 * python 3.7+
 * praw (`pip3 install praw`)
+* redis (both python and system level)
 
 Testing:
 * pytest (`py.test`)

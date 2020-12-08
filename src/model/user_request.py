@@ -35,7 +35,7 @@ class UserRequest:
         query += "order by notification_count asc"
         data = db.query(query, params)
         if data:
-            return [UserRequest(username=i[0]) for i in data]
+            return [i[0] for i in data]
         return []
 
     def save(self, db: Database) -> None:
@@ -44,7 +44,7 @@ class UserRequest:
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.days) if self.days else None)
         params.append(self.nsfw)
-        if db.query("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [self.username])[0]:
+        if db.query("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [self.username])[0][0]:
             params.append(self.username)
             db.save("UPDATE user_request SET game = ?, timezone = ?, day_of_week = ?, nsfw = ? WHERE username = ?", params)
         else:
