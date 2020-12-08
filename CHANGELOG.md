@@ -1,6 +1,12 @@
 # Weekly changelog
 This changelog will be updated weekly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
 
+## Version 1.1.0 - Dec 14th, 2020
+Major changes to how messages are sent to improve scalibilty and reliability
+* Rewrote and broke apart submission and notifications
+* Improved scalibilty with redis
+* Small bug fixes to ratelimits
+
 ## Version 1.0.1 - Dec 7th, 2020
 Called an exterminator to deal with bugs. (Bug fixes and stability improvements.)
 * Removed WEST timezone due to parsing issues.

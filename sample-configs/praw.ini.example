@@ -21,7 +21,7 @@ short_url=https://redd.it
 log_file=
 log_level_message_bot=ERROR
 log_level_submission_bot=ERROR
-log_level_notification_bot=ERROR
+log_level_notification_bot1=ERROR
 database=lfg_tables.db
 environment=development
 

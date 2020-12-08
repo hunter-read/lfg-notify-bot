@@ -10,11 +10,11 @@ from service import init_logger
 from model import Database, UserRequest
 
 __reddit: praw.Reddit = praw.Reddit("notification" + sys.argv[1])
-__logger: Logger = init_logger("notification_bot", __reddit)
+__logger: Logger = init_logger("notification_bot" + sys.argv[1], __reddit)
 __redis: Redis = Redis()
 
 
-def message_user(db: Database, data: dict) -> None:
+def message_user(data: dict) -> int:
     username = data['username']
     message = data['message']
     if __reddit.config.custom["environment"] != "production":
@@ -25,7 +25,6 @@ def message_user(db: Database, data: dict) -> None:
         __reddit.redditor(username).message('New LFG post matching your criteria', message)
 
     except praw.exceptions.RedditAPIException as err:
-
         match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
 
         if "RATELIMIT" in str(err) and match:
@@ -35,17 +34,18 @@ def message_user(db: Database, data: dict) -> None:
             if match.group(2) == "millisecond":
                 sleep_time = 1
             __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
-            time.sleep(sleep_time)
+            return sleep_time
         else:
             __logger.error(f"Api Error: {err}")
-            time.sleep(30)
+            return 30
 
     except prawcore.exceptions.ServerError as err:
         __logger.error(f"Server Error: {err}")
-        time.sleep(30)
+        return 30
 
-    else:
-        UserRequest(username=username).update_notification_count()
+    __logger.info(f"Sent message to {username}")
+    return 0
+
 
 
 def main():
@@ -60,7 +60,12 @@ def main():
             message = __redis.blpop("lfg-notification")
             if message:
                 data = json.loads(message[1].decode("utf-8"))
-                message_user(db, data)
+                value = message_user(data)
+                if value > 0:
+                    __redis.lpush('lfg-notification', json.dumps(data, indent=None))
+                    time.sleep(value)
+                else: 
+                    UserRequest(username=data['username']).update_notification_count(db)
 
 
 if __name__ == "__main__":
