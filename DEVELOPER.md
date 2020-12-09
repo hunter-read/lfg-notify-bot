@@ -2,11 +2,16 @@
 Currently made of 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
 
 ## Requirements
+### Main Codebase
 * python 3.7+
-* praw (`pip3 install praw`)
-* redis (both python and system level)
+* praw
+* redis
 
-Testing:
+### System requirements
+I have only tested this on Ubuntu and MacOS. Any other operating system may not be supported or have behavior issues.
+* [Redis](https://redis.io/topics/quickstart) is required on your system or docker container. The advantages of migrating to redis, is that app level restarts have less impact on production and allows me to easily decouple things.
+
+### Testing
 * pytest (`py.test`)
 * flake8 (`flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501`)
 
