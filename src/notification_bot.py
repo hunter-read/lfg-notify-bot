@@ -2,6 +2,7 @@ import praw
 import prawcore
 import time
 import re
+import pprint
 from logging import Logger
 from service import init_logger
 from model import Database, UserRequest, RedisHandler, Notification
@@ -18,13 +19,10 @@ def message_user(notification: Notification) -> int:
 
     try:
         redditor = __reddit.redditor(notification.username)
-        if redditor and not redditor.is_suspended:
-            redditor.message(notification.subject, notification.body)
-        else:
-            return -1
+        redditor.message(notification.subject, notification.body)
 
     except prawcore.exceptions.Forbidden as err:
-        __logger.error(f"Error sending reply to {notification.username}: {err}")
+        __logger.error(f"Error sending message to {notification.username}: {err}")
         return 0
 
     except praw.exceptions.RedditAPIException as err:
@@ -47,6 +45,8 @@ def message_user(notification: Notification) -> int:
         return 30
 
     __logger.info(f"Sent message to {notification.username}")
+    if redditor and getattr(redditor, "is_suspended", False):
+        return -1
     return 0
 
 
@@ -78,4 +78,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        __logger.critical(f"Unexpected error: {e}")
+        raise

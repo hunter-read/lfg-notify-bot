@@ -90,6 +90,9 @@ def main():
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
                 time.sleep(10)
+            except Exception as e:
+                __logger.critical(f"Unexpected error: {e}")
+                raise
 
 
 if __name__ == "__main__":

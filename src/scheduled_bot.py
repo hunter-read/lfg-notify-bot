@@ -1,7 +1,7 @@
 import time
 import schedule
 import praw
-from logger import Logger
+from logging import Logger
 from service.logging_support import init_logger
 from model import Database, UserRequest, RedisHandler, Notification, MessageText
 
@@ -21,14 +21,15 @@ def __init_database() -> Database:
 
 
 def update_flairless_submission():
-    __logger.info("Updating flairless submissions")
+    pass
 
 
 def delete_overlimit_users():
-    __logger.info("Removing inacitve / deleted / overlimit users")
-    with __init_database as db:
+    __logger.info("Running scheduled service to remove overlimit users")
+    with __init_database() as db:
         results = UserRequest.find_users_by_notification_count_greater_than(db, 250)
         for user in results:
+            __logger.info(f"Unsubscribing user {user.username} due to max notification count")
             notification = Notification(username=user.username, subject=MessageText.OVERLIMIT_NOTIFICATION_SUBJECT, body=MessageText.OVERLIMIT_NOTIFICATION_BODY, type=Notification.NotificationType.OVERLIMIT)
             user.delete(db)
             __redis.push(notification)
@@ -42,6 +43,10 @@ def main():
 
 
 if __name__ == "__main__":
-    schedule.every().minute.do(update_flairless_submission)
-    schedule.every().day.at("02:00").do(delete_overlimit_users)
-    main()
+    schedule.every(2).minutes.at(":00").do(update_flairless_submission)
+    schedule.every(4).hours.at(":00").do(delete_overlimit_users)
+    try:
+        main()
+    except Exception as e:
+        __logger.critical(f"Unexpected error: {e}")
+        raise

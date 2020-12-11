@@ -34,7 +34,7 @@ __tz_dict = {
     "WET": "GMT+0",
     "ACDT": "GMT+10:30",
     "ACST": "GMT+9:30",
-    "ACT": "GMT+10:30,GMT+9:30",
+    # "ACT": "GMT+10:30,GMT+9:30",
     "AEDT": "GMT+11",
     "AEST": "GMT+10",
     "AET": "GMT+10,GMT+11",

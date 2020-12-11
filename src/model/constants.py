@@ -31,7 +31,8 @@ class MessageText(str, Enum):
                                     "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above")
 
     OVERLIMIT_NOTIFICATION_SUBJECT = "Your notifications from LFG Notification Bot have been automatically stopped"
-    OVERLIMIT_NOTIFICATION_BODY = ("You have reached the max number of notifications from LFG Notification Bot with your current settings and have been unsubscribed from the service.  \n"
+    OVERLIMIT_NOTIFICATION_BODY = ("You have reached the max number of notifications from LFG Notification Bot with your current settings and have been unsubscribed from the service. "
+                                   "If you have only been subscribed for a short while, you may need to limit your search filters more.  \n"
                                    "You may [resubscribe at any time by sending a new message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) titled 'Subscribe' with your [options](https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md).  \n"
                                    "&nbsp;  \n"
                                    "^^This ^^action ^^was ^^done ^^automatically. ^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")

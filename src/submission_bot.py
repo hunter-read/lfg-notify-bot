@@ -2,7 +2,6 @@ import praw
 import prawcore
 import time
 import typing
-import traceback
 from logging import Logger
 from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days, using_vtt, init_logger
 from model import Database, Post, UserRequest, RedisHandler, Notification, MessageText
@@ -133,8 +132,8 @@ def main():
                 __logger.error(f"API error: {err}")
                 time.sleep(10)
             except Exception as e:
-                __logger.error(traceback.format_exc())
-                raise e
+                __logger.critical(f"Unexpected error: {e}")
+                raise
 
 
 if __name__ == "__main__":
