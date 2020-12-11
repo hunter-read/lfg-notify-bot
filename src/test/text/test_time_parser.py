@@ -1,5 +1,6 @@
 import pytest
-from service.time_parser import parse_time, to_military_time
+
+from text.time_parser import parse_time, to_military_time
 
 
 no_time_data = [

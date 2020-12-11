@@ -6,6 +6,7 @@ Currently made of 2 bots, one that reads incoming user messages and another that
 * python 3.7+
 * praw
 * redis
+* schedule
 
 ### System requirements
 I have only tested this on Ubuntu and MacOS. Any other operating system may not be supported or have behavior issues.

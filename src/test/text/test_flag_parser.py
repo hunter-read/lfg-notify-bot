@@ -1,5 +1,6 @@
 import pytest
-from service.flag_parser import using_vtt
+
+from text.flag_parser import using_vtt
 
 
 vtt_data = [

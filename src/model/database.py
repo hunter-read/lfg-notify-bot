@@ -1,6 +1,6 @@
+import re
 import sqlite3
 import typing
-import re
 
 
 def regexp(expr, item):

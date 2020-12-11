@@ -1,5 +1,5 @@
-import praw
 import logging
+import praw
 
 
 def init_logger(bot_name: str, reddit: praw.Reddit) -> logging.Logger:

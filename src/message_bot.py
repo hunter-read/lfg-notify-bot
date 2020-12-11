@@ -1,19 +1,24 @@
-import praw
-import prawcore
+from logging import Logger
 import time
 import re
-from logging import Logger
-from model import UserRequest, Database, MessageText
-from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, init_logger
+
+import praw
+import prawcore
+
+from model import Database, MessageText, User
+from service import init_logger
+from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days
+
 
 __reddit: praw.Reddit = praw.Reddit("message")
 __logger: Logger = init_logger("message_bot", __reddit)
+__production: bool = __reddit.config.custom["environment"] == "production"
 
 
 def read_messages(db: Database):
     for message in __reddit.inbox.stream():
         reply = parse_incoming_message(db, message)
-        if __reddit.config.custom["environment"] == "production":
+        if __production:
             message.mark_read()
             if reply:
                 message.reply(reply)
@@ -21,7 +26,7 @@ def read_messages(db: Database):
 
 
 def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
-    user = UserRequest()
+    user = User()
     user.username = message.author.name
 
     full_message = message.subject + message.body
@@ -46,7 +51,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
         user.game = game
         user.nsfw = is_nsfw(message.body)
-        user.days = parse_day(message.body)
+        user.day = parse_day(message.body)
         timezone = parse_timezone(message.body)
         output = []
         if timezone:
@@ -61,8 +66,8 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
                 "Your current settings are:  \n"
                 f"- Game(s): {', '.join(user.game)}  \n"
                 f"- Timezone(s): {', '.join(output) if output else 'None Input'}  \n"
-                f"- Day(s) of the week: {', '.join(sort_days(user.days)) if user.days else 'None Input'}  \n"
-                f"- Include NSFW: {'No' if user.nsfw == 0 else 'Yes'}  \n"
+                f"- Day(s) of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
+                f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
                 "&nbsp;  \n"
                 "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                 "&nbsp;  \n"

@@ -1,8 +1,11 @@
-import pytest
-from unittest.mock import MagicMock
 from message_bot import parse_incoming_message
+from unittest.mock import MagicMock
+
 from praw.models import Message, Redditor
+import pytest
+
 from model import Database, MessageText
+
 
 username = "TestRedditor"
 testUser = Redditor(None, username, None, None)
@@ -24,7 +27,7 @@ unsubscribe_data = [
 def test_unsubscribe(subject, body):
     message = Message(None, {"id": "12345", "author": testUser, "subject": subject, "body": body, "was_comment": False})
     assert parse_incoming_message(db, message) == MessageText.UNSUBSCRIBE_REPLY
-    db.save.assert_called_once_with("DELETE FROM user_request WHERE username = ?", [username])
+    db.save.assert_called_once_with("DELETE FROM user WHERE username = ?", [username])
     db.save.reset_mock()
 
 
@@ -90,8 +93,8 @@ def test_subscribe_new_user(subject, body, reply_text, db_data):
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
-    db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [username])
-    db.save.assert_called_with("INSERT INTO user_request (id, date_created, username, game, timezone, day_of_week, nsfw) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)", [username, db_data[0], db_data[1], db_data[2], db_data[3]])
+    db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
+    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, username) VALUES (?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], username])
     db.save.reset_mock()
     db.query.reset_mock()
 
@@ -111,7 +114,7 @@ def test_subscribe_existing_user(subject, body, reply_text, db_data):
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
-    db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [username])
-    db.save.assert_called_with("UPDATE user_request SET game = ?, timezone = ?, day_of_week = ?, nsfw = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], username])
+    db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
+    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], username])
     db.save.reset_mock()
     db.query.reset_mock()

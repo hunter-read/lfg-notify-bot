@@ -1,19 +1,22 @@
+import re
+import time
+
 import praw
 import prawcore
-import time
-import re
-import pprint
+
 from logging import Logger
+from model import Database, Notification, Redis, User
 from service import init_logger
-from model import Database, UserRequest, RedisHandler, Notification
+
 
 __reddit: praw.Reddit = praw.Reddit("notification")
 __logger: Logger = init_logger("notification_bot", __reddit)
-__redis: RedisHandler = RedisHandler()
+__redis: Redis = Redis()
+__production: bool = __reddit.config.custom["environment"] == "production"
 
 
 def message_user(notification: Notification) -> int:
-    if __reddit.config.custom["environment"] != "production":
+    if not __production:
         __logger.info(f"Recieved message for {notification.username}")
         return 0
 
@@ -59,10 +62,11 @@ def main():
 
     with Database(database) as db:
         while True:
-            notification = __redis.blocking_pop(Notification)
-            user = UserRequest(username=notification.username)
+            notification = Notification()
+            __redis.blocking_pop(notification)
+            user = User(username=notification.username)
             return_value = 0
-            if notification.type == Notification.NotificationType.SUBMISSION and not user.exists(db):
+            if notification.type == Notification.NotificationType.SUBMISSION and user.exists(db):
                 return_value = message_user(notification)
                 if return_value == 0:
                     user.update_notification_count(db)

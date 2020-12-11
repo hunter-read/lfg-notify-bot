@@ -1,6 +1,7 @@
-import json
-from redis import Redis
 from enum import Enum
+import json
+
+import redis
 
 
 class AbstractRedisObject:
@@ -26,7 +27,7 @@ class Notification(AbstractRedisObject):
     def __init__(self, **kwargs):
         self.username: str = kwargs.get("username", None)
         self.subject: str = kwargs.get("subject", None)
-        self.body: str = kwargs.get("game", None)
+        self.body: str = kwargs.get("body", None)
         self.type: Notification.NotificationType = kwargs.get("type", None)
 
     def serialize(self) -> str:
@@ -47,9 +48,9 @@ class Notification(AbstractRedisObject):
         return self
 
 
-class RedisHandler:
+class Redis:
     def __init__(self):
-        self.__redis: Redis = Redis()
+        self.__redis: redis.Redis = redis.Redis()
 
     def push(self, data: AbstractRedisObject) -> None:
         self.__redis.lpush(data._list_name, data.serialize())
@@ -57,5 +58,5 @@ class RedisHandler:
     def append(self, data: AbstractRedisObject) -> None:
         self.__redis.rpush(data._list_name, data.serialize())
 
-    def blocking_pop(self, clazz: AbstractRedisObject) -> AbstractRedisObject:
-        return clazz().deserialize(self.__redis.blpop(clazz._list_name)[1])
+    def blocking_pop(self, obj: AbstractRedisObject) -> None:
+        obj.deserialize(self.__redis.blpop(obj._list_name)[1])

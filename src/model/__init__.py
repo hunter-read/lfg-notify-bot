@@ -1,7 +1,7 @@
 from .database import Database
 from .post import Post
-from .user_request import UserRequest
+from .user import User
 from .constants import MessageText
-from .redis_handler import Notification, RedisHandler
+from .custom_redis import Notification, Redis
 
-__all__ = ["Database", "UserRequest", "Post", "MessageText", "Notification", "RedisHandler"]
+__all__ = ["Database", "User", "Post", "MessageText", "Notification", "Redis"]
