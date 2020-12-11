@@ -11,6 +11,11 @@ class UserRequest:
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
         self.nsfw: int = kwargs.get("nsfw", 0)
 
+    @staticmethod
+    def find_users_by_notification_count_greater_than(db: Database, count: int) -> list:
+        results = db.query("SELECT username FROM user_request WHERE notification_count > ?", [count])
+        return [UserRequest(username=result[0]) for result in results]
+
     def find_users(self, db: Database) -> tuple:
         query = "SELECT username FROM user_request WHERE  "
 
@@ -38,13 +43,16 @@ class UserRequest:
             return [i[0] for i in data]
         return []
 
+    def exists(self, db: Database) -> bool:
+        return bool(db.query("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [self.username])[0][0])
+
     def save(self, db: Database) -> None:
         params = []
         params.append(','.join(self.game))
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.days) if self.days else None)
         params.append(self.nsfw)
-        if db.query("SELECT EXISTS (SELECT id FROM user_request WHERE username = ?)", [self.username])[0][0]:
+        if self.exists(db):
             params.append(self.username)
             db.save("UPDATE user_request SET game = ?, timezone = ?, day_of_week = ?, nsfw = ? WHERE username = ?", params)
         else:

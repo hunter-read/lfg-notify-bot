@@ -2,9 +2,8 @@ import praw
 import prawcore
 import time
 import re
-import model.constants as constants
 from logging import Logger
-from model import UserRequest, Database
+from model import UserRequest, Database, MessageText
 from service import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, init_logger
 
 __reddit: praw.Reddit = praw.Reddit("message")
@@ -28,22 +27,22 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     full_message = message.subject + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
     if message.was_comment:
-        return constants.COMMENT_REPLY
+        return MessageText.COMMENT_REPLY
 
     if re.search(r'reddit|I would like to join|username mention', message.subject):
         return None
 
     if re.search(r'(stop|unsubscribe)', full_message, re.IGNORECASE):
         user.delete(db)
-        return constants.UNSUBSCRIBE_REPLY
+        return MessageText.UNSUBSCRIBE_REPLY
 
     elif re.search(r'(bug|issue|error|feature|suggestion)', full_message, re.IGNORECASE):
-        return constants.ERROR_REPLY
+        return MessageText.ERROR_REPLY
 
     elif re.search(r'(sub(?:scribe)?|notify|lfg(?!\spost))', message.subject, re.IGNORECASE) or parse_game(message.subject):
         game = parse_game(full_message)
         if not game:
-            return constants.MISSING_GAME_REPLY
+            return MessageText.MISSING_GAME_REPLY
 
         user.game = game
         user.nsfw = is_nsfw(message.body)
@@ -57,7 +56,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
         user.save(db)
 
-        return (f"You have been successfully subscribed to LFG Notify Bot.  \n"
+        return ("You have been successfully subscribed to LFG Notify Bot.  \n"
                 "&nbsp;  \n"
                 "Your current settings are:  \n"
                 f"- Game(s): {', '.join(user.game)}  \n"
@@ -70,7 +69,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
                 "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
     else:
-        return constants.UNKNOWN_MESSAGE_REPLY
+        return MessageText.UNKNOWN_MESSAGE_REPLY
 
 
 def main():
@@ -83,6 +82,8 @@ def main():
         while True:
             try:
                 read_messages(db)
+            except prawcore.exceptions.Forbidden as err:
+                __logger.error(f"Error sending reply: {err}")
             except prawcore.exceptions.ServerError as err:
                 __logger.error(f"Server Error: {err}")
                 time.sleep(10)

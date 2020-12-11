@@ -3,16 +3,14 @@ import prawcore
 import time
 import typing
 import traceback
-import json
-from redis import Redis
 from logging import Logger
 from service import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, players_wanted, is_online, is_lgbt, is_one_shot, age_limit, sort_days, using_vtt, init_logger
-from model import Database, UserRequest, Post
+from model import Database, Post, UserRequest, RedisHandler, Notification, MessageText
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
 __logger: Logger = init_logger("submission_bot", __reddit)
-__redis: Redis = Redis()
+__redis: RedisHandler = RedisHandler()
 
 
 def read_submissions(db: Database):
@@ -46,19 +44,20 @@ def find_users_and_queue(db: Database, user_search: UserRequest, submission: pra
 
     __logger.info(f"Users:    {', '.join(users)}")
 
-    message = (f"Title: {submission.title}  \n"
-               f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
-               f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
-               f"Time: {post.time if post.time else 'Unknown'}  \n"
-               f"Notes: {', '.join(flags) if flags else 'None'}  \n"
-               f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
-               "&nbsp;  \n"
-               "Reply **STOP** to end notifications.  \n"
-               "&nbsp;  \n"
-               "^Reminder ^that ^all ^information ^provided ^is ^a ^best ^guess, ^and ^you ^should ^read ^the ^post ^linked ^above")
+    notification = Notification()
+    notification.subject = MessageText.SUBMISSION_NOTIFICATION_SUBJECT
+    notification.body = (f"Title: {submission.title}  \n"
+                         f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
+                         f"Day(s): {', '.join(sort_days(post.days)) if post.days else 'Unknown'}  \n"
+                         f"Time: {post.time if post.time else 'Unknown'}  \n"
+                         f"Notes: {', '.join(flags) if flags else 'None'}  \n"
+                         f"Link: {__reddit.config.reddit_url}{post.permalink}  \n"
+                         f"{MessageText.SUBMISSION_NOTIFICATION_BODY}")
+    notification.type = Notification.NotificationType.SUBMISSION
 
     for user in users:
-        __redis.rpush('lfg-notification', json.dumps({"username": user, "message": message}, indent=None))
+        notification.username = user
+        __redis.append(notification)
 
 
 def parse_submission(submission: praw.models.Submission, post: Post, user_search: UserRequest, flags: typing.List[str]):
@@ -71,6 +70,7 @@ def parse_submission(submission: praw.models.Submission, post: Post, user_search
     __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
     __logger.info(f"Author:   {submission.author.name}")
 
+    post.submission_id = submission.id
     game = parse_game(submission.title)
     post.game = game
     user_search.game = game
@@ -131,7 +131,7 @@ def main():
                 time.sleep(10)
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
-                time.sleep(60)
+                time.sleep(10)
             except Exception as e:
                 __logger.error(traceback.format_exc())
                 raise e

@@ -1,28 +1,31 @@
 import praw
 import prawcore
 import time
-import json
 import re
-import sys
-from redis import Redis
 from logging import Logger
 from service import init_logger
-from model import Database, UserRequest
+from model import Database, UserRequest, RedisHandler, Notification
 
-__reddit: praw.Reddit = praw.Reddit("notification" + sys.argv[1])
-__logger: Logger = init_logger("notification_bot" + sys.argv[1], __reddit)
-__redis: Redis = Redis()
+__reddit: praw.Reddit = praw.Reddit("notification")
+__logger: Logger = init_logger("notification_bot", __reddit)
+__redis: RedisHandler = RedisHandler()
 
 
-def message_user(data: dict) -> int:
-    username = data['username']
-    message = data['message']
+def message_user(notification: Notification) -> int:
     if __reddit.config.custom["environment"] != "production":
-        __logger.info(f"Recieved message for {username}")
-        return
+        __logger.info(f"Recieved message for {notification.username}")
+        return 0
 
     try:
-        __reddit.redditor(username).message('New LFG post matching your criteria', message)
+        redditor = __reddit.redditor(notification.username)
+        if redditor and not redditor.is_suspended:
+            redditor.message(notification.subject, notification.body)
+        else:
+            return -1
+
+    except prawcore.exceptions.Forbidden as err:
+        __logger.error(f"Error sending reply to {notification.username}: {err}")
+        return 0
 
     except praw.exceptions.RedditAPIException as err:
         match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
@@ -43,9 +46,8 @@ def message_user(data: dict) -> int:
         __logger.error(f"Server Error: {err}")
         return 30
 
-    __logger.info(f"Sent message to {username}")
+    __logger.info(f"Sent message to {notification.username}")
     return 0
-
 
 
 def main():
@@ -57,15 +59,22 @@ def main():
 
     with Database(database) as db:
         while True:
-            message = __redis.blpop("lfg-notification")
-            if message:
-                data = json.loads(message[1].decode("utf-8"))
-                value = message_user(data)
-                if value > 0:
-                    __redis.lpush('lfg-notification', json.dumps(data, indent=None))
-                    time.sleep(value)
-                else: 
-                    UserRequest(username=data['username']).update_notification_count(db)
+            notification = __redis.blocking_pop(Notification)
+            user = UserRequest(username=notification.username)
+            return_value = 0
+            if notification.type == Notification.NotificationType.SUBMISSION and not user.exists(db):
+                return_value = message_user(notification)
+                if return_value == 0:
+                    user.update_notification_count(db)
+            else:
+                return_value = message_user(notification)
+
+            if return_value > 0:
+                __redis.push(notification)
+                time.sleep(return_value)
+            elif return_value < 0:
+                __logger.info(f"Deleting user {user.username} due to deleted or banned account")
+                user.delete(db)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,8 @@
 import pytest
-import model.constants as constants
 from unittest.mock import MagicMock
 from message_bot import parse_incoming_message
 from praw.models import Message, Redditor
-from model import Database
+from model import Database, MessageText
 
 username = "TestRedditor"
 testUser = Redditor(None, username, None, None)
@@ -24,7 +23,7 @@ unsubscribe_data = [
 @pytest.mark.parametrize("subject,body", unsubscribe_data)
 def test_unsubscribe(subject, body):
     message = Message(None, {"id": "12345", "author": testUser, "subject": subject, "body": body, "was_comment": False})
-    assert parse_incoming_message(db, message) == constants.UNSUBSCRIBE_REPLY
+    assert parse_incoming_message(db, message) == MessageText.UNSUBSCRIBE_REPLY
     db.save.assert_called_once_with("DELETE FROM user_request WHERE username = ?", [username])
     db.save.reset_mock()
 
@@ -41,28 +40,28 @@ bug_feature_data = [
 @pytest.mark.parametrize("subject,body", bug_feature_data)
 def test_bug_feature_message(subject, body):
     message = Message(None, {"id": "12345", "author": testUser, "subject": subject, "body": body, "was_comment": False})
-    assert parse_incoming_message(db, message) == constants.ERROR_REPLY
+    assert parse_incoming_message(db, message) == MessageText.ERROR_REPLY
     db.save.assert_not_called()
     db.save.reset_mock()
 
 
 def test_comment_message():
     message = Message(None, {"id": "12345", "author": testUser, "subject": "", "body": "Hello World!", "was_comment": True})
-    assert parse_incoming_message(db, message) == constants.COMMENT_REPLY
+    assert parse_incoming_message(db, message) == MessageText.COMMENT_REPLY
     db.save.assert_not_called()
     db.save.reset_mock()
 
 
 def test_unknown_message():
     message = Message(None, {"id": "12345", "author": testUser, "subject": "New LFG post matching your criteria", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "was_comment": False})
-    assert parse_incoming_message(db, message) == constants.UNKNOWN_MESSAGE_REPLY
+    assert parse_incoming_message(db, message) == MessageText.UNKNOWN_MESSAGE_REPLY
     db.save.assert_not_called()
     db.save.reset_mock()
 
 
 def test_no_game_subscribe_message():
     message = Message(None, {"id": "12345", "author": testUser, "subject": "Subscribe", "body": "GMT-9,GMT-8,GMT-7 Monday/Wednesday/Weekends NSFW", "was_comment": False})
-    assert parse_incoming_message(db, message) == constants.MISSING_GAME_REPLY
+    assert parse_incoming_message(db, message) == MessageText.MISSING_GAME_REPLY
     db.save.assert_not_called()
     db.save.reset_mock()
 

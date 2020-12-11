@@ -28,8 +28,8 @@ This is a bot that aims to make using r/lfg easier to use and provide notificati
 While this bot does it's best to parse a user post, due to inconsistencies in how people post, there is no guarantee that the data it collects is 100% accurate. While the bot does try it's best, the very nature of text parsing is difficult. I recommend if you subscribe to this bot, to read through any post it thinks is applicable to your settings. If you see a blatant issue, please add an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues), or send [u/Perfekthuntr](https://www.reddit.com/user/Perfekthuntr) a message on reddit and I will do my best to investigate. The bot will also try and note if the post is LGBTQ+ friendly, 18+/21+, or a One-Shot and provide the game times if possible, though results may vary.
 
 # FAQ
-* **Q:** How do I find the bot?  
-  **A:** [Here](https://www.reddit.com/user/lfg_notify_bot)
+* **Q:** Why am I getting a notification so late after a post has been created?  
+  **A:** Due to how reddit rate limits messages, the bot can currently only send 10 messages every 5 minutes. This limit changes with time and karma, which you, dear reader, can [improve by upvoting the bot a little](https://www.reddit.com/user/lfg_notify_bot).  
   
 * **Q:** I sent the bot a message, but I haven't gotten any messages back, is it working?  
   **A:** When you subscribe, the bot should send a reply with your settings. Make sure you send a [**message**](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) and **do not use** the reddit chat feature. There is also a [status page](https://stats.uptimerobot.com/KQlMrsqmqr) in case the bot goes down for some reason.
@@ -44,7 +44,7 @@ While this bot does it's best to parse a user post, due to inconsistencies in ho
   **A:** Think of this as push notifications.  
   
 * **Q:** Can the bot do \<insert feature here\>?  
-  **A:** Probably not yet, but you can submit an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues) or leave a comment if you see a feature you want.  
+  **A:** Probably not yet, but you can submit an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues) or [upvote features you want to see](https://www.reddit.com/user/LFG_Notify_Bot/comments/k9heax/feature_requests/) on reddit.  
   
 * **Q:** How can I help?  
   **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features. And if the bot was helpful, [leave a comment on reddit with your success story or a good/bad bot message](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories).  

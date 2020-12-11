@@ -4,6 +4,7 @@ from .database import Database
 
 class Post:
     def __init__(self, **kwargs):
+        self.submission_id: str = kwargs.get("submission_id", None)
         self.post_date: str = kwargs.get("post_date", None)
         self.game: typing.Set[str] = kwargs.get("game", set())
         self.days: typing.Set[str] = kwargs.get("days", set())
@@ -24,4 +25,5 @@ class Post:
         params.append(self.nsfw)
         params.append(self.permalink)
         params.append(self.online)
-        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+        params.append(self.submission_id)
+        db.save("INSERT INTO post (id, post_date, game, flair, timezone, days, times, nsfw, permalink, online, submission_id) VALUES (null, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
