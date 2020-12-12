@@ -29,9 +29,6 @@ def read_submissions(db: Database):
 
 
 def parse_submission(submission: praw.models.Submission, post: Post):
-    if not submission.link_flair_text:
-        __logger.warning(f"Found Post with no flair: {__reddit.config.reddit_url}{submission.permalink}")
-
     fulltext = submission.title + submission.selftext
 
     __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
