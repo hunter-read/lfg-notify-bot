@@ -32,5 +32,5 @@ jobs:
         praw_client_secret: ${{ secrets.CLIENT_SECRET }}
         praw_user_agent: ${{ secrets.USER_AGENT }}
       run: |
-        cp sample-configs/praw.ini.example ./praw.ini
+        cp dev/praw.ini.example ./praw.ini
         pytest
