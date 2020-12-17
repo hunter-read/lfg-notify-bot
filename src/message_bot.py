@@ -7,7 +7,7 @@ import prawcore
 
 from model import Database, MessageText, User
 from service import init_logger
-from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, parse_time
+from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days
 
 
 __reddit: praw.Reddit = praw.Reddit("message")
@@ -58,11 +58,6 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
             corrected = set([timezone_to_gmt(tz) for tz in timezone])
             output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
             user.timezone = corrected
-
-        if len(user.timezone) == 1:
-            time = parse_time(message.body)
-            
-            
 
         user.save(db)
 
