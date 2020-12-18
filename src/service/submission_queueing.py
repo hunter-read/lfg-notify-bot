@@ -17,6 +17,18 @@ def __build_user_search(post: Post) -> User:
     return user_search
 
 
+def filter_user_list(users: list, submission: Submission) -> list:
+    filtered_users = []
+    for user in users:
+        if user.username == submission.author.name:
+            pass
+        elif not user.keyword:
+            filtered_users.append(user.username)
+        elif re.search(fr"{user.keyword}", submission.title + submission.selftext, re.IGNORECASE):
+            filtered_users.append(user.username)
+    return filtered_users
+
+
 def find_users_and_queue(db: Database, submission: Submission, post: Post) -> str:
     redis = Redis()
 
@@ -33,14 +45,7 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
     if not users:
         return None
 
-    filtered_users = []
-    for user in users:
-        if user.username == submission.author.name:
-            pass
-        elif not user.keyword:
-            filtered_users.append(user.username)
-        elif re.search(fr"{user.keyword}", submission.title + submission.selftext, re.IGNORECASE):
-            filtered_users.append(user.username)
+    users = filter_user_list(users, Submission)
 
     if post.nsfw:
         post.flag.append("NSFW")
@@ -57,8 +62,8 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
                          f"{MessageText.SUBMISSION_NOTIFICATION_BODY}")
     notification.type = Notification.NotificationType.SUBMISSION
 
-    for user in filtered_users:
+    for user in users:
         notification.username = user
         redis.append(notification)
 
-    return ', '.join(filtered_users)
+    return ', '.join(users)
