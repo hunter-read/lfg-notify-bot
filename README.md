@@ -22,6 +22,7 @@ nsfw
 You can include as many games, timezones, or days of the week as you want and the bot will send you a message when someone posts a game looking for player's that meets your criteria, but currently I only search for posts with [Online] and the flairs "GM and player(s) wanted" or "Player(s) wanted". Days of week and timezone are optional, but if you do not provide this, then you may recieve a multitude of messages (especially if your are looking for D&D 5e games).
 
 ## Beta features
+Note these features are new and not reccommended if you want a consistent experience. If you use the features below, do so at your own risk, as you may recieve incorrect notifications or not recieve notifications for posts that match your criteria.
 * Keywords: This is a keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them, and all keyword searches are case insensitive.  
   Example: `[tomb of annhilation][toa][curse of strahd][cos]`
 * Specific flair: This limits flair to specific options. By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options: `GM and player(s) wanted` or `Player(s) wanted` or `GM wanted` in any combination.
