@@ -1,5 +1,9 @@
 praw.ini
-*.db
+/*.db*
+/*.sql
+/*log.txt
+/*.py
+/*.sh
 !lfg_tables.db
 .DS_Store
 .vscode/
@@ -132,8 +136,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-lfg-log.txt
-queries.sql
-src/test.py
-deploy.sh

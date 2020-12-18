@@ -45,7 +45,7 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
     if not users:
         return None
 
-    users = filter_user_list(users, Submission)
+    users = filter_user_list(users, submission)
 
     if post.nsfw:
         post.flag.append("NSFW")
