@@ -85,16 +85,16 @@ def test_subscribe_new_user(subject, body, reply_text, db_data):
     assert parse_incoming_message(db, message) == (f"You have been successfully subscribed to LFG Notify Bot.  \n"
                                                    "&nbsp;  \n"
                                                    "Your current settings are:  \n"
-                                                   f"- Game(s): {reply_text[0]}  \n"
-                                                   f"- Timezone(s): {reply_text[1]}  \n"
-                                                   f"- Day(s) of the week: {reply_text[2]}  \n"
+                                                   f"- Game: {reply_text[0]}  \n"
+                                                   f"- Timezone: {reply_text[1]}  \n"
+                                                   f"- Day of the week: {reply_text[2]}  \n"
                                                    f"- Include NSFW: {reply_text[3]}  \n"
                                                    "&nbsp;  \n"
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, username) VALUES (?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], username])
+    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
     db.save.reset_mock()
     db.query.reset_mock()
 
@@ -106,15 +106,15 @@ def test_subscribe_existing_user(subject, body, reply_text, db_data):
     assert parse_incoming_message(db, message) == (f"You have been successfully subscribed to LFG Notify Bot.  \n"
                                                    "&nbsp;  \n"
                                                    "Your current settings are:  \n"
-                                                   f"- Game(s): {reply_text[0]}  \n"
-                                                   f"- Timezone(s): {reply_text[1]}  \n"
-                                                   f"- Day(s) of the week: {reply_text[2]}  \n"
+                                                   f"- Game: {reply_text[0]}  \n"
+                                                   f"- Timezone: {reply_text[1]}  \n"
+                                                   f"- Day of the week: {reply_text[2]}  \n"
                                                    f"- Include NSFW: {reply_text[3]}  \n"
                                                    "&nbsp;  \n"
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], username])
+    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
     db.save.reset_mock()
     db.query.reset_mock()

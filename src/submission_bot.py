@@ -6,7 +6,7 @@ import prawcore
 
 from model import Database, Post
 from service import init_logger, find_users_and_queue
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, is_online, is_lgbt, is_one_shot, age_limit, using_vtt, sort_days
+from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, is_online, is_lgbt, is_one_shot, age_limit, using_vtt, sort_days, is_play_by_post
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
@@ -46,6 +46,7 @@ def parse_submission(submission: praw.models.Submission, post: Post):
 
     is_lgbt(fulltext) and post.flag.append("LGBTQ+")
     is_one_shot(fulltext) and post.flag.append("One-Shot")
+    is_play_by_post(fulltext) and post.flag.append("Play-by-Post")
     vtt = using_vtt(fulltext)
     vtt and post.flag.append(vtt)
     age_limit_text = age_limit(fulltext)

@@ -1,6 +1,7 @@
 import typing
 
 from .database import Database
+from .constants import Flair
 
 
 class User:
@@ -19,9 +20,11 @@ class User:
         self.day: typing.Set[str] = kwargs.get("day", set())
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
         self.nsfw: bool = kwargs.get("nsfw", False)
+        self.keyword: str = kwargs.get("keyword", None)
+        self.flair: int = kwargs.get("flair", Flair.DEFAULT.value)
 
-    def find_users(self, db: Database) -> tuple:
-        query = "SELECT username FROM user WHERE  "
+    def find_users(self, db: Database) -> list:
+        query = "SELECT username, keyword FROM user WHERE  "
 
         query += "(" + "or".join([" game like ? " for _ in self.game]) + ") "
         params = [f"%{game}%" for game in self.game]
@@ -31,7 +34,7 @@ class User:
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
-            params.extend([f"\\b{timezone}\\b".replace('+', '\\+') for timezone in self.timezone])
+            params.extend(self.timezone)
         else:
             query += "and timezone is null "
 
@@ -41,10 +44,13 @@ class User:
         else:
             query += "and day is null "
 
+        query += "and (flair & ?) > 0 "
+        params.append(self.flair)
+
         query += "order by notification_count asc"
         data = db.query(query, params)
         if data:
-            return [i[0] for i in data]
+            return [User(username=i[0], keyword=i[1]) for i in data]
         return []
 
     def exists(self, db: Database) -> bool:
@@ -56,11 +62,13 @@ class User:
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.day) if self.day else None)
         params.append(int(self.nsfw))
+        params.append(self.keyword)
+        params.append(self.flair)
         params.append(self.username)
         if self.exists(db):
-            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ? WHERE username = ?", params)
+            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", params)
         else:
-            db.save("INSERT INTO user (game, timezone, day, nsfw, username) VALUES (?, ?, ?, ?, ?)", params)
+            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", params)
 
     def delete(self, db: Database) -> None:
         if self.username is not None:

@@ -1,6 +1,12 @@
 # Weekly changelog
 This changelog will be updated weekly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
 
+## Version 1.2 - Dec 21st, 2020
+Added beta testing for a handful of new features and some bug fixes
+* Keyword search added
+* Flair filters added
+* Added support to identify play by post 
+
 ## Version 1.1.0 - Dec 8th, 2020
 Major changes to how messages are sent to improve scalibilty and reliability
 * Rewrote and broke apart submission and notifications
