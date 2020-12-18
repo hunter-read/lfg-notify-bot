@@ -1,6 +1,6 @@
 import pytest
 
-from text.flag_parser import using_vtt
+from text.flag_parser import using_vtt, parse_flair
 
 
 vtt_data = [
@@ -20,3 +20,19 @@ vtt_data = [
 @pytest.mark.parametrize("text,result", vtt_data)
 def test_parse_vtt(text, result):
     assert using_vtt(text) == result
+
+
+flair_data = [
+    (None, 0),
+    ("Player(s) wanted", 1),
+    ("GM and player(s) wanted", 2),
+    ("GM wanted", 4),
+    ("GM and player(s) wanted, Player(s) wanted", 3),
+    ("GM and player(s) wanted, Player(s) wanted, GM wanted", 7),
+    ("Meta", 0)
+]
+
+
+@pytest.mark.parametrize("text,result", flair_data)
+def test_parse_flair(text, result):
+    assert parse_flair(text) == result

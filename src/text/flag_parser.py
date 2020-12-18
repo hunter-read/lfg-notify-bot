@@ -1,8 +1,21 @@
 import re
 
+from model import Flair
 
-def players_wanted(text: str) -> bool:
-    return bool(text and re.search(r"(Player\(s\)\swanted)", text, re.IGNORECASE))
+
+def parse_flair(text: str) -> int:
+    flair = 0
+    if not text:
+        return flair
+    matches = re.findall(rf"{Flair.GM_AND_PLAYERS_WANTED.regex_str}|{Flair.PLAYERS_WANTED.regex_str}|{Flair.GM_WANTED.regex_str}", text, re.IGNORECASE)
+    for match in matches:
+        if re.search(rf"{Flair.GM_AND_PLAYERS_WANTED.regex_str}", match, re.IGNORECASE):
+            flair |= Flair.GM_AND_PLAYERS_WANTED.flag
+        elif re.search(rf"{Flair.PLAYERS_WANTED.regex_str}", match, re.IGNORECASE):
+            flair |= Flair.PLAYERS_WANTED.flag
+        elif re.search(rf"{Flair.GM_WANTED.regex_str}", match, re.IGNORECASE):
+            flair |= Flair.GM_WANTED.flag
+    return flair
 
 
 def is_nsfw(text: str) -> bool:
@@ -28,6 +41,15 @@ def age_limit(text: str) -> str:
 
 def is_one_shot(text: str) -> bool:
     return bool(text and re.search(r"one[-\s]shot", text, re.IGNORECASE))
+
+
+def is_play_by_post(text: str) -> bool:
+    return bool(text and re.search(r"play[-\s]by[-\s]post|pbp", text, re.IGNORECASE))
+
+
+def find_all_keyword(text: str) -> list:
+    matches = re.findall(r"\[(.*?)\]", text)
+    return matches
 
 
 def using_vtt(text: str) -> str:

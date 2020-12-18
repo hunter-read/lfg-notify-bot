@@ -1,4 +1,5 @@
 from enum import Enum
+from re import escape
 
 
 class MessageText(str, Enum):
@@ -36,3 +37,26 @@ class MessageText(str, Enum):
                                    "You may [resubscribe at any time by sending a new message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot) titled 'Subscribe' with your [options](https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md).  \n"
                                    "&nbsp;  \n"
                                    "^^This ^^action ^^was ^^done ^^automatically. ^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
+
+
+class Flair(Enum):
+    PLAYERS_WANTED = (1, "Player(s) wanted")
+    GM_AND_PLAYERS_WANTED = (2, "GM and Player(s) wanted")
+    GM_WANTED = (4, "GM wanted")
+    DEFAULT = (3, None)
+
+    def __init__(self, flag: int, string: str):
+        self.flag = flag
+        self.string = string
+
+    @classmethod
+    def flag_to_str(cls, flag) -> str:
+        strings = []
+        flag & cls.PLAYERS_WANTED.flag and strings.append(cls.PLAYERS_WANTED.string)
+        flag & cls.GM_AND_PLAYERS_WANTED.flag and strings.append(cls.GM_AND_PLAYERS_WANTED.string)
+        flag & cls.GM_WANTED.flag and strings.append(cls.GM_WANTED.string)
+        return ", ".join(strings)
+
+    @property
+    def regex_str(self) -> str:
+        return escape(self.string)
