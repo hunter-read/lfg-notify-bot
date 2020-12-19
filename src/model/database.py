@@ -4,7 +4,7 @@ import typing
 
 
 def regexp(expr, item):
-    reg = re.compile(re.escape(expr))
+    reg = re.compile(expr)
     return reg.search(item) is not None
 
 

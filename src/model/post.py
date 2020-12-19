@@ -5,8 +5,7 @@ from .database import Database
 
 class Post:
     @staticmethod
-    def find_post_by_date_created_greater_than_and_no_flair(db, date: str) -> list:
-        results = db.query("SELECT * FROM post WHERE date_created > ? and flair is null", [date])
+    def __parse_results(results: list) -> list:
         posts = []
         for result in results:
             post = Post(id=result[0])
@@ -24,6 +23,16 @@ class Post:
             post.permalink = result[12]
             posts.append(post)
         return posts
+
+    @classmethod
+    def find_post_by_date_created_greater_than_and_no_flair(cls, db, date: str) -> list:
+        results = db.query("SELECT * FROM post WHERE date_created > ? and flair is null", [date])
+        return cls.__parse_results(results)
+
+    @classmethod
+    def find_post_by_submission_id(cls, db, submission_id: str) -> list:
+        results = db.query("SELECT * FROM post WHERE submission_id = ?", [submission_id])
+        return cls.__parse_results(results)
 
     def __init__(self, **kwargs):
         self.id: int = kwargs.get("id", None)

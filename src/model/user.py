@@ -1,3 +1,4 @@
+import re
 import typing
 
 from .database import Database
@@ -34,7 +35,7 @@ class User:
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
-            params.extend(self.timezone)
+            params.extend([fr"\b{re.escape(tz)}\b" for tz in self.timezone])
         else:
             query += "and timezone is null "
 
