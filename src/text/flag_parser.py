@@ -7,13 +7,13 @@ def parse_flair(text: str) -> int:
     flair = 0
     if not text:
         return flair
-    matches = re.findall(rf"{Flair.GM_AND_PLAYERS_WANTED.regex_str}|{Flair.PLAYERS_WANTED.regex_str}|{Flair.GM_WANTED.regex_str}", text, re.IGNORECASE)
+    matches = re.findall(r"GM\sand\splayer\(?s?\)?\swanted|player\(?s?\)?\swanted|gm\swanted|gmplw|gmw|plw", text, re.IGNORECASE)
     for match in matches:
-        if re.search(rf"{Flair.GM_AND_PLAYERS_WANTED.regex_str}", match, re.IGNORECASE):
+        if re.search(r"GM\sand\splayer\(?s?\)?\swanted|gmplw", match, re.IGNORECASE):
             flair |= Flair.GM_AND_PLAYERS_WANTED.flag
-        elif re.search(rf"{Flair.PLAYERS_WANTED.regex_str}", match, re.IGNORECASE):
+        elif re.search(r"player\(?s?\)?\swanted|plw", match, re.IGNORECASE):
             flair |= Flair.PLAYERS_WANTED.flag
-        elif re.search(rf"{Flair.GM_WANTED.regex_str}", match, re.IGNORECASE):
+        elif re.search(r"gm\swanted|gmw", match, re.IGNORECASE):
             flair |= Flair.GM_WANTED.flag
     return flair
 

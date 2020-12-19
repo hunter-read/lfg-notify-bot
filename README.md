@@ -24,8 +24,9 @@ You can include as many games, timezones, or days of the week as you want and th
 ## Beta features
 Note these features are new and not reccommended if you want a consistent experience. If you use the features below, do so at your own risk, as you may recieve incorrect notifications or not recieve notifications for posts that match your criteria.
 * Keywords: This is a keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them, and all keyword searches are case insensitive.  
-  Example: `[tomb of annhilation][toa][curse of strahd][cos]`
-* Specific flair: This limits flair to specific options. By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options: `GM and player(s) wanted` or `Player(s) wanted` or `GM wanted` in any combination.
+  Example: `[tomb of annhilation][toa][strahd][cos]`  
+  **Note:** Keywords are very specific, include as many as you want, including abbreviations. Keywords should also be short, you may have have better luck with a keyword such as `[strahd]` instead of `[curse of strahd]`.
+* Specific flair: This limits flair to specific options. By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options: `GM and player(s) wanted` or `Player(s) wanted` or `GM wanted` in any combination. There is also some handy abbreviations (`gmplw`, `plw`, or `gmw` respectively) to make it a bit easier to type.
 
 # Purpose
 This is a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.

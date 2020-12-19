@@ -25,8 +25,13 @@ def test_parse_vtt(text, result):
 flair_data = [
     (None, 0),
     ("Player(s) wanted", 1),
+    ("Player wanted", 1),
+    ("Players wanted", 1),
+    ("plw", 1),
     ("GM and player(s) wanted", 2),
+    ("gmplw", 2),
     ("GM wanted", 4),
+    ("gmw", 4),
     ("GM and player(s) wanted, Player(s) wanted", 3),
     ("GM and player(s) wanted, Player(s) wanted, GM wanted", 7),
     ("Meta", 0)
