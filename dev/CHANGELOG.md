@@ -1,7 +1,12 @@
 # Weekly changelog
 This changelog will be updated weekly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
 
-## Version 1.2 - Dec 18th, 2020
+## Version 1.2.1 - Dec 18th, 2020
+Squashed more bugs
+* Fixed user search timezone bug again
+* Added flair shorthand
+
+## Version 1.2.0 - Dec 18th, 2020
 Added beta testing for a handful of new features and some bug fixes
 * Keyword search added
 * Flair filters added
