@@ -39,6 +39,9 @@ def message_user(notification: Notification) -> int:
                 sleep_time = 1
             __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
             return sleep_time
+        elif "USER_DOESNT_EXIST" in str(err):
+            __logger.info(f"User {notification.username} does exist")
+            return -1
         else:
             __logger.error(f"Api Error: {err}")
             return 30
