@@ -29,7 +29,7 @@ def read_submissions(db: Database):
 
 
 def parse_submission(submission: praw.models.Submission, post: Post):
-    fulltext = submission.title + submission.selftext
+    fulltext = submission.title + " " + submission.selftext
 
     __logger.info(f"New Post: {submission.title} ({submission.link_flair_text})")
     __logger.info(f"Link:     {__reddit.config.reddit_url}{submission.permalink}")
