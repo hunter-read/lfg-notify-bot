@@ -30,7 +30,7 @@ def read_messages(db: Database):
 def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     user = User()
 
-    if not message.author or message.author.name == 'reddit':
+    if not message.author or message.author.name == 'reddit' or "Data" in message.subject:
         return None
 
     user.username = message.author.name
@@ -38,6 +38,8 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     full_message = message.subject + ' ' + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
     if message.was_comment:
+        if "comment reply" in message.subject:
+            return None
         return MessageText.COMMENT_REPLY
 
     if re.search(r'(stop|unsubscribe)', full_message, re.IGNORECASE):
