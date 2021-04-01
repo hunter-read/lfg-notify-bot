@@ -1,3 +1,4 @@
+import os
 import re
 import time
 
@@ -10,9 +11,9 @@ from service import init_logger
 
 
 __reddit: praw.Reddit = praw.Reddit("notification")
-__logger: Logger = init_logger("notification_bot", __reddit)
+__logger: Logger = init_logger()
 __redis: Redis = Redis()
-__production: bool = __reddit.config.custom["environment"] == "production"
+__production: bool = os.environ.get('PROFILE') == "production"
 
 
 def message_user(notification: Notification) -> int:
@@ -58,12 +59,7 @@ def message_user(notification: Notification) -> int:
 
 def main():
     __logger.info("Starting notification bot")
-    database = __reddit.config.custom["database"]
-    if not database:
-        __logger.error("Database location not set. Exiting")
-        exit(1)
-
-    with Database(database) as db:
+    with Database() as db:
         while True:
             notification = Notification()
             __redis.blocking_pop(notification)

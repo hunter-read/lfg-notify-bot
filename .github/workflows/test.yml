@@ -27,10 +27,5 @@ jobs:
         # exit-zero treats all errors as warnings. Ignore line length as I don't care
         flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501
     - name: Test with pytest
-      env: # Or as an environment variable
-        praw_client_id: ${{ secrets.CLIENT_ID }}
-        praw_client_secret: ${{ secrets.CLIENT_SECRET }}
-        praw_user_agent: ${{ secrets.USER_AGENT }}
-      run: |
-        cp dev/praw.ini.example ./praw.ini
+        cp dev/praw.ini ./praw.ini
         pytest

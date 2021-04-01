@@ -1,4 +1,5 @@
 from logging import Logger
+import os
 import time
 import re
 
@@ -11,8 +12,8 @@ from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw
 
 
 __reddit: praw.Reddit = praw.Reddit("message")
-__logger: Logger = init_logger("message_bot", __reddit)
-__production: bool = __reddit.config.custom["environment"] == "production"
+__logger: Logger = init_logger()
+__production: bool = os.environ.get('PROFILE') == "production"
 
 
 def read_messages(db: Database):
@@ -93,11 +94,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
 def main():
     __logger.info("Starting incoming message bot")
-    database = __reddit.config.custom["database"]
-    if not database:
-        __logger.error("Database location not set. Exiting")
-        exit(1)
-    with Database(database) as db:
+    with Database() as db:
         while True:
             try:
                 read_messages(db)

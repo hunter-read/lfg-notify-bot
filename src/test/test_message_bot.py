@@ -9,7 +9,7 @@ from model import Database, MessageText
 
 username = "TestRedditor"
 testUser = Redditor(None, username, None, None)
-db = Database("")
+db = Database()
 db.save = MagicMock()
 db.query = MagicMock()
 

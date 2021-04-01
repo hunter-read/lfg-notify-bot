@@ -10,21 +10,12 @@ from service import init_logger, find_users_and_queue
 
 
 __reddit: praw.Reddit = praw.Reddit("scheduled")
-__logger: Logger = init_logger("scheduled_bot", __reddit)
+__logger: Logger = init_logger()
 __redis: Redis = Redis()
 
 
-def __init_database() -> Database:
-    database = __reddit.config.custom["database"]
-    if not database:
-        __logger.error("Database location not set. Exiting")
-        exit(1)
-
-    return Database(database)
-
-
 def update_flairless_submission():
-    with __init_database() as db:
+    with Database() as db:
         now = datetime.datetime.utcnow() - datetime.timedelta(minutes=7)
         results = Post.find_post_by_date_created_greater_than_and_no_flair(db, now.strftime("%Y-%m-%d %H:%M:%S"))
         for post in results:
@@ -39,7 +30,7 @@ def update_flairless_submission():
 
 def delete_overlimit_users():
     __logger.info("Running scheduled service to remove overlimit users")
-    with __init_database() as db:
+    with Database() as db:
         results = User.find_users_by_notification_count_greater_than(db, 200)
         for user in results:
             __logger.info(f"Unsubscribing user {user.username} due to max notification count")

@@ -1,3 +1,4 @@
+import os
 import re
 import sqlite3
 import typing
@@ -9,9 +10,10 @@ def regexp(expr, item):
 
 
 class Database(object):
-    def __init__(self, db: str):
-        self.__DB_LOCATION: str = db
-        self.__db_connection = sqlite3.connect(self.__DB_LOCATION)
+    def __init__(self):
+        if (os.environ.get('DATABASE') is None):
+            raise AttributeError("DATABASE env variable not set")
+        self.__db_connection = sqlite3.connect(os.environ.get('DATABASE'))
         self.__db_connection.create_function("REGEXP", 2, regexp)
         self.__db_cursor = None
 

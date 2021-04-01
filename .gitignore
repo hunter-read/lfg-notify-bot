@@ -1,5 +1,3 @@
-praw.ini
-/*.db*
 /*.sql
 /*log.txt
 /*.py

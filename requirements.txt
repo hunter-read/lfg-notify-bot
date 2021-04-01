@@ -1,4 +1,4 @@
-praw==7.1.0
+praw==7.2.0
 redis==3.5.3
 schedule==0.6.0
 pytest==6.1.2

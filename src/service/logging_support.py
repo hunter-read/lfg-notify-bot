@@ -1,16 +1,16 @@
 import logging
-import praw
+import os
 
 
-def init_logger(bot_name: str, reddit: praw.Reddit) -> logging.Logger:
-    logger = logging.getLogger(bot_name)
-    log_file = reddit.config.custom["log_file"]
-    log_level = reddit.config.custom[f"log_level_{bot_name}"]
+def init_logger() -> logging.Logger:
+    logger = logging.getLogger("lfg-notify-bot")
+    log_file = os.environ.get('LOG_FILE')
+    log_level = os.environ.get('LOG_LEVEL', logging.ERROR)
 
     hdlr = logging.FileHandler(log_file) if log_file else logging.StreamHandler()
-    str_format = "%(levelname)s:%(name)s:%(asctime)s: %(message)s" if log_file else "%(levelname)s: %(message)s"
+    str_format = "%(levelname)s:%(asctime)s: %(message)s"
     hdlr.setFormatter(logging.Formatter(str_format, "%Y-%m-%d %H:%M:%S"))
 
     logger.addHandler(hdlr)
-    logger.setLevel(log_level if log_level else logging.ERROR)
+    logger.setLevel(log_level)
     return logger

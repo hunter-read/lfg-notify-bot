@@ -10,7 +10,7 @@ from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_t
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
-__logger: Logger = init_logger("submission_bot", __reddit)
+__logger: Logger = init_logger()
 
 
 def read_submissions(db: Database):
@@ -78,12 +78,7 @@ def parse_submission(submission: praw.models.Submission, post: Post):
 
 def main():
     __logger.info("Starting submission bot")
-    database = __reddit.config.custom["database"]
-    if not database:
-        __logger.error("Database location not set. Exiting")
-        exit(1)
-
-    with Database(database) as db:
+    with Database() as db:
         while True:
             try:
                 read_submissions(db)
