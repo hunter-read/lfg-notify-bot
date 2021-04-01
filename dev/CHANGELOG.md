@@ -1,5 +1,9 @@
 # Weekly changelog
-This changelog will be updated weekly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
+This changelog will be updated monthly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
+
+## Version 1.2.2 - Jan 29th, 2020
+Bug fixes
+* Keyword filter moved to stable
 
 ## Version 1.2.1 - Dec 24th, 2020
 Squashed more bugs
