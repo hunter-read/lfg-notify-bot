@@ -4,6 +4,7 @@ COPY requirements.txt .
 
 # install dependencies to the local user directory (eg. /root/.local)
 RUN pip install --user -r requirements.txt
+RUN pip install pytest flake8
 
 # Run tests
 COPY src/ .
