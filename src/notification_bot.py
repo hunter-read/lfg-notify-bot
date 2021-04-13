@@ -16,6 +16,25 @@ __redis: Redis = Redis()
 __production: bool = os.environ.get('PROFILE') == "production"
 
 
+def parse_API_exception(err: praw.exceptions.RedditAPIException) -> int:
+    match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
+
+    if "RATELIMIT" in str(err) and match:
+        sleep_time = int(match.group(1)) + 1
+        if match.group(2) == "minute":
+            sleep_time = (sleep_time * 60)
+        if match.group(2) == "millisecond":
+            sleep_time = 1
+        __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
+        return sleep_time
+    elif "USER_DOESNT_EXIST" in str(err):
+        __logger.info("User does not exist")
+        return -1
+    else:
+        __logger.error(f"Api Error: {err}")
+        return 30
+
+
 def message_user(notification: Notification) -> int:
     if not __production:
         __logger.info(f"Recieved message for {notification.username}")
@@ -29,23 +48,8 @@ def message_user(notification: Notification) -> int:
         __logger.error(f"Error sending message to {notification.username}: {err}")
         return 0
 
-    except praw.exceptions.RedditAPIException as err:
-        match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
-
-        if "RATELIMIT" in str(err) and match:
-            sleep_time = int(match.group(1)) + 1
-            if match.group(2) == "minute":
-                sleep_time = (sleep_time * 60)
-            if match.group(2) == "millisecond":
-                sleep_time = 1
-            __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
-            return sleep_time
-        elif "USER_DOESNT_EXIST" in str(err):
-            __logger.info(f"User {notification.username} does exist")
-            return -1
-        else:
-            __logger.error(f"Api Error: {err}")
-            return 30
+    except praw.exceptions.RedditAPIException as error:
+        return parse_API_exception(error)
 
     except prawcore.exceptions.ServerError as err:
         __logger.error(f"Server Error: {err}")

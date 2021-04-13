@@ -51,7 +51,6 @@ class Notification(AbstractRedisObject):
 
 class Redis:
     def __init__(self):
-    
         self.__redis: redis.Redis = redis.Redis(host=os.environ.get('REDIS_HOST', 'localhost'))
 
     def push(self, data: AbstractRedisObject) -> None:

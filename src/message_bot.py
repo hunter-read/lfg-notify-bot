@@ -28,6 +28,47 @@ def read_messages(db: Database):
         time.sleep(2)
 
 
+def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> str:
+    game = parse_game(message.subject + ' ' + message.body)
+    if not game:
+        return MessageText.MISSING_GAME_REPLY
+    extra = ""
+
+    user.game = game
+    user.nsfw = is_nsfw(message.body)
+    user.day = parse_day(message.body)
+    user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
+    if user.flair and user.flair != Flair.DEFAULT.flag:
+        extra += f"- Flair (beta): {Flair.flag_to_str(user.flair)}  \n"
+
+    timezone = parse_timezone(message.body)
+    output = []
+    if timezone:
+        corrected = set([timezone_to_gmt(tz) for tz in timezone])
+        output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
+        user.timezone = corrected
+
+    keywords = find_all_keyword(message.body)
+    if keywords:
+        user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
+        extra += f"""- Keyword{'s' if len(keywords) > 1 else ''} (beta): "{'" or "'.join(keywords)}"  \n"""
+
+    user.save(db)
+
+    return ("You have been successfully subscribed to LFG Notify Bot.  \n"
+            "&nbsp;  \n"
+            "Your current settings are:  \n"
+            f"- Game{'s' if len(user.game) > 1 else ''}: {', '.join(user.game)}  \n"
+            f"- Timezone{'s' if output and len(output) > 1 else ''}: {', '.join(output) if output else 'None Input'}  \n"
+            f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
+            f"{extra}"
+            f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
+            "&nbsp;  \n"
+            "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
+            "&nbsp;  \n"
+            "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
+
+
 def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     user = User()
 
@@ -51,44 +92,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
         return MessageText.ERROR_REPLY
 
     elif re.search(r'(sub(?:scribe)?|notify|lfg(?!\spost))', message.subject, re.IGNORECASE) or parse_game(message.subject) or message.subject.endswith("devtesting"):
-        game = parse_game(full_message)
-        if not game:
-            return MessageText.MISSING_GAME_REPLY
-        extra = ""
-
-        user.game = game
-        user.nsfw = is_nsfw(message.body)
-        user.day = parse_day(message.body)
-        user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
-        if user.flair and user.flair != Flair.DEFAULT.flag:
-            extra += f"- Flair (beta): {Flair.flag_to_str(user.flair)}  \n"
-
-        timezone = parse_timezone(message.body)
-        output = []
-        if timezone:
-            corrected = set([timezone_to_gmt(tz) for tz in timezone])
-            output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
-            user.timezone = corrected
-
-        keywords = find_all_keyword(message.body)
-        if keywords:
-            user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
-            extra += f"""- Keyword{'s' if len(keywords) > 1 else ''} (beta): "{'" or "'.join(keywords)}"  \n"""
-
-        user.save(db)
-
-        return ("You have been successfully subscribed to LFG Notify Bot.  \n"
-                "&nbsp;  \n"
-                "Your current settings are:  \n"
-                f"- Game{'s' if len(user.game) > 1 else ''}: {', '.join(user.game)}  \n"
-                f"- Timezone{'s' if output and len(output) > 1 else ''}: {', '.join(output) if output else 'None Input'}  \n"
-                f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
-                f"{extra}"
-                f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
-                "&nbsp;  \n"
-                "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
-                "&nbsp;  \n"
-                "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
+        return handle_subscribe(db, user, message)
 
     else:
         return MessageText.UNKNOWN_MESSAGE_REPLY
