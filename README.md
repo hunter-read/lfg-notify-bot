@@ -1,7 +1,7 @@
 LFG Notify Bot
 =============================================================================
 
-# How to Use
+## How to Use
 [Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title "Subscribe" and in the body include the following:
 
 * Game (Required): Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags are not supported yet)
@@ -29,17 +29,17 @@ plw
 
 You can include as many games, timezones, or days of the week as you want and the bot will send you a message when someone posts a game looking for players that meets your criteria, but currently the bot only search for posts with [Online]. Days of week and timezone are optional, but if you do not provide this, then you may receive a multitude of messages (especially if you are looking for D&D 5e games).
 
-## Beta features
+### Beta features
 Note these features are new and not recommended if you want a consistent experience. If you use the features below, do so at your own risk, as you may receive incorrect notifications or not recieve notifications for posts that match your criteria.  
 *New features are in development, but I have been very busy in 2021.*
 
-# Purpose
+## Purpose
 This is a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.
 
-## Notes
+### Notes
 While this bot does it's best to parse a user post, due to inconsistencies in how people post, there is no guarantee that the data it collects is 100% accurate. While the bot does try it's best, the very nature of text parsing is difficult. I recommend if you subscribe to this bot, to read through any post it thinks is applicable to your settings. If you see a blatant issue, please add an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues), or send [u/Perfekthuntr](https://www.reddit.com/user/Perfekthuntr) a message on reddit and I will do my best to investigate. The bot will also try and note if the post is LGBTQ+ friendly, 18+/21+, or a One-Shot and provide the game times if possible, though results may vary.
 
-# FAQ
+## FAQ
 * **Q:** Why am I getting a notification so late after a post has been created?  
   **A:** Due to how reddit rate limits messages, the bot can currently only send 10 messages every 5 minutes. This limit changes with time and karma, which you, dear reader, can [improve by upvoting the bot a little](https://www.reddit.com/user/lfg_notify_bot).  
   
@@ -66,5 +66,5 @@ Or become a GM for a group, as the number of players overshadows the number of G
 * **Q:** You should make an app/website.  
   **A:** I can't do front-end ui design to save my life, unless you thought the early 90's internet looked amazing (also I hate javascript). Plus I like reddit and overall the lfg subreddit is full of good people.
   
-## License
+### License
 LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
