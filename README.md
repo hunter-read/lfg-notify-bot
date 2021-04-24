@@ -1,3 +1,6 @@
+LFG Notify Bot
+=============================================================================
+
 # How to Use
 [Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title "Subscribe" and in the body include the following:
 
