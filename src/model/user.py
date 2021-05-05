@@ -50,9 +50,9 @@ class User:
         params.append(self.flair)
 
         if self.online == 1:
-            query += "and online != -1"
+            query += "and online != -1 "
         else:
-            query += "and online != 1"
+            query += "and online != 1 "
 
         query += "order by notification_count asc"
         data = db.query(query, params)
