@@ -95,7 +95,7 @@ def test_subscribe_new_user(subject, body, reply_text, db_data):
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
+    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, 1, username])
     db.save.reset_mock()
     db.query.reset_mock()
 
@@ -117,6 +117,6 @@ def test_subscribe_existing_user(subject, body, reply_text, db_data):
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
+    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, 1, username])
     db.save.reset_mock()
     db.query.reset_mock()

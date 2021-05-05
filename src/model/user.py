@@ -71,11 +71,12 @@ class User:
         params.append(int(self.nsfw))
         params.append(self.keyword)
         params.append(self.flair)
+        params.append(self.online)
         params.append(self.username)
         if self.exists(db):
-            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", params)
+            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ? WHERE username = ?", params)
         else:
-            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", params)
+            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", params)
 
     def delete(self, db: Database) -> None:
         if self.username is not None:
