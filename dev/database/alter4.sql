@@ -1,0 +1,1 @@
+ALTER TABLE user ADD COLUMN online int NOT NULL DEFAULT 1;

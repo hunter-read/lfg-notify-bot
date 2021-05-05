@@ -1,5 +1,5 @@
 # Developer Info
-Currently made of 2 bots, one that reads incoming user messages and another that parses and notifies users on submissions. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
+Currently made of 4 bots, one that reads incoming user messages, another that parses submissions, a scheduled service bot, and one that reads from redis and sends out notifications. The user requests are stored in a simple Sqlite database as is some post information for fun data collection.
 
 ## Requirements
 ### Main Codebase
@@ -9,8 +9,10 @@ Currently made of 2 bots, one that reads incoming user messages and another that
 * schedule
 
 ### System requirements
-I have only tested this on Ubuntu and MacOS. Any other operating system may not be supported or have behavior issues.
-* [Redis](https://redis.io/topics/quickstart) is required on your system or docker container. The advantages of migrating to redis, is that app level restarts have less impact on production and allows me to easily decouple things.
+Docker
+Each bot can be run in a docker container with the `python3 [submission_bot|message_bot|scheduled_bot|notification_bot].py` CMD, using the dockerfile to build the image.
+Reccomend to run in a docker compose file with redis.
+
 
 ### Testing
 * pytest (`py.test`)

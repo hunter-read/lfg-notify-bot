@@ -8,7 +8,7 @@ import prawcore
 
 from model import Database, MessageText, User, Flair
 from service import init_logger
-from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, find_all_keyword, parse_flair
+from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, find_all_keyword, parse_flair, determine_online_or_offline
 
 
 __reddit: praw.Reddit = praw.Reddit("message")
@@ -38,8 +38,9 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     user.nsfw = is_nsfw(message.body)
     user.day = parse_day(message.body)
     user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
+
     if user.flair and user.flair != Flair.DEFAULT.flag:
-        extra += f"- Flair (beta): {Flair.flag_to_str(user.flair)}  \n"
+        extra += f"- Flair: {Flair.flag_to_str(user.flair)}  \n"
 
     timezone = parse_timezone(message.body)
     output = []
@@ -51,7 +52,9 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     keywords = find_all_keyword(message.body)
     if keywords:
         user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
-        extra += f"""- Keyword{'s' if len(keywords) > 1 else ''} (beta): "{'" or "'.join(keywords)}"  \n"""
+        extra += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
+
+    user.online = determine_online_or_offline(message.body)
 
     user.save(db)
 
@@ -63,6 +66,7 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
             f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
             f"{extra}"
             f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
+            f"{'Online ' if user.online != -1 else ''}{'and ' if user.online == 0 else ''}{'Offline ' if user.online != 1 else ''}games{' only' if user.online != 0 else ''}.  \n"
             "&nbsp;  \n"
             "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
             "&nbsp;  \n"

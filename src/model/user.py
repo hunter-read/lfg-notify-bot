@@ -23,6 +23,7 @@ class User:
         self.nsfw: bool = kwargs.get("nsfw", False)
         self.keyword: str = kwargs.get("keyword", None)
         self.flair: int = kwargs.get("flair", Flair.DEFAULT.value)
+        self.online: int = kwargs.get("online", 1)
 
     def find_users(self, db: Database) -> list:
         query = "SELECT username, keyword FROM user WHERE  "
@@ -47,6 +48,11 @@ class User:
 
         query += "and (flair & ?) > 0 "
         params.append(self.flair)
+
+        if self.online == 1:
+            query += "and online != -1"
+        else:
+            query += "and online != 1"
 
         query += "order by notification_count asc"
         data = db.query(query, params)
