@@ -66,7 +66,7 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
             f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
             f"{extra}"
             f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
-            f"{'Online ' if user.online != -1 else ''}{'and ' if user.online == 0 else ''}{'Offline ' if user.online != 1 else ''}games{' only' if user.online != 0 else ''}.  \n"
+            f"- {'Online ' if user.online != -1 else ''}{'and ' if user.online == 0 else ''}{'Offline ' if user.online != 1 else ''}games{' only' if user.online != 0 else ''}  \n"
             "&nbsp;  \n"
             "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
             "&nbsp;  \n"

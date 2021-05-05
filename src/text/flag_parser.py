@@ -33,7 +33,7 @@ def is_offline(text: str) -> bool:
 def determine_online_or_offline(text: str) -> int:
     match = re.search(r"=?off(line)?", text, re.IGNORECASE)
     if match:
-        if match[0] == '=':
+        if "=" in match[0]:
             return -1
         else:
             return 0
