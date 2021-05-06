@@ -6,7 +6,7 @@ import prawcore
 
 from model import Database, Post
 from service import init_logger, find_users_and_queue
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, is_online, is_lgbt, is_one_shot, age_limit, using_vtt, sort_days, is_play_by_post
+from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, is_online, is_offline, is_lgbt, is_one_shot, age_limit, using_vtt, sort_days, is_play_by_post
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
@@ -56,7 +56,16 @@ def parse_submission(submission: praw.models.Submission, post: Post):
     if post.flag:
         __logger.info(f"Flags:    {', '.join(post.flag)}")
 
-    post.online = is_online(submission.title)
+    post.online = 0
+    online = is_online(submission.title)
+    offline = is_offline(submission.title)
+    if online or offline:
+        if online:
+            post.online += 1
+        if offline:
+            post.online -= 1
+    else:
+        post.online = -9
 
     timezone = parse_timezone(fulltext)
     if timezone:

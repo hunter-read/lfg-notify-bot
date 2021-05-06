@@ -51,7 +51,7 @@ class User:
 
         if self.online == 1:
             query += "and online != -1 "
-        else:
+        elif self.online == -1:
             query += "and online != 1 "
 
         query += "order by notification_count asc"
