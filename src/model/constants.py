@@ -60,3 +60,28 @@ class Flair(Enum):
     @property
     def regex_str(self) -> str:
         return escape(self.string)
+
+
+class VTT(Enum):
+    DEFAULT = (0, None)
+    ROLL20 = (1, "Roll20")
+    FANTASY = (2, "Fantasy Grounds")
+    TABLETOP_SIM = (4, "TableTop Simulator")
+    FOUNDRY = (8, "Foundry VTT")
+
+    def __init__(self, flag: int, string: str):
+        self.flag = flag
+        self.string = string
+
+    @classmethod
+    def flag_to_str(cls, flag) -> str:
+        strings = []
+        flag & cls.ROLL20.flag and strings.append(cls.ROLL20.string)
+        flag & cls.FANTASY.flag and strings.append(cls.FANTASY.string)
+        flag & cls.TABLETOP_SIM.flag and strings.append(cls.TABLETOP_SIM.string)
+        flag & cls.FOUNDRY.flag and strings.append(cls.FOUNDRY.string)
+        return ", ".join(strings)
+
+    @property
+    def regex_str(self) -> str:
+        return escape(self.string)
