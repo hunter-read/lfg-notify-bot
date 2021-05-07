@@ -89,12 +89,13 @@ def test_subscribe_new_user(subject, body, reply_text, db_data):
                                                    f"- Timezone: {reply_text[1]}  \n"
                                                    f"- Day of the week: {reply_text[2]}  \n"
                                                    f"- Include NSFW: {reply_text[3]}  \n"
+                                                   "- Online games only  \n"
                                                    "&nbsp;  \n"
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
+    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, 1, username])
     db.save.reset_mock()
     db.query.reset_mock()
 
@@ -110,11 +111,12 @@ def test_subscribe_existing_user(subject, body, reply_text, db_data):
                                                    f"- Timezone: {reply_text[1]}  \n"
                                                    f"- Day of the week: {reply_text[2]}  \n"
                                                    f"- Include NSFW: {reply_text[3]}  \n"
+                                                   "- Online games only  \n"
                                                    "&nbsp;  \n"
                                                    "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
                                                    "&nbsp;  \n"
                                                    "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, username])
+    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], None, 3, 1, username])
     db.save.reset_mock()
     db.query.reset_mock()

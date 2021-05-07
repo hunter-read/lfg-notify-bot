@@ -30,6 +30,16 @@ def is_offline(text: str) -> bool:
     return bool(text and re.search(r"offline", text, re.IGNORECASE))
 
 
+def determine_online_or_offline(text: str) -> int:
+    match = re.search(r"=?off(line)?", text, re.IGNORECASE)
+    if match:
+        if "=" in match[0]:
+            return -1
+        else:
+            return 0
+    return 1
+
+
 def is_lgbt(text: str) -> bool:
     return bool(text and re.search(r"lgbtq?[+]?", text, re.IGNORECASE))
 

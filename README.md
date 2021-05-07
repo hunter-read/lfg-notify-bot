@@ -30,8 +30,8 @@ plw
 You can include as many games, timezones, or days of the week as you want and the bot will send you a message when someone posts a game looking for players that meets your criteria, but currently the bot only search for posts with [Online]. Days of week and timezone are optional, but if you do not provide this, then you may receive a multitude of messages (especially if you are looking for D&D 5e games).
 
 ### Beta features
-Note these features are new and not recommended if you want a consistent experience. If you use the features below, do so at your own risk, as you may receive incorrect notifications or not recieve notifications for posts that match your criteria.  
-*New features are in development, but I have been very busy in 2021.*
+Note these features are new and not recommended if you want a consistent experience. If you use the features below, **do so at your own risk**. You may receive incorrect notifications, or not recieve notifications for posts that match your criteria. This stuff is in testing and I guarantee nothing.   
+* Offline: By default the bot only looks for online games, but now you can include `offline` to include offline games as well as online, or `=offline` for offline games only. Or use the handy abbreviations `off` and `=off` respectively. This can be included with keyword searching `[Seattle] [Washington] [WA] [Tacoma]`.
 
 ## Purpose
 This is a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.

@@ -18,7 +18,7 @@ class Post:
             post.timezone = set(result[7].split(',')) if result[7] else None
             post.flag = result[8].split(',') if result[8] else None
             post.time = result[9]
-            post.online = bool(result[10])
+            post.online = result[10]
             post.nsfw = bool(result[11])
             post.permalink = result[12]
             posts.append(post)
@@ -45,7 +45,7 @@ class Post:
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
         self.flag: typing.List[str] = kwargs.get("flag", [])
         self.time: str = kwargs.get("time", None)
-        self.online: bool = kwargs.get("online", False)
+        self.online: int = kwargs.get("online", -9)
         self.nsfw: bool = kwargs.get("nsfw", False)
         self.permalink: str = kwargs.get("permalink", None)
 
@@ -64,7 +64,7 @@ class Post:
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.flag) if self.flag else None)
         params.append(self.time)
-        params.append(int(self.online))
+        params.append(self.online)
         params.append(int(self.nsfw))
         params.append(self.permalink)
         db.save("INSERT INTO post (submission_id, flair, game, day, timezone, flag, time, online, nsfw, permalink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)

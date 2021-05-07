@@ -23,6 +23,7 @@ class User:
         self.nsfw: bool = kwargs.get("nsfw", False)
         self.keyword: str = kwargs.get("keyword", None)
         self.flair: int = kwargs.get("flair", Flair.DEFAULT.value)
+        self.online: int = kwargs.get("online", 1)
 
     def find_users(self, db: Database) -> list:
         query = "SELECT username, keyword FROM user WHERE  "
@@ -48,6 +49,11 @@ class User:
         query += "and (flair & ?) > 0 "
         params.append(self.flair)
 
+        if self.online == 1:
+            query += "and online != -1 "
+        elif self.online == -1:
+            query += "and online != 1 "
+
         query += "order by notification_count asc"
         data = db.query(query, params)
         if data:
@@ -65,11 +71,12 @@ class User:
         params.append(int(self.nsfw))
         params.append(self.keyword)
         params.append(self.flair)
+        params.append(self.online)
         params.append(self.username)
         if self.exists(db):
-            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ? WHERE username = ?", params)
+            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ? WHERE username = ?", params)
         else:
-            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, username) VALUES (?, ?, ?, ?, ?, ?, ?)", params)
+            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", params)
 
     def delete(self, db: Database) -> None:
         if self.username is not None:

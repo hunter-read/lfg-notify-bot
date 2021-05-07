@@ -11,6 +11,7 @@ def __build_user_search(post: Post) -> User:
     user_search.game = post.game
     user_search.timezone = post.timezone
     user_search.day = post.day
+    user_search.online = post.online
     user_search.flair = parse_flair(post.flair)
     if post.nsfw:
         user_search.nsfw = 1
@@ -36,8 +37,8 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
 
     if not post.flair:
         return "Missing flair"
-    if not post.online:
-        return "Missing online"
+    if post.online == -9:
+        return "Missing online or offline"
     if not post.game:
         return "Missing or invalid game"
 
@@ -49,6 +50,9 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
 
     if post.nsfw:
         post.flag.append("NSFW")
+
+    if not post.online:
+        post.flag.append("Offline")
 
     notification = Notification()
     notification.subject = MessageText.SUBMISSION_NOTIFICATION_SUBJECT

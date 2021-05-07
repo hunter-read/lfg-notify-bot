@@ -1,6 +1,6 @@
 import pytest
 
-from text.flag_parser import using_vtt, parse_flair
+from text.flag_parser import using_vtt, parse_flair, determine_online_or_offline
 
 
 vtt_data = [
@@ -41,3 +41,18 @@ flair_data = [
 @pytest.mark.parametrize("text,result", flair_data)
 def test_parse_flair(text, result):
     assert parse_flair(text) == result
+
+
+message_on_off_data = [
+    ("Hello World!", 1),
+    ("offline", 0),
+    ("off", 0),
+    ("OFFLINE", 0),
+    ("=offline", -1),
+    ("=off", -1)
+]
+
+
+@pytest.mark.parametrize("text,result", message_on_off_data)
+def test_determine_on_offline(text, result):
+    assert determine_online_or_offline(text) == result
