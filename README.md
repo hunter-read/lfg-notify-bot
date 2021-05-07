@@ -32,6 +32,18 @@ You can include as many games, timezones, or days of the week as you want and th
 ### Beta features
 Note these features are new and not recommended if you want a consistent experience. If you use the features below, **do so at your own risk**. You may receive incorrect notifications, or not recieve notifications for posts that match your criteria. This stuff is in testing and I guarantee nothing.   
 * Offline: By default the bot only looks for online games, but now you can include `offline` to include offline games as well as online, or `=offline` for offline games only. Or use the handy abbreviations `off` and `=off` respectively. This can be included with keyword searching `[Seattle] [Washington] [WA] [Tacoma]`.
+* Special Flags: These flags can use a special character to exclude (`-`) on a tag filter. So for a person looking for exclusively play by post games, they can include `pbp` and a person who wants to exclude play by post games would use `-pbp`. Supported options:
+  * Play by Post: `pbp` and `-pbp`
+  * One-Shot: `oneshot` and `-oneshot`
+  * VTT Type (Note these all exclude `-` indicator):
+    * Roll20: `roll20` or `r20`
+    * Fantasy Grounds: `fg`
+    * TableTop Simulator: `tts`
+    * Foundry VTT: `foundry` or `fvtt`
+    * Want to add another VTT? [Message me](https://www.reddit.com/user/Perfekthuntr)
+* Other options:
+  * LGBTQ+: Include only posts that explicitly mention `lgbtq` 
+  * Any age, 18+, or 21+: `anyage` searches for posts with no given age limit. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well)
 
 ## Purpose
 This is a bot that aims to make using r/lfg easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to stalk the subreddit, it can be difficult to find a game. So I am here to help with that endeavor.
