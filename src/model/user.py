@@ -25,7 +25,7 @@ class User:
         self.flair: int = kwargs.get("flair", Flair.DEFAULT.flag)
         self.online: int = kwargs.get("online", Location.ONLINE.value)
         self.play_by_post: int = kwargs.get("play_by_post", PlayByPost.INCLUDE.value)
-        self.play_by_post: int = kwargs.get("one_shot", OneShot.INCLUDE.value)
+        self.one_shot: int = kwargs.get("one_shot", OneShot.INCLUDE.value)
         self.lgbtq: int = kwargs.get("lfbtq", Lgbtq.INCLUDE.value)
         self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)

@@ -2,7 +2,7 @@ LFG Notify Bot
 =============================================================================
 
 ## How to Use
-[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot)  with the title **"Subscribe"** and in the body include the following information:
+[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the title **"Subscribe"** and in the body include the following information:
 
 | Information | Example | Description |
 | --- | --- | --- |
@@ -40,7 +40,7 @@ or
 | *Age* (Beta) | `anyage`, `18+`, or `21+` | `anyage` searches for posts with no given age limit. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
 | *Play by Post* (Beta) | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
 | *One-shot* (Beta) | Only: `=oneshot`<br/> Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
-| *Virtual Table Top* (Beta) | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/user/Perfekthuntr) |
+| *Virtual Table Top* (Beta) | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
 
 
 ## Advanced Example message body
