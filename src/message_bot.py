@@ -37,7 +37,7 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     flags = parse_message_flags(message.body)
     user.online = flags.get("location")
     user.nsfw = flags.get("nsfw")
-    user.play_by_post = flags.get("pbp")
+    user.play_by_post = flags.get("play_by_post")
     user.one_shot = flags.get("one_shot")
     user.lgbtq = flags.get("lgbtq")
     user.age_limit = flags.get("age_limit")

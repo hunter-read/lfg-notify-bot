@@ -45,7 +45,7 @@ def parse_submission(submission: praw.models.Submission, post: Post):
     post.nsfw = int(submission.over_18)
 
     flags = parse_submission_flags(fulltext)
-    post.play_by_post = flags.get("pbb")
+    post.play_by_post = flags.get("play_by_post")
     post.one_shot = flags.get("one_shot")
     post.lgbtq = flags.get("lgbtq")
     post.age_limit = flags.get("age_limit")

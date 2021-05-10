@@ -71,7 +71,7 @@ def parse_message_flags(text) -> dict:
     flags = {
         "location": Location.ONLINE,
         "nsfw": Nsfw.EXCLUDE,
-        "pbp": PlayByPost.INCLUDE,
+        "play_by_post": PlayByPost.INCLUDE,
         "one_shot": OneShot.INCLUDE,
         "lgbtq": Lgbtq.INCLUDE,
         "age_limit": AgeLimit.NONE,
@@ -87,7 +87,7 @@ def parse_message_flags(text) -> dict:
         flags["nsfw"] = Nsfw.ONLY if match.group(0).startswith("=") else Nsfw.INCLUDE
 
     if pbp_match := re.search(rf"\-?{__play_by_post}", text, re.IGNORECASE):
-        flags["pbp"] = PlayByPost.EXCLUDE if pbp_match.group(0).startswith("-") else PlayByPost.ONLY
+        flags["play_by_post"] = PlayByPost.EXCLUDE if pbp_match.group(0).startswith("-") else PlayByPost.ONLY
 
     if os_match := re.search(rf"\-?{__one_shot}", text, re.IGNORECASE):
         flags["one_shot"] = OneShot.EXCLUDE if os_match.group(0).startswith("-") else OneShot.ONLY
@@ -102,7 +102,7 @@ def parse_message_flags(text) -> dict:
 
 def parse_submission_flags(text) -> dict:
     flags = {
-        "pbp": False,
+        "play_by_post": False,
         "one_shot": False,
         "lgbtq": False,
         "age_limit": AgeLimit.NONE,
@@ -112,7 +112,7 @@ def parse_submission_flags(text) -> dict:
     if not text:
         return flags
 
-    flags["pbp"] = bool(re.search(rf"{__play_by_post}", text, re.IGNORECASE))
+    flags["play_by_post"] = bool(re.search(rf"{__play_by_post}", text, re.IGNORECASE))
     flags["one_shot"] = bool(re.search(rf"{__one_shot}", text, re.IGNORECASE))
     flags["lgbtq"] = bool(re.search(rf"{__lgbt}", text, re.IGNORECASE))
     flags["age_limit"] = __age_limit(text)

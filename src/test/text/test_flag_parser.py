@@ -76,7 +76,7 @@ def test_parse_message_flags(text, location, nsfw, pbp, os, lgbtq, age_limit, vt
     result = parse_message_flags(text)
     assert result.get("location") == location
     assert result.get("nsfw") == nsfw
-    assert result.get("pbp") == pbp
+    assert result.get("play_by_post") == pbp
     assert result.get("one_shot") == os
     assert result.get("lgbtq") == lgbtq
     assert result.get("age_limit") == age_limit
