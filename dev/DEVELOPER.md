@@ -3,7 +3,7 @@ Currently made of 4 bots, one that reads incoming user messages, another that pa
 
 ## Requirements
 ### Main Codebase
-* python 3.7+
+* python 3.8+
 * praw
 * redis
 * schedule
@@ -11,7 +11,7 @@ Currently made of 4 bots, one that reads incoming user messages, another that pa
 ### System requirements
 Docker
 Each bot can be run in a docker container with the `python3 [submission_bot|message_bot|scheduled_bot|notification_bot].py` CMD, using the dockerfile to build the image.
-Reccomend to run in a docker compose file with redis.
+Reccomend to run in a docker compose file with redis. Also needs to connect to a redis instance, either in a docker container or on the host machine.
 
 
 ### Testing

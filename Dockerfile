@@ -14,7 +14,7 @@ ENV DATABASE=/code/lfg_tables.db
 ENV PROFILE=development
 RUN python3 -m pytest
 RUN python3 -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-RUN python3 -m flake8 . --count --max-complexity=10  --statistics --ignore=E501
+RUN python3 -m flake8 . --count --max-complexity=20  --statistics --ignore=E501
 
 # second unnamed stage
 FROM python:3.9-slim

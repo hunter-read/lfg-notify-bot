@@ -1,7 +1,22 @@
 # Weekly changelog
 This changelog will be updated monthly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
 
-## Version 1.2.2 - Jan 29th, 2020
+
+
+## Version 1.4.0 - April 13th, 2021
+Added a host of new features for beta testing.
+* Added offline support.
+* Added pbp, vtt, and other flag support.
+* Notification bot fixes.
+* Refactored Readme to improve readability.
+* Upgrade to python 3.8+ (3.7 no longer supported)
+
+## Version 1.3.0 - April 13th, 2021
+This is an internal set of changes for ease of my life.
+* Added docker support
+* Updated some environment support.
+
+## Version 1.2.2 - Jan 29th, 2021
 Bug fixes
 * Keyword filter moved to stable
 

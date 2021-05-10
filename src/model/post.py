@@ -1,5 +1,6 @@
 import typing
 
+from .constants import Location, AgeLimit, Vtt
 from .database import Database
 
 
@@ -16,11 +17,16 @@ class Post:
             post.game = set(result[5].split(',')) if result[5] else None
             post.day = set(result[6].split(',')) if result[6] else None
             post.timezone = set(result[7].split(',')) if result[7] else None
-            post.flag = result[8].split(',') if result[8] else None
-            post.time = result[9]
-            post.online = result[10]
-            post.nsfw = bool(result[11])
-            post.permalink = result[12]
+            post.time = result[8]
+            post.online = result[9]
+            post.nsfw = bool(result[10])
+            post.permalink = result[11]
+            post.play_by_post = bool(result[12])
+            post.one_shot = bool(result[13])
+            post.lgbtq = bool(result[14])
+            post.age_limit = result[15]
+            post.vtt = result[16]
+
             posts.append(post)
         return posts
 
@@ -43,11 +49,15 @@ class Post:
         self.game: typing.Set[str] = kwargs.get("game", set())
         self.day: typing.Set[str] = kwargs.get("day", set())
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
-        self.flag: typing.List[str] = kwargs.get("flag", [])
         self.time: str = kwargs.get("time", None)
-        self.online: int = kwargs.get("online", -9)
+        self.online: int = kwargs.get("online", Location.NONE)
         self.nsfw: bool = kwargs.get("nsfw", False)
         self.permalink: str = kwargs.get("permalink", None)
+        self.play_by_post: bool = kwargs.get("play_by_post", False)
+        self.one_shot: bool = kwargs.get("one_shot", False)
+        self.lgbtq: bool = kwargs.get("lgbtq", False)
+        self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE)
+        self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
     def exists(self, db: Database) -> bool:
         return bool(db.query("SELECT EXISTS (SELECT id FROM post WHERE submission_id = ?)", [self.submission_id])[0][0])
@@ -62,9 +72,25 @@ class Post:
         params.append(','.join(self.game) if self.game else None)
         params.append(','.join(self.day) if self.day else None)
         params.append(','.join(self.timezone) if self.timezone else None)
-        params.append(','.join(self.flag) if self.flag else None)
         params.append(self.time)
         params.append(self.online)
         params.append(int(self.nsfw))
         params.append(self.permalink)
-        db.save("INSERT INTO post (submission_id, flair, game, day, timezone, flag, time, online, nsfw, permalink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+        params.append(int(self.play_by_post))
+        params.append(int(self.one_shot))
+        params.append(int(self.lgbtq))
+        params.append(self.age_limit)
+        params.append(self.vtt)
+        db.save("INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+
+    def flags_as_string_list(self) -> list:
+        flags = []
+        not self.online and flags.append("Offline")
+        self.nsfw and flags.append("Nsfw")
+        self.play_by_post and flags.append("Play-by-Post")
+        self.one_shot and flags.append("One-Shot")
+        self.lgbtq and flags.append("LGBTQ+")
+        if limit := AgeLimit.tostring(self.age_limit) is not None:
+            flags.append(limit)
+        flags.extend(Vtt.flag_to_str_array(self.vtt))
+        return flags
