@@ -93,7 +93,7 @@ def test_subscribe_new_user(subject, body, reply_text, db_data):
                            "&nbsp;  \n"
                            "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, play_by_post, one_shot, lgbtq, age_limit, vtt, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], db_data[3], db_data[4], db_data[5], db_data[6], db_data[7], db_data[8], db_data[9], db_data[10], db_data[11], username])
+    db.save.assert_called_with("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, play_by_post, one_shot, lgbtq, age_limit, vtt, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [db_data[0], db_data[1], db_data[2], int(db_data[3]), db_data[4], db_data[5], int(db_data[6]), int(db_data[7]), int(db_data[8]), int(db_data[9]), int(db_data[10]), db_data[11], username])
     db.save.reset_mock()
     db.query.reset_mock()
 
@@ -104,6 +104,6 @@ def test_subscribe_existing_user(subject, body, reply_text, db_data):
     message = Message(None, {"id": "12345", "author": testUser, "subject": subject, "body": body, "was_comment": False})
     parse_incoming_message(db, message)
     db.query.assert_any_call("SELECT EXISTS (SELECT id FROM user WHERE username = ?)", [username])
-    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ?, play_by_post = ?, one_shot = ?, lgbtq = ?, age_limit = ?, vtt = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], db_data[3], db_data[4], db_data[5], db_data[6], db_data[7], db_data[8], db_data[9], db_data[10], db_data[11], username])
+    db.save.assert_called_with("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ?, play_by_post = ?, one_shot = ?, lgbtq = ?, age_limit = ?, vtt = ? WHERE username = ?", [db_data[0], db_data[1], db_data[2], int(db_data[3]), db_data[4], db_data[5], int(db_data[6]), int(db_data[7]), int(db_data[8]), int(db_data[9]), int(db_data[10]), db_data[11], username])
     db.save.reset_mock()
     db.query.reset_mock()

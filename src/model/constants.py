@@ -89,11 +89,17 @@ class Location(Enum):
     OFFLINE = -1
     NONE = -9
 
+    def __int__(self):
+        return self.value
+
 
 class Nsfw(Enum):
     EXCLUDE = -1
     INCLUDE = 0
     ONLY = 1
+
+    def __int__(self):
+        return self.value
 
 
 class PlayByPost(Enum):
@@ -101,16 +107,25 @@ class PlayByPost(Enum):
     INCLUDE = 0
     ONLY = 1
 
+    def __int__(self):
+        return self.value
+
 
 class OneShot(Enum):
     EXCLUDE = -1
     INCLUDE = 0
     ONLY = 1
 
+    def __int__(self):
+        return self.value
+
 
 class Lgbtq(Enum):
     INCLUDE = 0
     ONLY = 1
+
+    def __int__(self):
+        return self.value
 
 
 class AgeLimit(Enum):
@@ -118,6 +133,9 @@ class AgeLimit(Enum):
     NONE = 0
     OVER_18 = 18
     OVER_21 = 21
+
+    def __int__(self):
+        return self.value
 
     @classmethod
     def tostring(cls, val):

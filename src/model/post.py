@@ -50,13 +50,13 @@ class Post:
         self.day: typing.Set[str] = kwargs.get("day", set())
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
         self.time: str = kwargs.get("time", None)
-        self.online: int = kwargs.get("online", Location.NONE)
+        self.online: int = kwargs.get("online", Location.NONE.value)
         self.nsfw: bool = kwargs.get("nsfw", False)
         self.permalink: str = kwargs.get("permalink", None)
         self.play_by_post: bool = kwargs.get("play_by_post", False)
         self.one_shot: bool = kwargs.get("one_shot", False)
         self.lgbtq: bool = kwargs.get("lgbtq", False)
-        self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE)
+        self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
     def exists(self, db: Database) -> bool:
@@ -73,14 +73,14 @@ class Post:
         params.append(','.join(self.day) if self.day else None)
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(self.time)
-        params.append(self.online)
+        params.append(int(self.online))
         params.append(int(self.nsfw))
         params.append(self.permalink)
         params.append(int(self.play_by_post))
         params.append(int(self.one_shot))
         params.append(int(self.lgbtq))
-        params.append(self.age_limit)
-        params.append(self.vtt)
+        params.append(int(self.age_limit))
+        params.append(int(self.vtt))
         db.save("INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
 
     def flags_as_string_list(self) -> list:

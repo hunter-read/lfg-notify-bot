@@ -20,14 +20,14 @@ class User:
         self.game: typing.Set[str] = kwargs.get("game", set())
         self.day: typing.Set[str] = kwargs.get("day", set())
         self.timezone: typing.Set[str] = kwargs.get("timezone", set())
-        self.nsfw: int = kwargs.get("nsfw", Nsfw.EXCLUDE)
+        self.nsfw: int = kwargs.get("nsfw", Nsfw.EXCLUDE.value)
         self.keyword: str = kwargs.get("keyword", None)
-        self.flair: int = kwargs.get("flair", Flair.DEFAULT.value)
-        self.online: int = kwargs.get("online", Location.ONLINE)
-        self.play_by_post: int = kwargs.get("play_by_post", PlayByPost.INCLUDE)
-        self.play_by_post: int = kwargs.get("one_shot", OneShot.INCLUDE)
-        self.lgbtq: int = kwargs.get("lfbtq", Lgbtq.INCLUDE)
-        self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE)
+        self.flair: int = kwargs.get("flair", Flair.DEFAULT.flag)
+        self.online: int = kwargs.get("online", Location.ONLINE.value)
+        self.play_by_post: int = kwargs.get("play_by_post", PlayByPost.INCLUDE.value)
+        self.play_by_post: int = kwargs.get("one_shot", OneShot.INCLUDE.value)
+        self.lgbtq: int = kwargs.get("lfbtq", Lgbtq.INCLUDE.value)
+        self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
     def find_users(self, db: Database) -> list:
@@ -37,9 +37,9 @@ class User:
         params = [f"%{game}%" for game in self.game]
 
         if bool(self.nsfw):
-            query += f"and nsfw != {Nsfw.EXCLUDE} "
+            query += f"and nsfw != {Nsfw.EXCLUDE.value} "
         else:
-            query += f"and nsfw != {Nsfw.ONLY} "
+            query += f"and nsfw != {Nsfw.ONLY.value} "
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
@@ -57,29 +57,29 @@ class User:
         params.append(self.flair)
 
         if self.online == Location.ONLINE:
-            query += f"and online != {Location.OFFLINE} "
+            query += f"and online != {Location.OFFLINE.value} "
         elif self.online == Location.OFFLINE:
-            query += f"and online != {Location.ONLINE} "
+            query += f"and online != {Location.ONLINE.value} "
 
         if bool(self.play_by_post):
-            query += f"and play_by_post != {PlayByPost.EXCLUDE} "
+            query += f"and play_by_post != {PlayByPost.EXCLUDE.value} "
         else:
-            query += f"and play_by_post != {PlayByPost.ONLY} "
+            query += f"and play_by_post != {PlayByPost.ONLY.value} "
 
         if bool(self.one_shot):
-            query += f"and one_shot != {OneShot.EXCLUDE} "
+            query += f"and one_shot != {OneShot.EXCLUDE.value} "
         else:
-            query += f"and one_shot != {OneShot.ONLY} "
+            query += f"and one_shot != {OneShot.ONLY.value} "
 
         if not bool(self.lgbtq):
-            query += f"and lgbtq != {Lgbtq.ONLY} "
+            query += f"and lgbtq != {Lgbtq.ONLY.value} "
 
         if self.age_limit == AgeLimit.NONE:
-            query += f"and age_limit <= {AgeLimit.NONE} "
+            query += f"and age_limit <= {AgeLimit.NONE.value} "
         elif self.age_limit == AgeLimit.OVER_18:
-            query += f"and age_limit >= {AgeLimit.NONE} "
+            query += f"and age_limit >= {AgeLimit.NONE.value} "
         elif self.age_limit == AgeLimit.OVER_21:
-            query += f"and (age_limit = {AgeLimit.NONE} or age_limit = {AgeLimit.OVER_21}) "
+            query += f"and (age_limit = {AgeLimit.NONE.value} or age_limit = {AgeLimit.OVER_21.value}) "
 
         if self.vtt:
             query += "and (vtt & ?) > 0 "
@@ -99,14 +99,14 @@ class User:
         params.append(','.join(self.game))
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(','.join(self.day) if self.day else None)
-        params.append(self.nsfw)
+        params.append(int(self.nsfw))
         params.append(self.keyword)
         params.append(self.flair)
-        params.append(self.online)
-        params.append(self.play_by_post)
-        params.append(self.one_shot)
-        params.append(self.lgbtq)
-        params.append(self.age_limit)
+        params.append(int(self.online))
+        params.append(int(self.play_by_post))
+        params.append(int(self.one_shot))
+        params.append(int(self.lgbtq))
+        params.append(int(self.age_limit))
         params.append(self.vtt)
         params.append(self.username)
 
