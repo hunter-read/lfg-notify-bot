@@ -42,16 +42,15 @@ def parse_submission(submission: praw.models.Submission, post: Post):
 
     post.flair = submission.link_flair_text
     post.permalink = submission.permalink
-    post.nsfw = int(submission.over_18)
+    post.nsfw = submission.over_18
 
     flags = parse_submission_flags(fulltext)
+    print(flags)
     post.play_by_post = flags.get("play_by_post")
     post.one_shot = flags.get("one_shot")
     post.lgbtq = flags.get("lgbtq")
     post.age_limit = flags.get("age_limit")
     post.vtt = flags.get("vtt")
-
-    __logger.info(f"Flags:    {', '.join(post.flags_as_string_list())}")
 
     post.online = parse_location(submission.title)
 
@@ -71,6 +70,8 @@ def parse_submission(submission: praw.models.Submission, post: Post):
     if start_time:
         post.time = f"{start_time} - {end_time}" if end_time else start_time
         __logger.info(f"Time:     {post.time}")
+
+    __logger.info(f"Flags:    {', '.join(post.flags_as_string_list())}")
 
 
 def main():

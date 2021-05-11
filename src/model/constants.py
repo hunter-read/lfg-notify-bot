@@ -139,10 +139,10 @@ class AgeLimit(Enum):
 
     @classmethod
     def tostring(cls, val: int) -> str:
-        if val == cls.ANY_AGE:
+        if val == cls.ANY_AGE.value:
             return "No age limit"
-        if val == cls.OVER_18:
+        if val == cls.OVER_18.value:
             return "18+"
-        if val == cls.OVER_21:
+        if val == cls.OVER_21.value:
             return "21+"
         return None

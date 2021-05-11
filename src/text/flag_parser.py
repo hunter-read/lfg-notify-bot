@@ -28,12 +28,12 @@ def __age_limit(text: str) -> str:
     match = re.search(r"(((18|19|20|21)[+])|anyage)", text, re.IGNORECASE)
     if match:
         if match.group(1).startswith("18"):
-            return AgeLimit.OVER_18
+            return AgeLimit.OVER_18.value
         elif match.group(1).lower() == "anyage":
-            return AgeLimit.ANY_AGE
+            return AgeLimit.ANY_AGE.value
         else:
-            return AgeLimit.OVER_21
-    return AgeLimit.NONE
+            return AgeLimit.OVER_21.value
+    return AgeLimit.NONE.value
 
 
 def parse_flair(text: str) -> int:
@@ -53,46 +53,46 @@ def parse_flair(text: str) -> int:
 
 def parse_location(text: str) -> int:
     if not text:
-        return Location.NONE
+        return Location.NONE.value
 
     online = re.search(r"online", text, re.IGNORECASE)
     offline = re.search(r"offline", text, re.IGNORECASE)
     if online and offline:
-        return Location.ONLINE_AND_OFFLINE
+        return Location.ONLINE_AND_OFFLINE.value
     elif online:
-        return Location.ONLINE
+        return Location.ONLINE.value
     elif offline:
-        return Location.OFFLINE
+        return Location.OFFLINE.value
 
-    return Location.NONE
+    return Location.NONE.value
 
 
 def parse_message_flags(text) -> dict:
     flags = {
-        "location": Location.ONLINE,
-        "nsfw": Nsfw.EXCLUDE,
-        "play_by_post": PlayByPost.INCLUDE,
-        "one_shot": OneShot.INCLUDE,
-        "lgbtq": Lgbtq.INCLUDE,
-        "age_limit": AgeLimit.NONE,
+        "location": Location.ONLINE.value,
+        "nsfw": Nsfw.EXCLUDE.value,
+        "play_by_post": PlayByPost.INCLUDE.value,
+        "one_shot": OneShot.INCLUDE.value,
+        "lgbtq": Lgbtq.INCLUDE.value,
+        "age_limit": AgeLimit.NONE.value,
         "vtt": Vtt.NONE.flag
     }
     if not text:
         return flags
 
     if match := re.search(r"=?off(line)?", text, re.IGNORECASE):
-        flags["location"] = Location.OFFLINE if match.group(0).startswith("=") else Location.ONLINE_AND_OFFLINE
+        flags["location"] = (Location.OFFLINE if match.group(0).startswith("=") else Location.ONLINE_AND_OFFLINE).value
 
     if match := re.search(r"=?nsfw", text, re.IGNORECASE):
-        flags["nsfw"] = Nsfw.ONLY if match.group(0).startswith("=") else Nsfw.INCLUDE
+        flags["nsfw"] = (Nsfw.ONLY if match.group(0).startswith("=") else Nsfw.INCLUDE).value
 
     if pbp_match := re.search(rf"\-?{__play_by_post}", text, re.IGNORECASE):
-        flags["play_by_post"] = PlayByPost.EXCLUDE if pbp_match.group(0).startswith("-") else PlayByPost.ONLY
+        flags["play_by_post"] = (PlayByPost.EXCLUDE if pbp_match.group(0).startswith("-") else PlayByPost.ONLY).value
 
     if os_match := re.search(rf"\-?{__one_shot}", text, re.IGNORECASE):
-        flags["one_shot"] = OneShot.EXCLUDE if os_match.group(0).startswith("-") else OneShot.ONLY
+        flags["one_shot"] = (OneShot.EXCLUDE if os_match.group(0).startswith("-") else OneShot.ONLY).value
 
-    flags["lgbtq"] = Lgbtq.ONLY if re.search(rf"{__lgbt}", text, re.IGNORECASE) else Lgbtq.INCLUDE
+    flags["lgbtq"] = (Lgbtq.ONLY if re.search(rf"{__lgbt}", text, re.IGNORECASE) else Lgbtq.INCLUDE).value
 
     flags["age_limit"] = __age_limit(text)
     flags["vtt"] = __using_vtt(text)
@@ -105,8 +105,8 @@ def parse_submission_flags(text) -> dict:
         "play_by_post": False,
         "one_shot": False,
         "lgbtq": False,
-        "age_limit": AgeLimit.NONE,
-        "vtt": Vtt.NONE
+        "age_limit": AgeLimit.NONE.value,
+        "vtt": Vtt.NONE.value
     }
 
     if not text:

@@ -52,7 +52,10 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
         user.timezone = corrected
 
-    flag_string = f"- Including {'Online ' if user.online != Location.OFFLINE else ''}{'and ' if user.online == Location.ONLINE_AND_OFFLINE else ''}{'Offline ' if user.online != Location.ONLINE else ''}games{' only' if user.online != Location.ONLINE_AND_OFFLINE else ''}  \n"
+    flag_string = (f"- Including {'Online ' if user.online != Location.OFFLINE.value else ''}"
+                   f"{'and ' if user.online == Location.ONLINE_AND_OFFLINE.value else ''}"
+                   f"{'Offline ' if user.online != Location.ONLINE.value else ''}games"
+                   f"{' only' if user.online != Location.ONLINE_AND_OFFLINE.value else ''}  \n")
 
     if user.flair and user.flair != Flair.DEFAULT.flag:
         flag_string += f"- Flair: {Flair.flag_to_str(user.flair)}  \n"
@@ -65,9 +68,9 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     if int(user.nsfw) != Nsfw.EXCLUDE.value:
         flag_string += f"- Include {'only ' if user.nsfw == Nsfw.ONLY else ''}NSFW games  \n"
     if int(user.play_by_post) != PlayByPost.INCLUDE.value:
-        flag_string += f"- {'Exclude' if user.play_by_post == PlayByPost.EXCLUDE else 'Include only'} Play-by-Post games  \n"
+        flag_string += f"- {'Exclude' if user.play_by_post == PlayByPost.EXCLUDE.value else 'Include only'} Play-by-Post games  \n"
     if int(user.one_shot) != OneShot.INCLUDE.value:
-        flag_string += f"- {'Exclude' if user.one_shot == OneShot.EXCLUDE else 'Include only'} One-Shot games  \n"
+        flag_string += f"- {'Exclude' if user.one_shot == OneShot.EXCLUDE.value else 'Include only'} One-Shot games  \n"
     if int(user.lgbtq) != Lgbtq.ONLY.value:
         flag_string += "- Only including LGBTQ+ labeled games  \n"
     if int(user.age_limit) != AgeLimit.NONE.value:

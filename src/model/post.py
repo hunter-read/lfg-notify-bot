@@ -73,19 +73,18 @@ class Post:
         params.append(','.join(self.day) if self.day else None)
         params.append(','.join(self.timezone) if self.timezone else None)
         params.append(self.time)
-        params.append(int(self.online))
+        params.append(self.online)
         params.append(int(self.nsfw))
         params.append(self.permalink)
         params.append(int(self.play_by_post))
         params.append(int(self.one_shot))
         params.append(int(self.lgbtq))
-        params.append(int(self.age_limit))
-        params.append(int(self.vtt))
+        params.append(self.age_limit)
+        params.append(self.vtt)
         db.save("INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
 
     def flags_as_string_list(self) -> list:
         flags = []
-        int(self.online) != Location.ONLINE.value and flags.append(f"{'Includes ' if int(self.online) != Location.ONLINE_AND_OFFLINE.value else ''}Offline")
         self.nsfw and flags.append("Nsfw")
         self.play_by_post and flags.append("Play-by-Post")
         self.one_shot and flags.append("One-Shot")
