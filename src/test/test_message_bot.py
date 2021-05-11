@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 from praw.models import Message, Redditor
 import pytest
 
-from model import Database, MessageText, Flair, Location, Nsfw, OneShot, PlayByPost, Lgbtq, AgeLimit, Vtt
+from model import Database, MessageText, Flair, Location, Nsfw, OneShot, PlayByPost, Identity, AgeLimit, Vtt
 
 
 username = "TestRedditor"
@@ -70,11 +70,11 @@ def test_no_game_subscribe_message():
 
 
 subscribe_data = [
-    ("subscribe", "5e\nPST Wed NSFW [strahd] [seattle] gmw lgbtq fg foundry", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, "strahd|seattle", Flair.GM_WANTED.flag, Location.ONLINE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.ONLY.value, AgeLimit.NONE.value, Vtt.FANTASY_GROUNDS.flag + Vtt.FOUNDRY.flag]),
-    ("subscribe", "CoC [test] plw offline pbp one-shot lgbtq+ anyage", ["COC", "None Input", "None Input", "No"], ["COC", None, None, Nsfw.EXCLUDE.value, "test", Flair.PLAYERS_WANTED.flag, Location.ONLINE_AND_OFFLINE.value, PlayByPost.ONLY.value, OneShot.ONLY.value, Lgbtq.ONLY.value, AgeLimit.ANY_AGE.value, Vtt.NONE.flag]),
-    ("lfg", "5e\nPST Wed NSFW gmplw off -pbp oneshot lgbt 18+ tts", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, None, Flair.GM_AND_PLAYERS_WANTED.flag, Location.ONLINE_AND_OFFLINE.value, PlayByPost.EXCLUDE.value, OneShot.ONLY.value, Lgbtq.ONLY.value, AgeLimit.OVER_18.value, Vtt.TABLETOP_SIM.flag]),
-    ("notify", "5e\nPST Wed NSFW plw gmplw =off -one-shot 21+", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, None, Flair.PLAYERS_WANTED.flag + Flair.GM_AND_PLAYERS_WANTED.flag, Location.OFFLINE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.OVER_21.value, Vtt.NONE.flag]),
-    ("CoC", "PST Wed =NSFW plw gmplw gmw =offline -oneshot roll20", ["COC", "PST (GMT-8)", "Wednesday", "Yes"], ["COC", "GMT-8", "WEDNESDAY", Nsfw.ONLY.value, None, Flair.PLAYERS_WANTED.flag + Flair.GM_AND_PLAYERS_WANTED.flag + Flair.GM_WANTED.flag, Location.OFFLINE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.ROLL20.flag])
+    ("subscribe", "5e\nPST Wed NSFW [strahd] [seattle] gmw fg foundry", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, "strahd|seattle", Flair.GM_WANTED.flag, Location.ONLINE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.FANTASY_GROUNDS.flag + Vtt.FOUNDRY.flag]),
+    ("subscribe", "CoC [test] plw offline pbp one-shot lgbtq+ fem anyage", ["COC", "None Input", "None Input", "No"], ["COC", None, None, Nsfw.EXCLUDE.value, "test", Flair.PLAYERS_WANTED.flag, Location.ONLINE_AND_OFFLINE.value, PlayByPost.ONLY.value, OneShot.ONLY.value, Identity.LGBTQ.flag + Identity.FEM.flag, AgeLimit.ANY_AGE.value, Vtt.NONE.flag]),
+    ("lfg", "5e\nPST Wed NSFW gmplw off -pbp oneshot accessible 18+ tts", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, None, Flair.GM_AND_PLAYERS_WANTED.flag, Location.ONLINE_AND_OFFLINE.value, PlayByPost.EXCLUDE.value, OneShot.ONLY.value, Identity.ACCESSIBLE.flag, AgeLimit.OVER_18.value, Vtt.TABLETOP_SIM.flag]),
+    ("notify", "5e\nPST Wed NSFW plw gmplw =off -one-shot 21+ fem", ["5E", "PST (GMT-8)", "Wednesday", "Yes"], ["5E", "GMT-8", "WEDNESDAY", Nsfw.INCLUDE.value, None, Flair.PLAYERS_WANTED.flag + Flair.GM_AND_PLAYERS_WANTED.flag, Location.OFFLINE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Identity.FEM.flag, AgeLimit.OVER_21.value, Vtt.NONE.flag]),
+    ("CoC", "PST Wed =NSFW plw gmplw gmw =offline -oneshot roll20 poc", ["COC", "PST (GMT-8)", "Wednesday", "Yes"], ["COC", "GMT-8", "WEDNESDAY", Nsfw.ONLY.value, None, Flair.PLAYERS_WANTED.flag + Flair.GM_AND_PLAYERS_WANTED.flag + Flair.GM_WANTED.flag, Location.OFFLINE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Identity.POC.flag, AgeLimit.NONE.value, Vtt.ROLL20.flag])
 ]
 
 

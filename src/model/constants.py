@@ -120,12 +120,25 @@ class OneShot(Enum):
         return self.value
 
 
-class Lgbtq(Enum):
-    INCLUDE = 0
-    ONLY = 1
+class Identity(Enum):
+    NONE = (0, None)
+    LGBTQ = (1, "LGBTQ+")
+    FEM = (2, "Feminine or Woman")
+    POC = (4, "Person of Color")
+    ACCESSIBLE = (8, "Accessible")
 
-    def __int__(self):
-        return self.value
+    def __init__(self, flag: int, string: str):
+        self.flag = flag
+        self.string = string
+
+    @classmethod
+    def flag_to_str_array(cls, flag: int) -> list:
+        strings = []
+        flag & cls.LGBTQ.flag and strings.append(cls.LGBTQ.string)
+        flag & cls.FEM.flag and strings.append(cls.FEM.string)
+        flag & cls.POC.flag and strings.append(cls.POC.string)
+        flag & cls.ACCESSIBLE.flag and strings.append(cls.ACCESSIBLE.string)
+        return strings
 
 
 class AgeLimit(Enum):

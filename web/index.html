@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Hunter Read</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
+<link rel='stylesheet' href='https://unpkg.com/vuetify@2.x/dist/vuetify.min.css'>
+<link rel='stylesheet' href='https://unpkg.com/@mdi/font@5.x/css/materialdesignicons.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script type="text/x-template" id="app-template">
+  <v-app>
+    <v-container>
+      <div class="login-box">
+        <h2>Subscribe with u/LFG_Notify_Bot</h2>
+        <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md>View the Documentation here for help</a></h5>
+        <v-form>
+          <v-select
+                    v-model="selectedGames"
+                    :items="games"
+                    label="Game(s)*"
+                    item-text="label"
+                    item-value="value"
+                    required
+                    multiple
+                    chips
+                    ></v-select>
+          <v-combobox
+                    v-model="selectedTimezone"
+                    :items="timezones"
+                    label="Timezone(s)"
+                    required
+                    multiple
+                    chips
+                    hint="You can type in timezones if missing from the list"
+                    persistent-hint
+                    ></v-combobox>
+                    <v-select
+                    v-model="selectedDays"
+                    :items="days"
+                    label="Day(s)"
+                    item-text="label"
+                    item-value="value"
+                    required
+                    multiple
+                    chips
+                    ></v-select>
+          <v-select
+                    v-model="selectedFlair"
+                    :items="flairs"
+                    label="Flair"
+                    item-text="label"
+                    item-value="value"
+                    multiple
+                    chips
+                    ></v-select>
+          <v-select
+                    v-model="selectedLocation"
+                    :items="locations"
+                    label="Location"
+                    item-text="label"
+                    item-value="value"
+                    ></v-select>
+          <v-select
+                    v-model="selectedVtt"
+                    :items="vtt"
+                    label="Virtual Table Top(s)"
+                    item-text="label"
+                    item-value="value"
+                    multiple
+                    chips
+                    ></v-select>
+          <v-select
+                    v-model="selectedNSFW"
+                    :items="nsfw"
+                    label="NSFW?"
+                    item-text="label"
+                    item-value="value"
+                    ></v-select>
+          <v-select
+                    v-model="selectedAge"
+                    :items="ages"
+                    label="Age Range"
+                    item-text="label"
+                    item-value="value"
+                    ></v-select>
+          <v-select
+                    v-model="selectedPbp"
+                    :items="pbp"
+                    label="Play-by-Post"
+                    item-text="label"
+                    item-value="value"
+                    ></v-select>
+          <v-select
+                    v-model="selectedOneShot"
+                    :items="oneShot"
+                    label="One-Shot"
+                    item-text="label"
+                    item-value="value"
+                    ></v-select>
+          <v-select
+                    v-model="selectedIdentity"
+                    :items="identities"
+                    label="Identity"
+                    item-text="label"
+                    item-value="value"
+                    required
+                    multiple
+                    chips
+                    ></v-select>
+          <v-combobox
+              v-model="selectedKeywords"
+              :items="keywords"
+              label="Keyword(s)"
+              multiple
+              chips
+              hint="Type in keyword that must be included if you want a specific match"
+              persistent-hint
+            ></v-combobox>
+              <v-btn
+            :disabled="selectedGames.length == 0"
+            color="blue-grey"
+            class="ma-2 white--text"
+
+            @click.native="sendToReddit()"
+          >
+            Submit
+          </v-btn>
+        </v-form>
+      </div>
+    </v-container>
+  </v-app>
+</script>
+
+<div id="app"></div>
+<!-- partial -->
+  <script src='https://unpkg.com/vue@2.x/dist/vue.js'></script>
+<script src='https://unpkg.com/vuetify@2.x/dist/vuetify.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>

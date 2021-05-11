@@ -2,7 +2,7 @@ import re
 import typing
 
 from .database import Database
-from .constants import Flair, Location, Nsfw, PlayByPost, OneShot, Lgbtq, AgeLimit, Vtt
+from .constants import Flair, Location, Nsfw, PlayByPost, OneShot, Identity, AgeLimit, Vtt
 
 
 class User:
@@ -26,7 +26,7 @@ class User:
         self.online: int = kwargs.get("online", Location.ONLINE.value)
         self.play_by_post: int = kwargs.get("play_by_post", PlayByPost.INCLUDE.value)
         self.one_shot: int = kwargs.get("one_shot", OneShot.INCLUDE.value)
-        self.lgbtq: int = kwargs.get("lfbtq", Lgbtq.INCLUDE.value)
+        self.lgbtq: int = kwargs.get("lgbtq", Identity.NONE.flag)
         self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
@@ -71,8 +71,9 @@ class User:
         else:
             query += f"and one_shot != {OneShot.ONLY.value} "
 
-        if not bool(self.lgbtq):
-            query += f"and lgbtq != {Lgbtq.ONLY.value} "
+        if self.lgbtq:
+            query += "and ((lgbtq & ?) > 0 or lgbtq = 0) "
+            params.append(self.lgbtq)
 
         if self.age_limit == AgeLimit.NONE.value:
             query += f"and age_limit <= {AgeLimit.NONE.value} "

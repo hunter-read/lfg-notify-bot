@@ -1,11 +1,26 @@
 import re
 
-from model import Flair, Location, Nsfw, PlayByPost, OneShot, Lgbtq, AgeLimit, Vtt
+from model import Flair, Location, Nsfw, PlayByPost, OneShot, Identity, AgeLimit, Vtt
 
 
 __play_by_post = r"(play[-\s]by[-\s]post|pbp)"
 __one_shot = r"one[-\s]?shot"
-__lgbt = r"lgbtq?[+]?"
+
+
+def __match_identity(text: str) -> int:
+    flag = Identity.NONE.flag
+    matches = re.finditer(r"(lgbtq?[+]?)|(fem)|(poc)|(accessible)", text, flags=re.IGNORECASE)
+    for match in matches:
+        if match:
+            if match.group(1):
+                flag |= Identity.LGBTQ.flag
+            elif match.group(2):
+                flag |= Identity.FEM.flag
+            elif match.group(3):
+                flag |= Identity.POC.flag
+            elif match.group(4):
+                flag |= Identity.ACCESSIBLE.flag
+    return flag
 
 
 def __using_vtt(text: str) -> int:
@@ -73,7 +88,7 @@ def parse_message_flags(text) -> dict:
         "nsfw": Nsfw.EXCLUDE.value,
         "play_by_post": PlayByPost.INCLUDE.value,
         "one_shot": OneShot.INCLUDE.value,
-        "lgbtq": Lgbtq.INCLUDE.value,
+        "lgbtq": Identity.NONE.flag,
         "age_limit": AgeLimit.NONE.value,
         "vtt": Vtt.NONE.flag
     }
@@ -92,8 +107,7 @@ def parse_message_flags(text) -> dict:
     if os_match := re.search(rf"\-?{__one_shot}", text, re.IGNORECASE):
         flags["one_shot"] = (OneShot.EXCLUDE if os_match.group(0).startswith("-") else OneShot.ONLY).value
 
-    flags["lgbtq"] = (Lgbtq.ONLY if re.search(rf"{__lgbt}", text, re.IGNORECASE) else Lgbtq.INCLUDE).value
-
+    flags["lgbtq"] = __match_identity(text)
     flags["age_limit"] = __age_limit(text)
     flags["vtt"] = __using_vtt(text)
 
@@ -104,7 +118,7 @@ def parse_submission_flags(text) -> dict:
     flags = {
         "play_by_post": False,
         "one_shot": False,
-        "lgbtq": False,
+        "lgbtq": Identity.NONE.flag,
         "age_limit": AgeLimit.NONE.value,
         "vtt": Vtt.NONE.value
     }
@@ -114,7 +128,7 @@ def parse_submission_flags(text) -> dict:
 
     flags["play_by_post"] = bool(re.search(rf"{__play_by_post}", text, re.IGNORECASE))
     flags["one_shot"] = bool(re.search(rf"{__one_shot}", text, re.IGNORECASE))
-    flags["lgbtq"] = bool(re.search(rf"{__lgbt}", text, re.IGNORECASE))
+    flags["lgbtq"] = __match_identity(text)
     flags["age_limit"] = __age_limit(text)
     flags["vtt"] = __using_vtt(text)
     return flags

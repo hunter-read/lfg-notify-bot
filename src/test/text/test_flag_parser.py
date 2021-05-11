@@ -1,6 +1,6 @@
 import pytest
 
-from model import Location, Nsfw, PlayByPost, OneShot, Lgbtq, AgeLimit, Vtt
+from model import Location, Nsfw, PlayByPost, OneShot, Identity, AgeLimit, Vtt
 from text import parse_flair, parse_location, parse_message_flags
 
 
@@ -40,34 +40,37 @@ def test_parse_location(text, result):
 
 
 message_flags_data = [
-    ("", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("offline", Location.ONLINE_AND_OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("OFF", Location.ONLINE_AND_OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("=offline", Location.OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("=offline", Location.OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("nsfw", Location.ONLINE.value, Nsfw.INCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("=nsfw", Location.ONLINE.value, Nsfw.ONLY.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("NSFW", Location.ONLINE.value, Nsfw.INCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("pbp", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.ONLY.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("play by post", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.ONLY.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("-pbp", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.EXCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("-play-by-post", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.EXCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("one shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.ONLY.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("one-shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.ONLY.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("-oneshot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("-one-shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("lgbtq+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.ONLY.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("lgbtq", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.ONLY.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("LGBT", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.ONLY.value, AgeLimit.NONE.value, Vtt.NONE.flag),
-    ("18+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.OVER_18.value, Vtt.NONE.flag),
-    ("21+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.OVER_21.value, Vtt.NONE.flag),
-    ("anyage", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.ANY_AGE.value, Vtt.NONE.flag),
-    ("Roll20", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.ROLL20.flag),
-    ("r20", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.ROLL20.flag),
-    ("fg", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.FANTASY_GROUNDS.flag),
-    ("tts", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.TABLETOP_SIM.flag),
-    ("foundry", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.FOUNDRY.flag),
-    ("r20 foundry", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Lgbtq.INCLUDE.value, AgeLimit.NONE.value, Vtt.ROLL20.flag + Vtt.FOUNDRY.flag),
+    ("", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("offline", Location.ONLINE_AND_OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("OFF", Location.ONLINE_AND_OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("=offline", Location.OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("=offline", Location.OFFLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("nsfw", Location.ONLINE.value, Nsfw.INCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("=nsfw", Location.ONLINE.value, Nsfw.ONLY.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("NSFW", Location.ONLINE.value, Nsfw.INCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("pbp", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.ONLY.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("play by post", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.ONLY.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("-pbp", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.EXCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("-play-by-post", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.EXCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("one shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.ONLY.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("one-shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.ONLY.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("-oneshot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("-one-shot", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.EXCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("lgbtq+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.LGBTQ.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("lgbtq", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.LGBTQ.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("LGBT", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.LGBTQ.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("fem", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.FEM.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("poc", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.POC.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("Accessible", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.ACCESSIBLE.flag, AgeLimit.NONE.value, Vtt.NONE.flag),
+    ("18+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.OVER_18.value, Vtt.NONE.flag),
+    ("21+", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.OVER_21.value, Vtt.NONE.flag),
+    ("anyage", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.ANY_AGE.value, Vtt.NONE.flag),
+    ("Roll20", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ROLL20.flag),
+    ("r20", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ROLL20.flag),
+    ("fg", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.FANTASY_GROUNDS.flag),
+    ("tts", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.TABLETOP_SIM.flag),
+    ("foundry", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.FOUNDRY.flag),
+    ("r20 foundry", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ROLL20.flag + Vtt.FOUNDRY.flag),
 ]
 
 

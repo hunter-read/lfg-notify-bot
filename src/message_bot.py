@@ -6,7 +6,7 @@ import re
 import praw
 import prawcore
 
-from model import Database, MessageText, User, Flair, PlayByPost, Nsfw, Location, Lgbtq, OneShot, AgeLimit, Vtt
+from model import Database, MessageText, User, Flair, PlayByPost, Nsfw, Location, Identity, OneShot, AgeLimit, Vtt
 from service import init_logger
 from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, sort_days, find_all_keyword, parse_flair, parse_message_flags
 
@@ -71,8 +71,8 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         flag_string += f"- {'Exclude all' if user.play_by_post == PlayByPost.EXCLUDE.value else 'Only include'} Play-by-Post games  \n"
     if user.one_shot != OneShot.INCLUDE.value:
         flag_string += f"- {'Exclude all' if user.one_shot == OneShot.EXCLUDE.value else 'Only include'} One-Shot games  \n"
-    if user.lgbtq == Lgbtq.ONLY.value:
-        flag_string += "- Only include LGBTQ+ labeled games  \n"
+    if user.lgbtq != Identity.NONE.flag:
+        flag_string += f"- Identity Flags: {', '.join(Identity.flag_to_str_array(user.lgbtq))}  \n"
     if user.age_limit != AgeLimit.NONE.value:
         flag_string += f"- Age Limit:  {AgeLimit.tostring(user.age_limit)}  \n"
     if user.vtt != Vtt.NONE.flag:

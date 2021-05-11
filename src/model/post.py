@@ -1,6 +1,6 @@
 import typing
 
-from .constants import Location, AgeLimit, Vtt
+from .constants import Location, AgeLimit, Vtt, Identity
 from .database import Database
 
 
@@ -23,7 +23,7 @@ class Post:
             post.permalink = result[11]
             post.play_by_post = bool(result[12])
             post.one_shot = bool(result[13])
-            post.lgbtq = bool(result[14])
+            post.lgbtq = result[14]
             post.age_limit = result[15]
             post.vtt = result[16]
 
@@ -55,7 +55,7 @@ class Post:
         self.permalink: str = kwargs.get("permalink", None)
         self.play_by_post: bool = kwargs.get("play_by_post", False)
         self.one_shot: bool = kwargs.get("one_shot", False)
-        self.lgbtq: bool = kwargs.get("lgbtq", False)
+        self.lgbtq: int = kwargs.get("lgbtq", False)
         self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
@@ -78,7 +78,7 @@ class Post:
         params.append(self.permalink)
         params.append(int(self.play_by_post))
         params.append(int(self.one_shot))
-        params.append(int(self.lgbtq))
+        params.append(self.lgbtq)
         params.append(self.age_limit)
         params.append(self.vtt)
         db.save("INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
@@ -88,7 +88,8 @@ class Post:
         self.nsfw and flags.append("Nsfw")
         self.play_by_post and flags.append("Play-by-Post")
         self.one_shot and flags.append("One-Shot")
-        self.lgbtq and flags.append("LGBTQ+")
+
+        flags.extend(Identity.flag_to_str_array(self.lgbtq))
         if limit := AgeLimit.tostring(int(self.age_limit)):
             flags.append(limit)
         flags.extend(Vtt.flag_to_str_array(self.vtt))
