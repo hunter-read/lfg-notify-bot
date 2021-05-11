@@ -65,18 +65,18 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
         flag_string += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
 
-    if int(user.nsfw) != Nsfw.EXCLUDE.value:
-        flag_string += f"- Include {'only ' if user.nsfw == Nsfw.ONLY else ''}NSFW games  \n"
-    if int(user.play_by_post) != PlayByPost.INCLUDE.value:
-        flag_string += f"- {'Exclude' if user.play_by_post == PlayByPost.EXCLUDE.value else 'Include only'} Play-by-Post games  \n"
-    if int(user.one_shot) != OneShot.INCLUDE.value:
-        flag_string += f"- {'Exclude' if user.one_shot == OneShot.EXCLUDE.value else 'Include only'} One-Shot games  \n"
-    if int(user.lgbtq) != Lgbtq.ONLY.value:
-        flag_string += "- Only including LGBTQ+ labeled games  \n"
-    if int(user.age_limit) != AgeLimit.NONE.value:
+    if user.nsfw != Nsfw.EXCLUDE.value:
+        flag_string += f"- {'Only i' if user.nsfw == Nsfw.ONLY else 'I'}nclude NSFW games  \n"
+    if user.play_by_post != PlayByPost.INCLUDE.value:
+        flag_string += f"- {'Exclude all' if user.play_by_post == PlayByPost.EXCLUDE.value else 'Only include'} Play-by-Post games  \n"
+    if user.one_shot != OneShot.INCLUDE.value:
+        flag_string += f"- {'Exclude all' if user.one_shot == OneShot.EXCLUDE.value else 'Only include'} One-Shot games  \n"
+    if user.lgbtq == Lgbtq.ONLY.value:
+        flag_string += "- Only include LGBTQ+ labeled games  \n"
+    if user.age_limit != AgeLimit.NONE.value:
         flag_string += f"- Age Limit:  {AgeLimit.tostring(user.age_limit)}  \n"
     if user.vtt != Vtt.NONE.flag:
-        flag_string += f"- Virtual Tabletop:  {', '.join(Vtt.flag_to_str_array(user.vtt))}  \n"
+        flag_string += f"- Virtual Tabletop(s):  {', '.join(Vtt.flag_to_str_array(user.vtt))}  \n"
 
     user.save(db)
 
