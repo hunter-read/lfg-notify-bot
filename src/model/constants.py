@@ -50,7 +50,7 @@ class Flair(Enum):
         self.string = string
 
     @classmethod
-    def flag_to_str(cls, flag) -> str:
+    def flag_to_str(cls, flag: int) -> str:
         strings = []
         flag & cls.PLAYERS_WANTED.flag and strings.append(cls.PLAYERS_WANTED.string)
         flag & cls.GM_AND_PLAYERS_WANTED.flag and strings.append(cls.GM_AND_PLAYERS_WANTED.string)
@@ -74,7 +74,7 @@ class Vtt(Enum):
         self.string = string
 
     @classmethod
-    def flag_to_str_array(cls, flag) -> list:
+    def flag_to_str_array(cls, flag: int) -> list:
         strings = []
         flag & cls.ROLL20.flag and strings.append(cls.ROLL20.string)
         flag & cls.FANTASY_GROUNDS.flag and strings.append(cls.FANTASY_GROUNDS.string)
@@ -138,7 +138,7 @@ class AgeLimit(Enum):
         return self.value
 
     @classmethod
-    def tostring(cls, val):
+    def tostring(cls, val: int) -> str:
         if val == cls.ANY_AGE:
             return "No age limit"
         if val == cls.OVER_18:

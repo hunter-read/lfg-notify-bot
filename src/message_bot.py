@@ -62,17 +62,17 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
         flag_string += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
 
-    if user.nsfw != Nsfw.EXCLUDE:
+    if int(user.nsfw) != Nsfw.EXCLUDE.value:
         flag_string += f"- Include {'only ' if user.nsfw == Nsfw.ONLY else ''}NSFW games  \n"
-    if user.play_by_post != PlayByPost.INCLUDE:
+    if int(user.play_by_post) != PlayByPost.INCLUDE.value:
         flag_string += f"- {'Exclude' if user.play_by_post == PlayByPost.EXCLUDE else 'Include only'} Play-by-Post games  \n"
-    if user.one_shot != OneShot.INCLUDE:
+    if int(user.one_shot) != OneShot.INCLUDE.value:
         flag_string += f"- {'Exclude' if user.one_shot == OneShot.EXCLUDE else 'Include only'} One-Shot games  \n"
-    if user.lgbtq != Lgbtq.ONLY:
+    if int(user.lgbtq) != Lgbtq.ONLY.value:
         flag_string += "- Only including LGBTQ+ labeled games  \n"
-    if user.age_limit != AgeLimit.NONE:
+    if int(user.age_limit) != AgeLimit.NONE.value:
         flag_string += f"- Age Limit:  {AgeLimit.tostring(user.age_limit)}  \n"
-    if user.vtt != Vtt.NONE:
+    if user.vtt != Vtt.NONE.flag:
         flag_string += f"- Virtual Tabletop:  {', '.join(Vtt.flag_to_str_array(user.vtt))}  \n"
 
     user.save(db)
