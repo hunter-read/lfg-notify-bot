@@ -139,18 +139,18 @@ const App = {
     ],
     sendToReddit: function () {
       url = 'https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe&message='
-      message =`${this.selectedGames.join(' ')}  \n`;
-      if (this.selectedTimezone) { message += `${this.selectedTimezone.join(' ')}  \n`};
-      if (this.selectedDays) { message += `${this.selectedDays.join(' ')}  \n`};
-      if (this.selectedFlair) { message += `${this.selectedFlair.join(' ')}  \n`};
-      if (this.selectedLocation) { message += `${this.selectedLocation}  \n`};
-      if (this.selectedVtt) { message += `${this.selectedVtt.join(' ')}  \n`};
-      if (this.selectedNSFW) { message += `${this.selectedNSFW}  \n`};
-      if (this.selectedAge) { message += `${this.selectedAge}  \n`};
-      if (this.selectedPbp) { message += `${this.selectedPbp}  \n`};
-      if (this.selectedOneShot) { message += `${this.selectedOneShot}  \n`};
-      if (this.selectedIdentity) { message += `${this.selectedIdentity.join(' ')}  \n`};
-      if (this.selectedKeywords) { message += `${this.selectedKeywords.forEach(item => `[${item}]`).join(' ')}  \n`};
+      message =`${this.selectedGames.join(' ')}`;
+      if (this.selectedTimezone.length > 0) { message += `  \n${this.selectedTimezone.join(' ')}`};
+      if (this.selectedDays.length > 0) {     message += `  \n${this.selectedDays.join(' ')}`};
+      if (this.selectedFlair.length > 0) {    message += `  \n${this.selectedFlair.join(' ')}`};
+      if (this.selectedLocation != '') {      message += `  \n${this.selectedLocation}`};
+      if (this.selectedVtt.length > 0) {      message += `  \n${this.selectedVtt.join(' ')}`};
+      if (this.selectedNSFW != '') {          message += `  \n${this.selectedNSFW}`};
+      if (this.selectedAge != '') {           message += `  \n${this.selectedAge}`};
+      if (this.selectedPbp != '') {           message += `  \n${this.selectedPbp}`};
+      if (this.selectedOneShot != '') {       message += `  \n${this.selectedOneShot}`};
+      if (this.selectedIdentity.length > 0) { message += `  \n${this.selectedIdentity.join(' ')}`};
+      if (this.selectedKeywords.length > 0) { message += `  \n${this.selectedKeywords.map(item => `[${item}]`).join(' ')}`};
       window.location.href = (url + encodeURI(message));
     }
     
