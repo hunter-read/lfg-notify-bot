@@ -31,6 +31,7 @@ or
 ------
 
 ## Advanced Options
+*Beta features are still in testing, and may provide inconsistent results. Use at your own risk.*
 | Information | Options | Description |
 | --- | --- | --- |
 | Specific flair | GM & player's: `gmplw`<br/>Player's wanted: `plw`<br/>GM wanted: `gmw` | By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options |
