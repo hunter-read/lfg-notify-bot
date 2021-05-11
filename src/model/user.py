@@ -56,9 +56,9 @@ class User:
         query += "and (flair & ?) > 0 "
         params.append(self.flair)
 
-        if self.online == Location.ONLINE:
+        if self.online == Location.ONLINE.value:
             query += f"and online != {Location.OFFLINE.value} "
-        elif self.online == Location.OFFLINE:
+        elif self.online == Location.OFFLINE.value:
             query += f"and online != {Location.ONLINE.value} "
 
         if bool(self.play_by_post):
@@ -74,18 +74,19 @@ class User:
         if not bool(self.lgbtq):
             query += f"and lgbtq != {Lgbtq.ONLY.value} "
 
-        if self.age_limit == AgeLimit.NONE:
+        if self.age_limit == AgeLimit.NONE.value:
             query += f"and age_limit <= {AgeLimit.NONE.value} "
-        elif self.age_limit == AgeLimit.OVER_18:
+        elif self.age_limit == AgeLimit.OVER_18.value:
             query += f"and age_limit >= {AgeLimit.NONE.value} "
-        elif self.age_limit == AgeLimit.OVER_21:
+        elif self.age_limit == AgeLimit.OVER_21.value:
             query += f"and (age_limit = {AgeLimit.NONE.value} or age_limit = {AgeLimit.OVER_21.value}) "
 
         if self.vtt:
-            query += "and (vtt & ?) > 0 "
+            query += "and ((vtt & ?) > 0 or vtt = 0) "
             params.append(self.vtt)
 
         query += "order by notification_count asc"
+
         data = db.query(query, params)
         if data:
             return [User(username=i[0], keyword=i[1]) for i in data]

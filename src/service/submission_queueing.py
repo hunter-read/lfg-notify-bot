@@ -42,7 +42,7 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
 
     if not post.flair:
         return "Missing flair"
-    if post.online == Location.NONE:
+    if post.online == Location.NONE.value:
         return "Missing online or offline"
     if not post.game:
         return "Missing or invalid game"

@@ -89,7 +89,7 @@ class Post:
         self.play_by_post and flags.append("Play-by-Post")
         self.one_shot and flags.append("One-Shot")
         self.lgbtq and flags.append("LGBTQ+")
-        if limit := AgeLimit.tostring(int(self.age_limit)) is not None:
+        if limit := AgeLimit.tostring(int(self.age_limit)):
             flags.append(limit)
         flags.extend(Vtt.flag_to_str_array(self.vtt))
         return flags
