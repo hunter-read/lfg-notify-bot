@@ -30,6 +30,9 @@ def parse_API_exception(err: praw.exceptions.RedditAPIException) -> int:
     elif "USER_DOESNT_EXIST" in str(err):
         __logger.info("User does not exist")
         return -1
+    elif "NOT_WHITELISTED_BY_USER" in str(err):
+        __logger.info("User has blocked bot")
+        return -1
     else:
         __logger.error(f"Api Error: {err}")
         return 30

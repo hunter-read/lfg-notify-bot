@@ -50,7 +50,7 @@ class Flair(Enum):
         self.string = string
 
     @classmethod
-    def flag_to_str(cls, flag) -> str:
+    def flag_to_str(cls, flag: int) -> str:
         strings = []
         flag & cls.PLAYERS_WANTED.flag and strings.append(cls.PLAYERS_WANTED.string)
         flag & cls.GM_AND_PLAYERS_WANTED.flag and strings.append(cls.GM_AND_PLAYERS_WANTED.string)
@@ -60,3 +60,89 @@ class Flair(Enum):
     @property
     def regex_str(self) -> str:
         return escape(self.string)
+
+
+class Vtt(Enum):
+    NONE = (0, None)
+    ROLL20 = (1, "Roll20")
+    FANTASY_GROUNDS = (2, "Fantasy Grounds")
+    TABLETOP_SIM = (4, "Tabletop Simulator")
+    FOUNDRY = (8, "Foundry VTT")
+
+    def __init__(self, flag: int, string: str):
+        self.flag = flag
+        self.string = string
+
+    @classmethod
+    def flag_to_str_array(cls, flag: int) -> list:
+        strings = []
+        flag & cls.ROLL20.flag and strings.append(cls.ROLL20.string)
+        flag & cls.FANTASY_GROUNDS.flag and strings.append(cls.FANTASY_GROUNDS.string)
+        flag & cls.TABLETOP_SIM.flag and strings.append(cls.TABLETOP_SIM.string)
+        flag & cls.FOUNDRY.flag and strings.append(cls.FOUNDRY.string)
+        return strings
+
+
+class Location(Enum):
+    ONLINE = 1
+    ONLINE_AND_OFFLINE = 0
+    OFFLINE = -1
+    NONE = -9
+
+    def __int__(self):
+        return self.value
+
+
+class Nsfw(Enum):
+    EXCLUDE = -1
+    INCLUDE = 0
+    ONLY = 1
+
+    def __int__(self):
+        return self.value
+
+
+class PlayByPost(Enum):
+    EXCLUDE = -1
+    INCLUDE = 0
+    ONLY = 1
+
+    def __int__(self):
+        return self.value
+
+
+class OneShot(Enum):
+    EXCLUDE = -1
+    INCLUDE = 0
+    ONLY = 1
+
+    def __int__(self):
+        return self.value
+
+
+class Lgbtq(Enum):
+    INCLUDE = 0
+    ONLY = 1
+
+    def __int__(self):
+        return self.value
+
+
+class AgeLimit(Enum):
+    ANY_AGE = -1
+    NONE = 0
+    OVER_18 = 18
+    OVER_21 = 21
+
+    def __int__(self):
+        return self.value
+
+    @classmethod
+    def tostring(cls, val: int) -> str:
+        if val == cls.ANY_AGE.value:
+            return "No age limit"
+        if val == cls.OVER_18.value:
+            return "18+"
+        if val == cls.OVER_21.value:
+            return "21+"
+        return None

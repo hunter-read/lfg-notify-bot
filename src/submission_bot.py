@@ -6,7 +6,7 @@ import prawcore
 
 from model import Database, Post
 from service import init_logger, find_users_and_queue
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, is_online, is_offline, is_lgbt, is_one_shot, age_limit, using_vtt, sort_days, is_play_by_post
+from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, sort_days, parse_location, parse_submission_flags
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
@@ -42,30 +42,16 @@ def parse_submission(submission: praw.models.Submission, post: Post):
 
     post.flair = submission.link_flair_text
     post.permalink = submission.permalink
-    post.nsfw = int(submission.over_18)
+    post.nsfw = submission.over_18
 
-    is_lgbt(fulltext) and post.flag.append("LGBTQ+")
-    is_one_shot(fulltext) and post.flag.append("One-Shot")
-    is_play_by_post(fulltext) and post.flag.append("Play-by-Post")
-    vtt = using_vtt(fulltext)
-    vtt and post.flag.append(vtt)
-    age_limit_text = age_limit(fulltext)
-    if age_limit_text:
-        post.flag.append(age_limit_text)
+    flags = parse_submission_flags(fulltext)
+    post.play_by_post = flags.get("play_by_post")
+    post.one_shot = flags.get("one_shot")
+    post.lgbtq = flags.get("lgbtq")
+    post.age_limit = flags.get("age_limit")
+    post.vtt = flags.get("vtt")
 
-    if post.flag:
-        __logger.info(f"Flags:    {', '.join(post.flag)}")
-
-    post.online = 0
-    online = is_online(submission.title)
-    offline = is_offline(submission.title)
-    if online or offline:
-        if online:
-            post.online += 1
-        if offline:
-            post.online -= 1
-    else:
-        post.online = -9
+    post.online = parse_location(submission.title)
 
     timezone = parse_timezone(fulltext)
     if timezone:
@@ -83,6 +69,8 @@ def parse_submission(submission: praw.models.Submission, post: Post):
     if start_time:
         post.time = f"{start_time} - {end_time}" if end_time else start_time
         __logger.info(f"Time:     {post.time}")
+
+    __logger.info(f"Flags:    {', '.join(post.flags_as_string_list())}")
 
 
 def main():

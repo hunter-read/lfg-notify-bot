@@ -6,9 +6,9 @@ import re
 import praw
 import prawcore
 
-from model import Database, MessageText, User, Flair
+from model import Database, MessageText, User, Flair, PlayByPost, Nsfw, Location, Lgbtq, OneShot, AgeLimit, Vtt
 from service import init_logger
-from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, is_nsfw, sort_days, find_all_keyword, parse_flair, determine_online_or_offline
+from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, sort_days, find_all_keyword, parse_flair, parse_message_flags
 
 
 __reddit: praw.Reddit = praw.Reddit("message")
@@ -32,15 +32,18 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     game = parse_game(message.subject + ' ' + message.body)
     if not game:
         return MessageText.MISSING_GAME_REPLY
-    extra = ""
 
     user.game = game
-    user.nsfw = is_nsfw(message.body)
+    flags = parse_message_flags(message.body)
+    user.online = flags.get("location")
+    user.nsfw = flags.get("nsfw")
+    user.play_by_post = flags.get("play_by_post")
+    user.one_shot = flags.get("one_shot")
+    user.lgbtq = flags.get("lgbtq")
+    user.age_limit = flags.get("age_limit")
+    user.vtt = flags.get("vtt")
     user.day = parse_day(message.body)
     user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
-
-    if user.flair and user.flair != Flair.DEFAULT.flag:
-        extra += f"- Flair: {Flair.flag_to_str(user.flair)}  \n"
 
     timezone = parse_timezone(message.body)
     output = []
@@ -49,12 +52,31 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         output = [f"{tz} ({timezone_to_gmt(tz)})" for tz in timezone]
         user.timezone = corrected
 
+    flag_string = (f"- Including {'Online ' if user.online != Location.OFFLINE.value else ''}"
+                   f"{'and ' if user.online == Location.ONLINE_AND_OFFLINE.value else ''}"
+                   f"{'Offline ' if user.online != Location.ONLINE.value else ''}games"
+                   f"{' only' if user.online != Location.ONLINE_AND_OFFLINE.value else ''}  \n")
+
+    if user.flair and user.flair != Flair.DEFAULT.flag:
+        flag_string += f"- Flair: {Flair.flag_to_str(user.flair)}  \n"
+
     keywords = find_all_keyword(message.body)
     if keywords:
         user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
-        extra += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
+        flag_string += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
 
-    user.online = determine_online_or_offline(message.body)
+    if user.nsfw != Nsfw.EXCLUDE.value:
+        flag_string += f"- {'Only i' if user.nsfw == Nsfw.ONLY else 'I'}nclude NSFW games  \n"
+    if user.play_by_post != PlayByPost.INCLUDE.value:
+        flag_string += f"- {'Exclude all' if user.play_by_post == PlayByPost.EXCLUDE.value else 'Only include'} Play-by-Post games  \n"
+    if user.one_shot != OneShot.INCLUDE.value:
+        flag_string += f"- {'Exclude all' if user.one_shot == OneShot.EXCLUDE.value else 'Only include'} One-Shot games  \n"
+    if user.lgbtq == Lgbtq.ONLY.value:
+        flag_string += "- Only include LGBTQ+ labeled games  \n"
+    if user.age_limit != AgeLimit.NONE.value:
+        flag_string += f"- Age Limit:  {AgeLimit.tostring(user.age_limit)}  \n"
+    if user.vtt != Vtt.NONE.flag:
+        flag_string += f"- Virtual Tabletop(s):  {', '.join(Vtt.flag_to_str_array(user.vtt))}  \n"
 
     user.save(db)
 
@@ -64,9 +86,7 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
             f"- Game{'s' if len(user.game) > 1 else ''}: {', '.join(user.game)}  \n"
             f"- Timezone{'s' if output and len(output) > 1 else ''}: {', '.join(output) if output else 'None Input'}  \n"
             f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
-            f"{extra}"
-            f"- Include NSFW: {'Yes' if user.nsfw else 'No'}  \n"
-            f"- {'Online ' if user.online != -1 else ''}{'and ' if user.online == 0 else ''}{'Offline ' if user.online != 1 else ''}games{' only' if user.online != 0 else ''}  \n"
+            f"{flag_string}"
             "&nbsp;  \n"
             "If you wish to change these settings, reply to this message (include all settings, not just your updates), or reply **STOP** to end notifications.  \n"
             "&nbsp;  \n"
