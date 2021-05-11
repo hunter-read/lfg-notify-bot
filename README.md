@@ -2,7 +2,7 @@ LFG Notify Bot
 =============================================================================
 
 ## How to Use
-[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the following information:
+[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below. Or you can use **[this handy web tool to help](https://readpnw.dev/lfg)**.
 
 | Information | Example | Description |
 | --- | --- | --- |
