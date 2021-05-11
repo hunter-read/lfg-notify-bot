@@ -8,6 +8,10 @@ body {
   background: #243b55
 }
 
+.v-messages__message {
+  color:#1b7479;
+}
+
 .login-box {
   position: absolute;
   top: 50%;

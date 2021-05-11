@@ -26,6 +26,8 @@
                     required
                     multiple
                     chips
+                    hint="What game do you want to play"
+                    persistent-hint
                     ></v-select>
           <v-combobox
                     v-model="selectedTimezone"
@@ -34,7 +36,7 @@
                     required
                     multiple
                     chips
-                    hint="You can type in timezones if missing from the list"
+                    hint="You can type in timezones and hit enter if missing from the list"
                     persistent-hint
                     ></v-combobox>
                     <v-select
@@ -46,6 +48,8 @@
                     required
                     multiple
                     chips
+                    hint="What day of the week are you available"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedFlair"
@@ -55,6 +59,8 @@
                     item-value="value"
                     multiple
                     chips
+                    hint="Limit by subreddit flair"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedLocation"
@@ -62,6 +68,8 @@
                     label="Location"
                     item-text="label"
                     item-value="value"
+                    hint="Play online or off, just make sure to get vaccinated if you can"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedVtt"
@@ -71,6 +79,8 @@
                     item-value="value"
                     multiple
                     chips
+                    hint="Places to play TTRPG online"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedNSFW"
@@ -78,6 +88,8 @@
                     label="NSFW?"
                     item-text="label"
                     item-value="value"
+                    hint="Don't play these games at work"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedAge"
@@ -85,6 +97,8 @@
                     label="Age Range"
                     item-text="label"
                     item-value="value"
+                    hint="Limit play to adults or anyone"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedPbp"
@@ -92,6 +106,8 @@
                     label="Play-by-Post"
                     item-text="label"
                     item-value="value"
+                    hint="Play over messages, through discord or a VTT"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedOneShot"
@@ -99,6 +115,8 @@
                     label="One-Shot"
                     item-text="label"
                     item-value="value"
+                    hint="Play once, or more, it's up to you"
+                    persistent-hint
                     ></v-select>
           <v-select
                     v-model="selectedIdentity"
@@ -109,6 +127,8 @@
                     required
                     multiple
                     chips
+                    hint="Find groups that match your identity"
+                    persistent-hint
                     ></v-select>
           <v-combobox
               v-model="selectedKeywords"
@@ -116,7 +136,7 @@
               label="Keyword(s)"
               multiple
               chips
-              hint="Type in keyword that must be included if you want a specific match"
+              hint="Type in word and hit enter. This can be included if you want a specific match on a keyword"
               persistent-hint
             ></v-combobox>
               <v-btn
