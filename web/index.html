@@ -13,7 +13,7 @@
     <v-container>
       <div class="form-box">
         <h2>Subscribe with u/LFG_Notify_Bot</h2>
-        <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md target="_blank">View the Documentation here for help</a></h5>
+        <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md target="_blank" rel="noopener noreferrer">View the Documentation here for help</a></h5>
         <v-form>
           <v-select v-model="selectedGames" :items="games" label="Game(s)*" item-text="label" item-value="value" required multiple chips hint="What game do you want to play" persistent-hint></v-select>
           <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone(s)" required multiple chips hint="You can type in timezones and hit enter if missing from the list" persistent-hint></v-combobox>
@@ -29,7 +29,7 @@
           <v-combobox v-model="selectedKeywords" :items="keywords" label="Keyword(s)" multiple chips hint="Type in word and hit enter. This can be included if you want a specific match on a keyword" persistent-hint></v-combobox>
           <v-btn :disabled="selectedGames.length == 0" color="blue-grey" class="ma-2 white--text" @click.native="sendToReddit()">Submit</v-btn>
         </v-form>
-        <h6><a class="coffee" href="https://www.buymeacoffee.com/HunterRead" target="_blank">Like what I do, you can always Buy Me a Coffee</a></h6>
+        <h6><a class="coffee" href="https://www.buymeacoffee.com/HunterRead" target="_blank" rel="noopener noreferrer">Like what I do, you can always Buy Me a Coffee</a></h6>
       </div>
     </v-container>
   </v-app>
