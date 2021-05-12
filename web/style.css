@@ -3,9 +3,6 @@
   padding:0;
   background: linear-gradient(#141e30, #243b55);
 }
-body {
-  background: #243b55
-}
 .v-messages__message {
   color:#1b7479;
 }
@@ -33,7 +30,6 @@ body {
   text-align: center;
 }
 .coffee {
-  text-align: right;
   float: right;
 }
 @media only screen and (max-width: 600px) {
