@@ -56,30 +56,30 @@ const App = {
     ],
     selectedTimezone: [],
     timezones: [
-      'UTC-11', 
-      'UTC-10', 
-      'UTC-9', 
-      'UTC-8', 
-      'UTC-7', 
-      'UTC-6', 
-      'UTC-5', 
-      'UTC-4',
-      'UTC-3', 
-      'UTC-2', 
-      'UTC-1', 
-      'UTC',
-      'UTC+1', 
-      'UTC+2', 
-      'UTC+3', 
-      'UTC+4',
-      'UTC+5',
-      'UTC+6',
-      'UTC+7',
-      'UTC+8',
-      'UTC+9',
-      'UTC+10',
-      'UTC+11',
-      'UTC+12'
+      'GMT-11', 
+      'GMT-10', 
+      'GMT-9', 
+      'GMT-8', 
+      'GMT-7', 
+      'GMT-6', 
+      'GMT-5', 
+      'GMT-4',
+      'GMT-3', 
+      'GMT-2', 
+      'GMT-1', 
+      'GMT',
+      'GMT+1', 
+      'GMT+2', 
+      'GMT+3', 
+      'GMT+4',
+      'GMT+5',
+      'GMT+6',
+      'GMT+7',
+      'GMT+8',
+      'GMT+9',
+      'GMT+10',
+      'GMT+11',
+      'GMT+12'
     ],
     selectedKeywords: [],
     keywords: [],
@@ -148,7 +148,7 @@ const App = {
       if (this.selectedOneShot != '') {       message += `  \n${this.selectedOneShot}`};
       if (this.selectedIdentity.length > 0) { message += `  \n${this.selectedIdentity.join(' ')}`};
       if (this.selectedKeywords.length > 0) { message += `  \n${this.selectedKeywords.map(item => `[${item}]`).join(' ')}`};
-      window.location.href = (url + encodeURI(message));
+      window.location.href = (url + encodeURIComponent(message));
     }
   })
 }
