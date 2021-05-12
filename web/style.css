@@ -7,7 +7,7 @@
   color:#1b7479;
 }
 .form-box {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   width: 525px;
@@ -32,7 +32,7 @@
 .coffee {
   float: right;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .form-box {
     position: static;
     top: auto;
