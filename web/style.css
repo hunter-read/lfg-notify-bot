@@ -36,3 +36,12 @@ body {
   text-align: right;
   float: right;
 }
+@media only screen and (max-width: 600px) {
+  .form-box {
+    position: static;
+    top: auto;
+    left: auto;
+    width: auto;
+    transform: inherit;
+  }
+}
