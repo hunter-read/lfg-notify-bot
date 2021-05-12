@@ -1,6 +1,3 @@
-// Looking for the v1.5 template?
-// https://codepen.io/pen?template=GVoaNe
-
 const App = {
   template: '#app-template',
   data: () => ({
@@ -153,10 +150,8 @@ const App = {
       if (this.selectedKeywords.length > 0) { message += `  \n${this.selectedKeywords.map(item => `[${item}]`).join(' ')}`};
       window.location.href = (url + encodeURI(message));
     }
-    
   })
 }
-
 new Vue({
   vuetify: new Vuetify({
     theme: { dark: true },

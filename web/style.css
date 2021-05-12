@@ -3,15 +3,12 @@
   padding:0;
   background: linear-gradient(#141e30, #243b55);
 }
-
 body {
   background: #243b55
 }
-
 .v-messages__message {
   color:#1b7479;
 }
-
 .form-box {
   position: absolute;
   top: 50%;
@@ -24,7 +21,6 @@ body {
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
 }
-
 .form-box h2 {
   margin: 0 0 5px;
   padding: 0;
@@ -36,7 +32,6 @@ body {
   padding: 0;
   text-align: center;
 }
-
 .coffee {
   text-align: right;
   float: right;

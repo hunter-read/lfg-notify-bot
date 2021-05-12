@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <title>LFG Notify Bot Assistant</title>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
-<link rel='stylesheet' href='https://unpkg.com/vuetify@2.x/dist/vuetify.min.css'>
-<link rel='stylesheet' href='https://unpkg.com/@mdi/font@5.x/css/materialdesignicons.min.css'><link rel="stylesheet" href="./style.css">
-
+  <link rel='stylesheet' href='https://unpkg.com/vuetify@2.x/dist/vuetify.min.css'>
+  <link rel='stylesheet' href='https://unpkg.com/@mdi/font@5.x/css/materialdesignicons.min.css'><link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<!-- partial:index.partial.html -->
 <script type="text/x-template" id="app-template">
   <v-app>
     <v-container>
@@ -17,148 +15,27 @@
         <h2>Subscribe with u/LFG_Notify_Bot</h2>
         <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md target="_blank">View the Documentation here for help</a></h5>
         <v-form>
-          <v-select
-                    v-model="selectedGames"
-                    :items="games"
-                    label="Game(s)*"
-                    item-text="label"
-                    item-value="value"
-                    required
-                    multiple
-                    chips
-                    hint="What game do you want to play"
-                    persistent-hint
-                    ></v-select>
-          <v-combobox
-                    v-model="selectedTimezone"
-                    :items="timezones"
-                    label="Timezone(s)"
-                    required
-                    multiple
-                    chips
-                    hint="You can type in timezones and hit enter if missing from the list"
-                    persistent-hint
-                    ></v-combobox>
-                    <v-select
-                    v-model="selectedDays"
-                    :items="days"
-                    label="Day(s)"
-                    item-text="label"
-                    item-value="value"
-                    required
-                    multiple
-                    chips
-                    hint="What day of the week are you available"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedFlair"
-                    :items="flairs"
-                    label="Flair"
-                    item-text="label"
-                    item-value="value"
-                    multiple
-                    chips
-                    hint="Limit by subreddit flair"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedLocation"
-                    :items="locations"
-                    label="Location"
-                    item-text="label"
-                    item-value="value"
-                    hint="Play online or off, just make sure to get vaccinated if you can"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedVtt"
-                    :items="vtt"
-                    label="Virtual Table Top(s)"
-                    item-text="label"
-                    item-value="value"
-                    multiple
-                    chips
-                    hint="Places to play TTRPG online"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedNSFW"
-                    :items="nsfw"
-                    label="NSFW?"
-                    item-text="label"
-                    item-value="value"
-                    hint="Don't play these games at work"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedAge"
-                    :items="ages"
-                    label="Age Range"
-                    item-text="label"
-                    item-value="value"
-                    hint="Limit play to adults or anyone"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedPbp"
-                    :items="pbp"
-                    label="Play-by-Post"
-                    item-text="label"
-                    item-value="value"
-                    hint="Play over messages, through discord or a VTT"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedOneShot"
-                    :items="oneShot"
-                    label="One-Shot"
-                    item-text="label"
-                    item-value="value"
-                    hint="Play once, or more, it's up to you"
-                    persistent-hint
-                    ></v-select>
-          <v-select
-                    v-model="selectedIdentity"
-                    :items="identities"
-                    label="Identity"
-                    item-text="label"
-                    item-value="value"
-                    required
-                    multiple
-                    chips
-                    hint="Find groups that match your identity"
-                    persistent-hint
-                    ></v-select>
-          <v-combobox
-              v-model="selectedKeywords"
-              :items="keywords"
-              label="Keyword(s)"
-              multiple
-              chips
-              hint="Type in word and hit enter. This can be included if you want a specific match on a keyword"
-              persistent-hint
-            ></v-combobox>
-              <v-btn
-            :disabled="selectedGames.length == 0"
-            color="blue-grey"
-            class="ma-2 white--text"
-
-            @click.native="sendToReddit()"
-          >
-            Submit
-          </v-btn>
+          <v-select v-model="selectedGames" :items="games" label="Game(s)*" item-text="label" item-value="value" required multiple chips hint="What game do you want to play" persistent-hint></v-select>
+          <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone(s)" required multiple chips hint="You can type in timezones and hit enter if missing from the list" persistent-hint></v-combobox>
+          <v-select v-model="selectedDays" :items="days" label="Day(s)" item-text="label" item-value="value" required multiple chips hint="What day of the week are you available" persistent-hint></v-select>
+          <v-select v-model="selectedFlair" :items="flairs" label="Flair" item-text="label" item-value="value" multiple chips hint="Limit by subreddit flair" persistent-hint></v-select>
+          <v-select v-model="selectedLocation" :items="locations" label="Location" item-text="label" item-value="value" hint="Play online or off, just make sure to get vaccinated if you can" persistent-hint></v-select>
+          <v-select v-model="selectedVtt" :items="vtt" label="Virtual Table Top(s)" item-text="label" item-value="value" multiple chips hint="Places to play TTRPG online" persistent-hint></v-select>
+          <v-select v-model="selectedNSFW" :items="nsfw" label="NSFW?" item-text="label" item-value="value" hint="Don't play these games at work" persistent-hint></v-select>
+          <v-select v-model="selectedAge" :items="ages" label="Age Range" item-text="label" item-value="value" hint="Limit play to adults or anyone" persistent-hint></v-select>
+          <v-select v-model="selectedPbp" :items="pbp" label="Play-by-Post" item-text="label" item-value="value" hint="Play over messages, through discord or a VTT" persistent-hint></v-select>
+          <v-select v-model="selectedOneShot" :items="oneShot" label="One-Shot" item-text="label" item-value="value" hint="Play once, or more, it's up to you" persistent-hint></v-select>
+          <v-select v-model="selectedIdentity" :items="identities" label="Identity" item-text="label" item-value="value" required multiple chips hint="Find groups that match your identity" persistent-hint></v-select>
+          <v-combobox v-model="selectedKeywords" :items="keywords" label="Keyword(s)" multiple chips hint="Type in word and hit enter. This can be included if you want a specific match on a keyword" persistent-hint></v-combobox>
+          <v-btn :disabled="selectedGames.length == 0" color="blue-grey" class="ma-2 white--text" @click.native="sendToReddit()">Submit</v-btn>
         </v-form>
-        <h6><a class="coffee" href=https://www.buymeacoffee.com/HunterRead target="_blank">Like what I do, you can always Buy Me a Coffee</a></h6>
+        <h6><a class="coffee" href="https://www.buymeacoffee.com/HunterRead" target="_blank">Like what I do, you can always Buy Me a Coffee</a></h6>
       </div>
     </v-container>
   </v-app>
 </script>
-
 <div id="app"></div>
-<!-- partial -->
-  <script src='https://unpkg.com/vue@2.x/dist/vue.js'></script>
+<script src='https://unpkg.com/vue@2.x/dist/vue.js'></script>
 <script src='https://unpkg.com/vuetify@2.x/dist/vuetify.js'></script><script  src="./script.js"></script>
-
 </body>
 </html>
