@@ -1,4 +1,5 @@
 FROM python:3.9 AS builder
+
 WORKDIR /code
 COPY requirements.txt .
 
@@ -18,6 +19,8 @@ RUN python3 -m flake8 . --count --max-complexity=20  --statistics --ignore=E501
 
 # second unnamed stage
 FROM python:3.9-slim
+LABEL maintainer="hunter@readpnw.dev"
+
 WORKDIR /code
 
 COPY src/ .
