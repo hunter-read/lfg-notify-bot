@@ -83,7 +83,7 @@ const App = {
     ],
     selectedKeywords: [],
     keywords: [],
-    selectedFlair: ['gmplw', 'plw'],
+    selectedFlair: [],
     flairs: [
       {label: 'GM and player(s) wanted', value: 'gmplw'},
       {label: 'Player(s) wanted', value: 'plw'},
