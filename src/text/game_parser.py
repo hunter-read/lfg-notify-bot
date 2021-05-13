@@ -53,4 +53,4 @@ def parse_game(text: str) -> typing.Set[str]:
 
 
 def game_abbreviation_to_string(text: str) -> str:
-    return __game_dict.get(text)
+    return __game_dict.get(text, text)

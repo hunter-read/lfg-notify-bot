@@ -2,14 +2,16 @@ LFG Notify Bot
 =============================================================================
 
 ## How to Use
-[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below. Or you can use **[this handy web tool to help](https://readpnw.dev/lfg)**.
+[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below. 
+
+### You can also **[use this handy web tool](https://readpnw.dev/lfg)** to make your life easier.
 
 | Information | Example | Description |
 | --- | --- | --- |
 | **Game** (Required) | `5e`, `PF2E`, `coc`, `flexible` | Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags use `flexible`) |
 | Timezone | `EST`, `GMT-5` `UTC` | Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+#. | 
 | Day of Week | `Monday`, `tues`, or `weekends` | Any day of the week can be provided: Monday, Tuesday, Wednesday, ..., Sunday or `Weekday`/`weekend` (Most abbreviations common abbreviations are supported) |
-| Keywords | `[strahd]` `[Pittsburg]` `[star wars]`| This is a case insensitive keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them.|
+| Keywords | `[strahd]` `[Pittsburg]` `[star wars]`| This is a case insensitive keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them. I **DON'T** recommend including keywords used by other options, such as identity, vtt, or any other option below.|
 
 ### Basic Example Message Body
 ```
@@ -31,17 +33,16 @@ or
 ------
 
 ## Advanced Options
-*Beta features are still in testing, and may provide inconsistent results. Use at your own risk.*
 | Information | Options | Description |
 | --- | --- | --- |
 | Specific flair | GM & player's: `gmplw`<br/>Player's wanted: `plw`<br/>GM wanted: `gmw` | By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options |
 | NSFW | Include: `nsfw`<br/>Only:`=nsfw` | By default all nsfw posts are excluded, if you are okay with nsfw posts, then include `nsfw` and if you only want nsfw then include `=nsfw`. |
-| *Offline* (Beta) | Include: `offline` (`off`)<br/>Only: `=offline` (`=off`) | By default the bot only looks for online games, but now you can include `offline` to include offline and online games, or `=offline` for only offline. |
-| *Identity* (Beta) | LGBTQ+: `lgbtq`<br/> Feminine or Woman: `fem`<br/>People of Color: `poc`<br/>Accessible: `accessible` | Several identity tags have been made available for users who may have a harder time than most making a group of people, these flags then include only posts that explicitly mention identity. |
-| *Age* (Beta) | `anyage`, `18+`, or `21+`<br/><img width=500/> | `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
-| *Play by Post* (Beta) | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
+| *Offline* | Include: `offline` (`off`)<br/>Only: `=offline` (`=off`) | By default the bot only looks for online games, but now you can include `offline` to include offline and online games, or `=offline` for only offline. |
+| *Identity* | LGBTQ+: `lgbtq`<br/> Feminine or Woman: `fem`<br/>People of Color: `poc`<br/>Accessible: `accessible` | Several identity tags have been made available for users who may have a harder time than most making a group of people, these flags then include only posts that explicitly mention identity. |
+| *Age* | `anyage`, `18+`, or `21+`<br/><img width=500/> | `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
+| *Play by Post* | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
 | *One-shot* (Beta) | Only: `=oneshot`<br/>Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
-| *Virtual Table Top* (Beta) | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
+| *Virtual Table Top* | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
 
 
 ## Advanced Example message body
@@ -50,7 +51,7 @@ or
 40k 5E gurps
 thursdays \ Friday
 utc utc+1
-nsfw plw offline 21+
+nsfw plw offline 21+ lgbtq
 -pbp -oneshot
 roll20
 [atlanta]

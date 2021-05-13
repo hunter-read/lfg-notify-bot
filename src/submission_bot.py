@@ -38,7 +38,7 @@ def parse_submission(submission: praw.models.Submission, post: Post):
     post.submission_id = submission.id
     game = parse_game(submission.title)
     post.game = game
-    __logger.info(f"Game:     {', '.join([game_abbreviation_to_string(g) for g in game])}")
+    __logger.info(f"Game:     {', '.join(game)}")
 
     post.flair = submission.link_flair_text
     post.permalink = submission.permalink
