@@ -6,7 +6,7 @@ LFG Notify Bot
 
 | Information | Example | Description |
 | --- | --- | --- |
-| **Game** (Required) | `5e`, `PF2E`, `coc` | Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags are not supported yet) |
+| **Game** (Required) | `5e`, `PF2E`, `coc`, `flexible` | Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags use `flexible`) |
 | Timezone | `EST`, `GMT-5` `UTC` | Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+#. | 
 | Day of Week | `Monday`, `tues`, or `weekends` | Any day of the week can be provided: Monday, Tuesday, Wednesday, ..., Sunday or `Weekday`/`weekend` (Most abbreviations common abbreviations are supported) |
 | Keywords | `[strahd]` `[Pittsburg]` `[star wars]`| This is a case insensitive keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them.|

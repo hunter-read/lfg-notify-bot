@@ -46,7 +46,9 @@ game_data = [
     ("40K", {"40K"}),
     ("WoD", {"WOD"}),
     ("3e, 4e 5e", {"3E", "4E", "5E"}),
-    ("3-5", set())
+    ("3-5", set()),
+    ("Other", {"FLEXIBLE"}),
+    ("flexible", {"FLEXIBLE"})
 ]
 
 
