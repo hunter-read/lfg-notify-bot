@@ -6,7 +6,8 @@ import prawcore
 
 from model import Database, Post
 from service import init_logger, find_users_and_queue
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, game_abbreviation_to_string, parse_time, sort_days, parse_location, parse_submission_flags
+from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, sort_days, parse_location, parse_submission_flags
+
 
 __reddit: praw.Reddit = praw.Reddit("submission")
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
