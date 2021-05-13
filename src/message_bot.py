@@ -8,7 +8,7 @@ import prawcore
 
 from model import Database, MessageText, User, Flair, PlayByPost, Nsfw, Location, Identity, OneShot, AgeLimit, Vtt
 from service import init_logger
-from text import parse_timezone, parse_day, parse_game, timezone_to_gmt, sort_days, find_all_keyword, parse_flair, parse_message_flags
+from text import parse_timezone, parse_day, parse_game, game_abbreviation_to_string, timezone_to_gmt, sort_days, find_all_keyword, parse_flair, parse_message_flags
 
 
 __reddit: praw.Reddit = praw.Reddit("message")
@@ -83,7 +83,7 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     return ("You have been successfully subscribed to LFG Notify Bot.  \n"
             "&nbsp;  \n"
             "Your current settings are:  \n"
-            f"- Game{'s' if len(user.game) > 1 else ''}: {', '.join(user.game)}  \n"
+            f"- Game{'s' if len(user.game) > 1 else ''}: {', '.join([game_abbreviation_to_string(game) for game in user.game])}  \n"
             f"- Timezone{'s' if output and len(output) > 1 else ''}: {', '.join(output) if output else 'None Input'}  \n"
             f"- Day{'s' if user.day and len(user.day) > 1 else ''} of the week: {', '.join(sort_days(user.day)) if user.day else 'None Input'}  \n"
             f"{flag_string}"
