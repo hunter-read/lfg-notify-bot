@@ -30,8 +30,8 @@ LFG Notify Bot
 | Information | Example | Description |
 | --- | --- | --- |
 | **Game** (Required) | `5e`, `PF2E`, `coc`, `flexible` | Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags use `flexible`) |
-| Timezone | `EST`, `GMT-5` `UTC` | Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+#. Posts missing timezon information can still be included with `no-tz` if other timezones are included in your filters. | 
-| Day of Week | `Monday`, `tues`, or `weekends` | Any day of the week can be provided: Monday, Tuesday, Wednesday, ..., Sunday or `Weekday`/`weekend` (Most abbreviations common abbreviations are supported). Posts missing day of week information can still be included with `no-day`|
+| Timezone | `EST`, `GMT-5` `UTC` | Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+#. Posts missing timezone information can still be included with `no-tz` if other timezones are included in your filters. | 
+| Day of Week | `Monday`, `tues`, or `weekends` | Any day of the week can be provided: Monday, Tuesday, Wednesday, ..., Sunday or `Weekday`/`weekend` (Most abbreviations common abbreviations are supported). Posts missing day of week information can still be included with `no-day` if other days are included in your filters.|
 | Keywords | `[strahd]` `[Pittsburg]` `[star wars]`| This is a case insensitive keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them. I **DON'T** recommend including keywords used by other options, such as identity, vtt, or any other option below.|
 
 ### Basic Example Message Body
