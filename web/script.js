@@ -152,7 +152,7 @@ const App = {
       if (this.selectedOneShot != '') {       message += `  \n${this.selectedOneShot}`};
       if (this.selectedIdentity.length > 0) { message += `  \n${this.selectedIdentity.join(' ')}`};
       if (this.selectedKeywords.length > 0) { message += `  \n${this.selectedKeywords.map(item => `[${item}]`).join(' ')}`};
-      window.location.href = (url + encodeURIComponent(message));
+      window.open(url + encodeURIComponent(message));
     }
   })
 }
