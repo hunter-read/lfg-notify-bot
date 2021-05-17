@@ -1,32 +1,31 @@
 LFG Notify Bot
 =============================================================================
 <p align="center">
-  <a href="https://www.python.org/downloads/release/python-380/">
+  <a href="https://www.python.org/downloads/release/python-380/" target="_blank">
     <img src="https://img.shields.io/badge/python-v3.8%2B-blue" alt="python-version">
   </a>
-  <a href="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml">
+  <a href="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml" target="_blank">
     <img src="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml/badge.svg" alt="github action status">
   </a>
-  <a href="https://hub.docker.com/repository/docker/hunterreadca/lfg-notify-bot">
+  <a href="https://hub.docker.com/repository/docker/hunterreadca/lfg-notify-bot" target="_blank">
     <img src="https://img.shields.io/docker/image-size/hunterreadca/lfg-notify-bot/stable" alt="docker">
   </a>
   <br>
-  <a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE">
+  <a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE" target="_blank">
     <img src="https://img.shields.io/github/license/hunter-read/lfg-notify-bot" alt="license">
   </a>
-  <a href="https://stats.uptimerobot.com/KQlMrsqmqr">
+  <a href="https://stats.uptimerobot.com/KQlMrsqmqr" target="_blank">
     <img src="https://img.shields.io/uptimerobot/ratio/m786376456-4d6cc003c3e5f06efeb0a058" alt="uptime">
   </a>
-  <a href="https://github.com/hunter-read/lfg-notify-bot/commits/main">
+  <a href="https://github.com/hunter-read/lfg-notify-bot/commits/main" target="_blank">
     <img src="https://img.shields.io/github/last-commit/hunter-read/lfg-notify-bot/main" alt="uptime">
   </a>
   
 </p>
+<h2 align="center"> >>> There is <a href="https://readpnw.dev/lfg" target="_blank">now a web page to subscribe</a> to the bot easily <<< </h2>
 
 ## How to Use
 [Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below. 
-
-### <center> >>> You can also **[use this handy web tool](https://readpnw.dev/lfg)** to make your life easier. <<< </center>
 
 | Information | Example | Description |
 | --- | --- | --- |

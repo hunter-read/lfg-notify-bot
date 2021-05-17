@@ -1,9 +1,11 @@
 # Weekly changelog
 This changelog will be updated monthly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
 
+## Version 1.4.1 - May 17th, 2021
+* Added Flexible support to game tags.
+* Cleaned up readme.
 
-
-## Version 1.4.0 - April 13th, 2021
+## Version 1.4.0 - May 11th, 2021
 Added a host of new features for beta testing.
 * Added offline support.
 * Added pbp, vtt, and other flag support.
