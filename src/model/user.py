@@ -29,6 +29,8 @@ class User:
         self.lgbtq: int = kwargs.get("lgbtq", Identity.NONE.flag)
         self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
+        self.match_no_day: bool = kwargs.get("match_no_day", False)
+        self.match_no_timezone: bool = kwargs.get("match_no_timezone", False)
 
     def find_users(self, db: Database) -> list:
         query = "SELECT username, keyword FROM user WHERE  "
@@ -45,13 +47,13 @@ class User:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
             params.extend([fr"\b{re.escape(tz)}\b" for tz in self.timezone])
         else:
-            query += "and timezone is null "
+            query += "and (timezone is null or timezone like '%NOTZ%') "
 
         if self.day:
             query += "and (day is null or " + "or".join([" day like ? " for _ in self.day]) + ") "
             params.extend([f"%{day}%" for day in self.day])
         else:
-            query += "and day is null "
+            query += "and (day is null or day like '%NODAY%') "
 
         query += "and (flair & ?) > 0 "
         params.append(self.flair)
@@ -99,8 +101,15 @@ class User:
     def save(self, db: Database) -> None:
         params = []
         params.append(','.join(self.game))
+
+        if self.match_no_timezone and self.timezone:
+            self.timezone.add("NOTZ")
         params.append(','.join(self.timezone) if self.timezone else None)
+
+        if self.match_no_day and self.day:
+            self.day.add("NODAY")
         params.append(','.join(self.day) if self.day else None)
+
         params.append(self.nsfw)
         params.append(self.keyword)
         params.append(self.flair)
