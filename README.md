@@ -1,10 +1,32 @@
 LFG Notify Bot
 =============================================================================
+<p align="center">
+  <a href="https://www.python.org/downloads/release/python-380/">
+    <img src="https://img.shields.io/badge/python-v3.8%2B-blue" alt="python-version">
+  </a>
+  <a href="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml">
+    <img src="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml/badge.svg" alt="github action status">
+  </a>
+  <a href="https://hub.docker.com/repository/docker/hunterreadca/lfg-notify-bot">
+    <img src="https://img.shields.io/docker/image-size/hunterreadca/lfg-notify-bot/stable" alt="docker">
+  </a>
+  <br>
+  <a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/hunter-read/lfg-notify-bot" alt="license">
+  </a>
+  <a href="https://stats.uptimerobot.com/KQlMrsqmqr">
+    <img src="https://img.shields.io/uptimerobot/ratio/m786376456-4d6cc003c3e5f06efeb0a058" alt="uptime">
+  </a>
+  <a href="https://github.com/hunter-read/lfg-notify-bot/commits/main">
+    <img src="https://img.shields.io/github/last-commit/hunter-read/lfg-notify-bot/main" alt="uptime">
+  </a>
+  
+</p>
 
 ## How to Use
 [Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below. 
 
-### You can also **[use this handy web tool](https://readpnw.dev/lfg)** to make your life easier.
+### <center> >>> You can also **[use this handy web tool](https://readpnw.dev/lfg)** to make your life easier. <<< </center>
 
 | Information | Example | Description |
 | --- | --- | --- |
@@ -42,7 +64,7 @@ or
 | *Identity* | LGBTQ+: `lgbtq`<br/> Feminine or Woman: `fem`<br/>People of Color: `poc`<br/>Accessible: `accessible` | Several identity tags have been made available for users who may have a harder time than most making a group of people, these flags then include only posts that explicitly mention identity. |
 | *Age* | `anyage`, `18+`, or `21+`<br/><img width=500/> | `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
 | *Play by Post* | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
-| *One-shot* (Beta) | Only: `=oneshot`<br/>Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
+| *One-shot* | Only: `=oneshot`<br/>Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
 | *Virtual Table Top* | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
 
 
@@ -87,5 +109,3 @@ This is a bot that aims to make using r/lfg easier to use and provide notificati
 * **Q:** You should make an app/website.  
   **A:** I can't do front-end ui design to save my life, unless you thought the early 90's internet looked amazing (also I hate javascript). Plus I like reddit and overall the lfg subreddit is full of good people.
   
-### License
-LFG Notification Bot provided under the [Simplified BSD License](https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE)
