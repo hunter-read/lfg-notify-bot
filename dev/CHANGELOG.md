@@ -1,9 +1,19 @@
-# Weekly changelog
-This changelog will be updated monthly (or whenever I have time) to include any changes that have occured. Any changes made may have been included in hotfixes in between versions, and some features may not be live for all users.
+# Changelog
+This is a record of all changes that I remembered to add to the changelog.
 
-## Version 1.4.1 - May 17th, 2021
+## Version 1.5.0 - May 17th, 2021
+More features, fixes, and magic.
+* Added support for including posts missing timezone and day info while including those filters
+* Bug fixes for stability
+
+## Version 1.4.2 - May 14th, 2021
+Small feature update
 * Added Flexible support to game tags.
 * Cleaned up readme.
+
+## Version 1.4.1 - May 12th, 2021
+Bug fixes
+* Blacklisting bot no longer breaks notifications.
 
 ## Version 1.4.0 - May 11th, 2021
 Added a host of new features for beta testing.

@@ -90,7 +90,9 @@ def parse_message_flags(text) -> dict:
         "one_shot": OneShot.INCLUDE.value,
         "lgbtq": Identity.NONE.flag,
         "age_limit": AgeLimit.NONE.value,
-        "vtt": Vtt.NONE.flag
+        "vtt": Vtt.NONE.flag,
+        "match_no_timezone": False,
+        "match_no_day": False
     }
     if not text:
         return flags
@@ -110,6 +112,8 @@ def parse_message_flags(text) -> dict:
     flags["lgbtq"] = __match_identity(text)
     flags["age_limit"] = __age_limit(text)
     flags["vtt"] = __using_vtt(text)
+    flags["match_no_timezone"] = bool(re.search(r"no-?(tz|timezone)", text, re.IGNORECASE))
+    flags["match_no_day"] = bool(re.search(r"no-?day", text, re.IGNORECASE))
 
     return flags
 

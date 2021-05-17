@@ -57,24 +57,26 @@ const App = {
       {text: 'Friday', value: 'fri'},
       {text: 'Saturday', value: 'sat'},
       {text: 'Sunday', value: 'sun'},
+      {text: 'Include posts missing Day', value: 'no-day'},
     ],
     selectedTimezone: [],
     timezones: [
-      'GMT-11', 
-      'GMT-10', 
-      'GMT-9', 
-      'GMT-8', 
-      'GMT-7', 
-      'GMT-6', 
-      'GMT-5', 
+      'Include posts missing Timezone',
+      'GMT-11',
+      'GMT-10',
+      'GMT-9',
+      'GMT-8',
+      'GMT-7',
+      'GMT-6',
+      'GMT-5',
       'GMT-4',
-      'GMT-3', 
-      'GMT-2', 
-      'GMT-1', 
+      'GMT-3',
+      'GMT-2',
+      'GMT-1',
       'GMT',
-      'GMT+1', 
-      'GMT+2', 
-      'GMT+3', 
+      'GMT+1',
+      'GMT+2',
+      'GMT+3',
       'GMT+4',
       'GMT+5',
       'GMT+6',
@@ -139,8 +141,12 @@ const App = {
       {text: 'Accessible', value: 'accessible'},
     ],
     sendToReddit: function () {
-      url = 'https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe&message='
-      message =`${this.selectedGames.join(' ')}`;
+      const url = 'https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe&message='
+      let message =`${this.selectedGames.join(' ')}`;
+      const tz_index = this.selectedTimezone.indexOf('Include posts with no Timezone');
+      if (tz_index !== -1){
+        this.selectedTimezone[tz_index] = 'no-tz';
+      }
       if (this.selectedTimezone.length > 0) { message += `  \n${this.selectedTimezone.join(' ')}`};
       if (this.selectedDays.length > 0) {     message += `  \n${this.selectedDays.join(' ')}`};
       if (this.selectedFlair.length > 0) {    message += `  \n${this.selectedFlair.join(' ')}`};

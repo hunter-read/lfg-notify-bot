@@ -42,6 +42,8 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     user.lgbtq = flags.get("lgbtq")
     user.age_limit = flags.get("age_limit")
     user.vtt = flags.get("vtt")
+    user.match_no_timezone = flags.get("match_no_timezone")
+    user.match_no_day = flags.get("match_no_day")
     user.day = parse_day(message.body)
     user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
 
@@ -77,7 +79,10 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
         flag_string += f"- Age Limit:  {AgeLimit.tostring(user.age_limit)}  \n"
     if user.vtt != Vtt.NONE.flag:
         flag_string += f"- Virtual Tabletop(s):  {', '.join(Vtt.flag_to_str_array(user.vtt))}  \n"
-
+    if user.match_no_day and user.day:
+        flag_string += "- Also including posts with no Day of Week information  \n"
+    if user.match_no_timezone and user.timezone:
+        flag_string += "- Also including posts with no Timezone information  \n"
     user.save(db)
 
     return ("You have been successfully subscribed to LFG Notify Bot.  \n"
@@ -136,6 +141,9 @@ def main():
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
                 time.sleep(10)
+            except praw.exceptions.RequestException as err:
+                __logger.error(f"Request error: {err}")
+                time.sleep(60)
             except Exception as e:
                 __logger.critical(f"Unexpected error: {e}")
                 raise
