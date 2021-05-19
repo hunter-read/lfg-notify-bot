@@ -32,17 +32,17 @@ This is a bot that aims to make using [r/lfg](https://www.reddit.com/r/lfg/) eas
 [Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below.  
 **Note**: Only *game* is **required**, everything else is optional.
 
-| Information | Example | Description |
+| Information | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example/Options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
 | --- | --- | --- |
 | **Game** (Required) | `5e`, `PF2E`, `coc`, `flexible` | Any game in the [LFG subreddit game tags](https://www.reddit.com/r/lfg/wiki/index/formatting#wiki_game_tags) list ("Flexible" and "Other" game tags use `flexible`) |
-| Timezone | `EST`, `GMT-5` `UTC` | Most of the Europe, North America, and Australian time zone 3 or 4 character codes are support, as is any GMT+#. Posts missing timezone information can still be included with `no-tz` if other timezones are included in your filters. [Timezone Help](https://www.timeanddate.com/time/map/) | 
-| Day of Week | `Monday`, `tues`, or `weekends` | Any day of the week can be provided: Monday, Tuesday, Wednesday, ..., Sunday or `Weekday`/`weekend` (Most abbreviations common abbreviations are supported). Posts missing day of week information can still be included with `no-day` if other days are included in your filters.|
-| Keywords | `[strahd]` `[Pittsburg]` `[star wars]`| This is a case insensitive keyword that must be included if you want a specific match (Such as a specific module name, or other flag). These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. If multiple keywords are included, the bot will try and match any of them. |
+| Timezone | `EST`, `GMT-5`, `UTC`, `gmt+10:30` | Most of the Europe, North American, and Australian 3 or 4 character codes are support, as is any GMT+#. Posts missing timezone information can still be included with `no-tz` if other timezones are included in your filters. [Timezone Help](https://www.timeanddate.com/time/map/) | 
+| Day of Week | `Monday` or`mon`,<br/>and/or `tues`,<br/>and/or `weekends` | Any day of the week can be provided: Monday, Tuesday, ..., Sunday (Most abbreviations are supported). Posts missing day of week information can still be included with `no-day` if other days are included in your filters.|
+| Keywords | `[strahd]`<br/>`[New york]`<br/>`[star wars]`| This is a case insensitive text that must be included if you want a to filter on something specific. These must be included in square brackets "[]", and each keyword must be in it's own set of brackets. |
 | Specific flair | GM & player's: `gmplw`<br/>Player's wanted: `plw`<br/>GM wanted: `gmw` | By default "GM and player(s) wanted" or "Player(s) wanted" are searched, but this can be limited to any of the 3 options |
-| NSFW | Include: `nsfw`<br/>Only:`=nsfw` | By default all nsfw posts are excluded, if you are okay with nsfw posts, then include `nsfw` and if you only want nsfw then include `=nsfw`. |
-| Location Type | Include: `offline` (`off`)<br/>Only: `=offline` (`=off`) | By default the bot only looks for online games, but now you can include `offline` to include offline and online games, or `=offline` for only offline. |
+| NSFW | Include: `nsfw`<br/>Only: `=nsfw` | By default all nsfw posts are excluded, if you are okay with nsfw posts, then include `nsfw` and if you only want nsfw then include `=nsfw`. |
+| Location Type | Include: `offline` (`off`)<br/>Only: `=offline` (`=off`) | By default the bot only looks for online games, but you can include `off` to include offline and online games, or `=off` for only offline. |
 | Identity | LGBTQ+: `lgbtq`<br/> Feminine or Woman: `fem`<br/>People of Color: `poc`<br/>Accessible: `accessible` | Several identity tags have been made available for users who may have a harder time than most making a group of people, these flags then include only posts that explicitly mention identity. |
-| Age | `anyage`, `18+`, or `21+`<br/><img width=500/> | `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
+| Age | Not age gated: `anyage`<br/>18 and older: `18+`<br/>21 and older: `21+`| `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
 | Play by Post | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
 | One-shot | Only: `=oneshot`<br/>Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
 | Virtual Tabletop | [Roll20](https://roll20.net/welcome): `roll20`<br/>[Fantasy Grounds](https://www.fantasygrounds.com/home/home.php): `fg`<br/>[Tabletop Simulator](https://www.tabletopsimulator.com/): `tts`<br/>[Foundry VTT](https://foundryvtt.com/): `foundry`<br/>[Astral Tabletop](https://www.astraltabletop.com/): `astral`<br/>[TablePlop](https://new.tableplop.com/): `tableplop`<br/>[TaleSpire](https://talespire.com/): `talespire` | Include only games that expressly mention a Virtual Tabletop (VTT). Not recommended when looking for offline games. <br/>Want to add another VTT? [Message the developer](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
@@ -65,13 +65,13 @@ thursdays \ Friday
 gmt gmt+1
 nsfw plw offline 21+ lgbtq
 -pbp -oneshot
-[seattle] [WA]
+[seattle] [bellevue] [WA]
 ```
 
 ## Notes / Tips
 * **By default** only *online*, *non-nsfw*, and "GM and player(s) wanted" or "Player(s) wanted" *flaired* posts are matched.
 * You can include as many *games*, *timezones*, *days of the week*, *keywords* as you want and the bot will send you a message when someone posts a game looking for players that meets your criteria. 
-* If using *keywords*, keep them short and use abbreviations if they exist. Instead of just using `[curse of strahd]`,  also use `[strahd]` and `[cos]`. More is usually better.
+* If using *keywords*, keep them short and use abbreviations if they exist. Instead of just using `[curse of strahd]`,  also use `[strahd]` and `[cos]`. More is usually better, as keywords match any of your inputs. 
 * It's **NOT** recommended to include *keywords* used by other options, such as *identity*, *vtt*, or any other option.
 * **Don't** include every *day of the week*, every *timezone*, or all *vtt* options. By default all options are included, these are meant to filter down the notifications.
 * The bot provides many filters, but you don't need to use them all, pick the ones that you care about most. Too many options, and the bot won't find any posts, but too few (especially for D&D 5th Edition) and you may get too many.
@@ -82,7 +82,6 @@ While this bot does it's best to parse a user post, due to inconsistencies in ho
 
 If you see a blatant issue, please add an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues), or [send the developer](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue) a message on reddit.
 
-----
 
 ## FAQ
 * **Q:** Why am I getting a notification so late after a post has been created?  
