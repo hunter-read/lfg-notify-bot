@@ -77,7 +77,7 @@ nsfw plw offline 21+ lgbtq
 * The bot provides many filters, but you don't need to use them all, pick the ones that you care about most. Too many options, and the bot won't find any posts, but too few (especially for D&D 5th Edition) and you may get too many.
 
 
-## Disclaimer
+### Disclaimer
 While this bot does it's best to parse a user post, due to inconsistencies in how people post, there is no guarantee that the data it collects is 100% accurate. While the bot does try it's best, the very nature of text parsing is difficult. If you subscribe to this bot, make sure to read through any post the bot thinks is applicable to your filters.
 
 If you see a blatant issue, please add an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues), or [send the developer](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue) a message on reddit.
