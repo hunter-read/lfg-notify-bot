@@ -64,7 +64,7 @@ or
 | *Age* | `anyage`, `18+`, or `21+`<br/><img width=500/> | `anyage` excludes age gated games. `18+`, and `21+` search for games labeled as such. (Note 21+ includes any games labeled 18+ as well) |
 | *Play by Post* | Only: `=pbp`<br/>Exclude: `-pbp` | Include only play-by-post games with `pbp` and exclude all play-by-post games with `-pbp`. |
 | *One-shot* | Only: `=oneshot`<br/>Exclude: `-oneshot` | Include only one-shot games with `oneshot` and exclude all one-shot games with `-oneshot`. |
-| *Virtual Table Top* | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
+| *Virtual Table Top* | Roll20: `roll20`<br/>Fantasy Grounds: `fg`<br/>Tabletop Simulator: `tts`<br/>Foundry VTT: `foundry`<br/>Astral Tabletop: `astral`<br/>TablePlop: `tableplop`<br/>TaleSpire: `talespire` | Include only games that expressly mention the VTT. Want to add another VTT? [Message me](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=Add%20New%20VTT%20to%20LFG%20Notification%20Bot) |
 
 
 ## Advanced Example message body

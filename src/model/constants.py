@@ -68,6 +68,9 @@ class Vtt(Enum):
     FANTASY_GROUNDS = (2, "Fantasy Grounds")
     TABLETOP_SIM = (4, "Tabletop Simulator")
     FOUNDRY = (8, "Foundry VTT")
+    ASTRAL = (16, "Astral Tabletop")
+    TABLEPLOP = (32, "TablePlop")
+    TALESPIRE = (64, "TaleSpire")
 
     def __init__(self, flag: int, string: str):
         self.flag = flag
@@ -80,6 +83,9 @@ class Vtt(Enum):
         flag & cls.FANTASY_GROUNDS.flag and strings.append(cls.FANTASY_GROUNDS.string)
         flag & cls.TABLETOP_SIM.flag and strings.append(cls.TABLETOP_SIM.string)
         flag & cls.FOUNDRY.flag and strings.append(cls.FOUNDRY.string)
+        flag & cls.ASTRAL.flag and strings.append(cls.ASTRAL.string)
+        flag & cls.TABLEPLOP.flag and strings.append(cls.TABLEPLOP.string)
+        flag & cls.TALESPIRE.flag and strings.append(cls.TALESPIRE.string)
         return strings
 
 

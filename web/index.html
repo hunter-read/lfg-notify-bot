@@ -18,7 +18,7 @@
         <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md target="_blank" rel="noopener noreferrer">View the Documentation here for help</a></h5>
         <v-form>
           <v-select v-model="selectedGames" :items="games" label="Game*" required multiple chips hint="What game do you want to play" persistent-hint></v-select>
-          <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone" required multiple chips hint="(Optional) You can type in timezones and hit enter if missing from the list" persistent-hint></v-combobox>
+          <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone" required multiple chips hint="(Optional) You can type in timezones and hit enter if missing from the list." persistent-hint></v-combobox>
           <v-select v-model="selectedDays" :items="days" label="Day of the Week" required multiple chips hint="(Optional) What day of the week are you available" persistent-hint></v-select>
           <v-select v-model="selectedFlair" :items="flairs" label="Flair" multiple chips hint="(Optional) Limit by subreddit flair. Defaults to Player's wanted & GM and player(s) wanted" persistent-hint></v-select>
           <v-select v-model="selectedLocation" :items="locations" label="Location" hint="Play online or off, just make sure to get vaccinated if you can" persistent-hint></v-select>

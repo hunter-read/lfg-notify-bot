@@ -61,7 +61,6 @@ const App = {
     ],
     selectedTimezone: [],
     timezones: [
-      'Include posts missing Timezone',
       'GMT-11',
       'GMT-10',
       'GMT-9',
@@ -85,7 +84,8 @@ const App = {
       'GMT+9',
       'GMT+10',
       'GMT+11',
-      'GMT+12'
+      'GMT+12',
+      'Include posts missing Timezone',
     ],
     selectedKeywords: [],
     keywords: [],
@@ -132,6 +132,9 @@ const App = {
       {text: 'Fantasy Grounds', value: 'fg'},
       {text: 'Tabletop Simulator', value: 'tts'},
       {text: 'Foundry VTT', value: 'foundry'},
+      {text: 'Astral Tabletop', value: 'astral'},
+      {text: 'TablePlop', value: 'tableplop'},
+      {text: 'TaleSpire', value: 'talespire'},
     ],
     selectedIdentity: [],
     identities: [
@@ -143,7 +146,7 @@ const App = {
     sendToReddit: function () {
       const url = 'https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe&message='
       let message =`${this.selectedGames.join(' ')}`;
-      const tz_index = this.selectedTimezone.indexOf('Include posts with no Timezone');
+      const tz_index = this.selectedTimezone.indexOf('Include posts missing Timezone');
       if (tz_index !== -1){
         this.selectedTimezone[tz_index] = 'no-tz';
       }
