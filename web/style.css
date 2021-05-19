@@ -33,6 +33,9 @@
 .coffee {
   float: right;
 }
+.issue {
+  float: left;
+}
 @media only screen and (max-width: 768px) {
   .form-box {
     position: static;

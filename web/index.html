@@ -15,7 +15,7 @@
     <v-container>
       <div class="form-box">
         <h2>Subscribe with u/LFG_Notify_Bot</h2>
-        <h5><a href=https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md target="_blank" rel="noopener noreferrer">View the Documentation here for help</a></h5>
+        <h5><a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md#how-to-use"target="_blank" rel="noopener">View the Documentation here for help</a></h5>
         <v-form>
           <v-select v-model="selectedGames" :items="games" label="Game*" required multiple chips hint="What game do you want to play" persistent-hint></v-select>
           <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone" required multiple chips hint="(Optional) You can type in timezones and hit enter if missing from the list." persistent-hint></v-combobox>
@@ -30,8 +30,9 @@
           <v-select v-model="selectedIdentity" :items="identities" label="Identity" required multiple chips hint="(Optional) Find groups that match your identity" persistent-hint></v-select>
           <v-combobox v-model="selectedKeywords" :items="keywords" label="Keywords" multiple chips hint="(Optional) Type in word and hit enter. Include some if you want a more specific match" persistent-hint></v-combobox>
           <div class="text-center"><v-btn :disabled="selectedGames.length == 0" color="blue-grey" class="ma-2 white--text submit" @click.native="sendToReddit()" x-large>Submit</v-btn></div>
+          <h6 class="issue"><a href="https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue" target="_blank" rel="noopener noreferrer">Report an Issue</a></h6>
+          <h6 class="coffee"><a href="https://www.buymeacoffee.com/HunterRead" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></h6>
         </v-form>
-        <h6 class="coffee"><a href="https://www.buymeacoffee.com/HunterRead" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></h6>
       </div>
     </v-container>
   </v-app>

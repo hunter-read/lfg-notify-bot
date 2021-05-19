@@ -3,7 +3,7 @@ const App = {
   data: () => ({
     selectedGames: [],
     games: [
-      {header: 'Most Common Games'},
+      {header: 'Most Popular'},
       {text: 'D&D 5th Edition', value: '5e'},
       {text: 'D&D 3.5 Edition', value: '3.5'},
       {text: 'Pathfinder 2nd Edition', value: 'PF2e'},
@@ -14,7 +14,7 @@ const App = {
       {text: 'World of Darkness', value: 'WoD'},
       {text: 'Flexible / Other', value: 'Flexible'},
       {divider: true},
-      {header: 'Other Games'},
+      {header: 'Less Popular'},
       {text: 'Blades in the Dark', value: 'BitD'},
       {text: 'Basic Role-Playing', value: 'BRP'},
       {text: 'Chronicles of Darkness', value: 'CofD'},
@@ -57,7 +57,7 @@ const App = {
       {text: 'Friday', value: 'fri'},
       {text: 'Saturday', value: 'sat'},
       {text: 'Sunday', value: 'sun'},
-      {text: 'Include posts missing Day', value: 'no-day'},
+      {text: 'Include posts missing Day of Week', value: 'no-day'},
     ],
     selectedTimezone: [],
     timezones: [
