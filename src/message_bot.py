@@ -141,7 +141,7 @@ def main():
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
                 time.sleep(10)
-            except praw.exceptions.RequestException as err:
+            except prawcore.exceptions.RequestException as err:
                 __logger.error(f"Request error: {err}")
                 time.sleep(60)
             except Exception as e:
