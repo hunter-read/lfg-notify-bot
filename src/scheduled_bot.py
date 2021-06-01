@@ -1,5 +1,7 @@
 from logging import Logger
 import datetime
+import json
+import os
 import time
 
 import praw
@@ -39,6 +41,19 @@ def delete_overlimit_users():
             user.delete(db)
 
 
+def generate_statistics():
+    file = os.environ.get('STATISTICS_FILE')
+    if not file:
+        return
+    __logger.info("Generating post statistics")
+    with Database() as db:
+        data = Post.statistics(db)
+
+    data["generated_time"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    with open(file, 'w') as fp:
+        json.dump(data, fp)
+
+
 def main():
     __logger.info("Starting scheduled bot")
     while True:
@@ -49,6 +64,7 @@ def main():
 if __name__ == "__main__":
     schedule.every(2).minutes.do(update_flairless_submission)
     schedule.every(4).hours.at(":00").do(delete_overlimit_users)
+    schedule.every().day.at("8:00").do(generate_statistics)
     try:
         main()
     except Exception as e:

@@ -42,7 +42,6 @@ class Post:
 
     @classmethod
     def statistics(cls, db, date: str = '2021-05-20') -> dict:
-
         total_posts = db.query("SELECT count(id) FROM post WHERE date_created > ?", [date])[0][0]
         nsfw = db.query("SELECT sum(nsfw = 0), sum(nsfw = 1) FROM post WHERE date_created > ?", [date])[0]
         location = db.query("SELECT sum(online = ?), sum(online = ?), sum(online = ?) FROM post WHERE date_created > ?", [Location.ONLINE.value, Location.ONLINE_AND_OFFLINE.value, Location.OFFLINE.value, date])[0]
