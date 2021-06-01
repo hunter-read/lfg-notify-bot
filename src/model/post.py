@@ -62,7 +62,7 @@ class Post:
 
         america = db.query("SELECT sum(timezone like '%GMT-4%'), sum(timezone like '%GMT-5%'), sum(timezone like '%GMT-6%'), sum(timezone like '%GMT-7%'), sum(timezone like '%GMT-8%'), sum(timezone like '%GMT-3%'), sum(timezone like '%GMT-9%') FROM post WHERE date_created > ?", [date])[0]
         europe = db.query("SELECT sum(timezone like '%GMT-1%' and timezone not like '%GMT-10%'), sum(timezone like '%GMT+0%'), sum(timezone like '%GMT+1%' and timezone not like '%GMT+10%'  and timezone not like '%GMT+11%'), sum(timezone like '%GMT+2%'), sum(timezone like '%GMT+3%') FROM post WHERE date_created > ?", [date])[0]
-        aus = db.query("SELECT sum(timezone like '%GMT+8%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created > ?", [date])[0]
+        aus = db.query("SELECT sum(timezone like '%GMT+8%'),  sum(timezone like '%GMT+9%' and timezone not like '%GMT+9:%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created > ?", [date])[0]
         return {
             "data_start_date": date,
             "total_posts": total_posts,
@@ -163,10 +163,11 @@ class Post:
                 },
                 "australia": {
                     "GMT+8": aus[0],
-                    "GMT+9:30": aus[1],
-                    "GMT+10": aus[2],
-                    "GMT+10:30": aus[3],
-                    "GMT+11": aus[4],
+                    "GMT+9": aus[1],
+                    "GMT+9:30": aus[2],
+                    "GMT+10": aus[3],
+                    "GMT+10:30": aus[4],
+                    "GMT+11": aus[5],
                 }
             }
         }
