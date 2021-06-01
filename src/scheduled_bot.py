@@ -64,7 +64,7 @@ def main():
 if __name__ == "__main__":
     schedule.every(2).minutes.do(update_flairless_submission)
     schedule.every(4).hours.at(":00").do(delete_overlimit_users)
-    schedule.every().day.at("8:00").do(generate_statistics)
+    schedule.every().day.at("08:00").do(generate_statistics)
     try:
         main()
     except Exception as e:
