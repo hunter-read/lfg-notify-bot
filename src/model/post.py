@@ -32,7 +32,7 @@ class Post:
 
     @classmethod
     def find_post_by_date_created_greater_than_and_no_flair(cls, db, date: str) -> list:
-        results = db.query("SELECT * FROM post WHERE date_created > ? and flair is null", [date])
+        results = db.query("SELECT * FROM post WHERE date_created >= ? and flair is null", [date])
         return cls.__parse_results(results)
 
     @classmethod
@@ -42,27 +42,27 @@ class Post:
 
     @classmethod
     def statistics(cls, db, date: str = '2021-05-20') -> dict:
-        total_posts = db.query("SELECT count(id) FROM post WHERE date_created > ?", [date])[0][0]
-        nsfw = db.query("SELECT sum(nsfw = 0), sum(nsfw = 1) FROM post WHERE date_created > ?", [date])[0]
-        location = db.query("SELECT sum(online = ?), sum(online = ?), sum(online = ?) FROM post WHERE date_created > ?", [Location.ONLINE.value, Location.ONLINE_AND_OFFLINE.value, Location.OFFLINE.value, date])[0]
-        pbp = db.query("SELECT sum(play_by_post = 1) FROM post WHERE date_created > ?", [date])[0][0]
-        one_shot = db.query("SELECT sum(one_shot = 1) FROM post WHERE date_created > ?", [date])[0][0]
-        identity = db.query("SELECT sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0) FROM post WHERE date_created > ?", [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date])[0]
-        vtt = db.query("SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0) FROM post WHERE date_created > ?", [Vtt.ROLL20.flag, Vtt.FOUNDRY.flag, Vtt.FANTASY_GROUNDS.flag, Vtt.TABLETOP_SIM.flag, Vtt.ASTRAL.flag, Vtt.TALESPIRE.flag, Vtt.TABLEPLOP.flag, date])[0]
-        day = db.query("SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%') FROM post WHERE date_created > ?", [date])[0]
+        total_posts = db.query("SELECT count(id) FROM post WHERE date_created >= ?", [date])[0][0]
+        nsfw = db.query("SELECT sum(nsfw = 0), sum(nsfw = 1) FROM post WHERE date_created >= ?", [date])[0]
+        location = db.query("SELECT sum(online = ?), sum(online = ?), sum(online = ?) FROM post WHERE date_created >= ?", [Location.ONLINE.value, Location.ONLINE_AND_OFFLINE.value, Location.OFFLINE.value, date])[0]
+        pbp = db.query("SELECT sum(play_by_post = 1) FROM post WHERE date_created >= ?", [date])[0][0]
+        one_shot = db.query("SELECT sum(one_shot = 1) FROM post WHERE date_created >= ?", [date])[0][0]
+        identity = db.query("SELECT sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0) FROM post WHERE date_created >= ?", [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date])[0]
+        vtt = db.query("SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0) FROM post WHERE date_created >= ?", [Vtt.ROLL20.flag, Vtt.FOUNDRY.flag, Vtt.FANTASY_GROUNDS.flag, Vtt.TABLETOP_SIM.flag, Vtt.ASTRAL.flag, Vtt.TALESPIRE.flag, Vtt.TABLEPLOP.flag, date])[0]
+        day = db.query("SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%') FROM post WHERE date_created >= ?", [date])[0]
 
-        dnd = db.query("SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%') FROM post WHERE date_created > ?", [date])[0]
-        pf = db.query("SELECT sum(game like '%PF2E%'), sum(game like '%PF1E%') FROM post WHERE date_created > ?", [date])[0]
-        sr = db.query("SELECT sum(game like '%SR6%'), sum(game like '%SR5%'), sum(game like '%SR4%'), sum(game like '%SR3%') FROM post WHERE date_created > ?", [date])[0]
-        a_to_c = db.query("SELECT sum(game like '%40K%'), sum(game like '%BITD%'), sum(game like '%BRP%'), sum(game like '%COC%'), sum(game like '%COFD%'), sum(game like '%CYBERPUNK%') FROM post WHERE date_created > ?", [date])[0]
-        d_to_e = db.query("SELECT sum(game like '%DLC%'), sum(game like '%DLR%'), sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%') FROM post WHERE date_created > ?", [date])[0]
-        f_to_g = db.query("SELECT sum(game like '%FATE%'), sum(game like '%FEAST%'), sum(game like '%FLEXIBLE%'), sum(game like '%FWS%'), sum(game like '%GURPS%') FROM post WHERE date_created > ?", [date])[0]
-        h_to_n = db.query("SELECT sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%MOTW%'), sum(game like '%MM3%'), sum(game like '%NUMENERA%') FROM post WHERE date_created > ?", [date])[0]
-        o_to_z = db.query("SELECT sum(game like '%SWADE%'), sum(game like '%SWN%'), sum(game like '%STARFINDER%'), sum(game like '%SWRPG%'), sum(game like '%SWD%'), sum(game like '%WOD%') FROM post WHERE date_created > ?", [date])[0]
+        dnd = db.query("SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%') FROM post WHERE date_created >= ?", [date])[0]
+        pf = db.query("SELECT sum(game like '%PF2E%'), sum(game like '%PF1E%') FROM post WHERE date_created >= ?", [date])[0]
+        sr = db.query("SELECT sum(game like '%SR6%'), sum(game like '%SR5%'), sum(game like '%SR4%'), sum(game like '%SR3%') FROM post WHERE date_created >= ?", [date])[0]
+        a_to_c = db.query("SELECT sum(game like '%40K%'), sum(game like '%BITD%'), sum(game like '%BRP%'), sum(game like '%COC%'), sum(game like '%COFD%'), sum(game like '%CYBERPUNK%') FROM post WHERE date_created >= ?", [date])[0]
+        d_to_e = db.query("SELECT sum(game like '%DLC%'), sum(game like '%DLR%'), sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%') FROM post WHERE date_created >= ?", [date])[0]
+        f_to_g = db.query("SELECT sum(game like '%FATE%'), sum(game like '%FEAST%'), sum(game like '%FLEXIBLE%'), sum(game like '%FWS%'), sum(game like '%GURPS%') FROM post WHERE date_created >= ?", [date])[0]
+        h_to_n = db.query("SELECT sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%MOTW%'), sum(game like '%MM3%'), sum(game like '%NUMENERA%') FROM post WHERE date_created >= ?", [date])[0]
+        o_to_z = db.query("SELECT sum(game like '%SWADE%'), sum(game like '%SWN%'), sum(game like '%STARFINDER%'), sum(game like '%SWRPG%'), sum(game like '%SWD%'), sum(game like '%WOD%') FROM post WHERE date_created >= ?", [date])[0]
 
-        america = db.query("SELECT sum(timezone like '%GMT-4%'), sum(timezone like '%GMT-5%'), sum(timezone like '%GMT-6%'), sum(timezone like '%GMT-7%'), sum(timezone like '%GMT-8%'), sum(timezone like '%GMT-3%'), sum(timezone like '%GMT-9%') FROM post WHERE date_created > ?", [date])[0]
-        europe = db.query("SELECT sum(timezone like '%GMT-1%' and timezone not like '%GMT-10%'), sum(timezone like '%GMT+0%'), sum(timezone like '%GMT+1%' and timezone not like '%GMT+10%'  and timezone not like '%GMT+11%'), sum(timezone like '%GMT+2%'), sum(timezone like '%GMT+3%') FROM post WHERE date_created > ?", [date])[0]
-        aus = db.query("SELECT sum(timezone like '%GMT+8%'),  sum(timezone like '%GMT+9%' and timezone not like '%GMT+9:%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created > ?", [date])[0]
+        america = db.query("SELECT sum(timezone like '%GMT-4%'), sum(timezone like '%GMT-5%'), sum(timezone like '%GMT-6%'), sum(timezone like '%GMT-7%'), sum(timezone like '%GMT-8%'), sum(timezone like '%GMT-3%'), sum(timezone like '%GMT-9%') FROM post WHERE date_created >= ?", [date])[0]
+        europe = db.query("SELECT sum(timezone like '%GMT-1%' and timezone not like '%GMT-10%'), sum(timezone like '%GMT+0%'), sum(timezone like '%GMT+1%' and timezone not like '%GMT+10%'  and timezone not like '%GMT+11%'), sum(timezone like '%GMT+2%'), sum(timezone like '%GMT+3%') FROM post WHERE date_created >= ?", [date])[0]
+        aus = db.query("SELECT sum(timezone like '%GMT+8%'),  sum(timezone like '%GMT+9%' and timezone not like '%GMT+9:%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created >= ?", [date])[0]
         return {
             "data_start_date": date,
             "total_posts": total_posts,

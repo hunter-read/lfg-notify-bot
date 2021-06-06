@@ -29,12 +29,19 @@ def read_messages(db: Database):
 
 
 def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> str:
-    game = parse_game(message.subject + ' ' + message.body)
+    body = message.body
+
+    keywords = find_all_keyword(body)
+    if keywords:
+        for x in keywords:
+            body = body.replace(x, "")
+
+    game = parse_game(message.subject + ' ' + body)
     if not game:
         return MessageText.MISSING_GAME_REPLY
 
     user.game = game
-    flags = parse_message_flags(message.body)
+    flags = parse_message_flags(body)
     user.online = flags.get("location")
     user.nsfw = flags.get("nsfw")
     user.play_by_post = flags.get("play_by_post")
@@ -44,10 +51,10 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     user.vtt = flags.get("vtt")
     user.match_no_timezone = flags.get("match_no_timezone")
     user.match_no_day = flags.get("match_no_day")
-    user.day = parse_day(message.body)
-    user.flair = parse_flair(message.body) or Flair.DEFAULT.flag
+    user.day = parse_day(body)
+    user.flair = parse_flair(body) or Flair.DEFAULT.flag
 
-    timezone = parse_timezone(message.body)
+    timezone = parse_timezone(body)
     output = []
     if timezone:
         corrected = set([timezone_to_gmt(tz) for tz in timezone])
@@ -62,7 +69,6 @@ def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> 
     if user.flair and user.flair != Flair.DEFAULT.flag:
         flag_string += f"- Flair: {Flair.flag_to_str(user.flair)}  \n"
 
-    keywords = find_all_keyword(message.body)
     if keywords:
         user.keyword = '|'.join([re.escape(keyword) for keyword in keywords])
         flag_string += f"""- Keyword{'s' if len(keywords) > 1 else ''}: "{'" or "'.join(keywords)}"  \n"""
