@@ -150,6 +150,9 @@ def main():
             except prawcore.exceptions.RequestException as err:
                 __logger.error(f"Request error: {err}")
                 time.sleep(60)
+            except prawcore.exceptions.ResponseException as err:
+                __logger.error(f"Response error: {err}")
+                time.sleep(60)
             except Exception as e:
                 __logger.critical(f"Unexpected error: {e}")
                 raise
