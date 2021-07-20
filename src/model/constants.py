@@ -9,7 +9,7 @@ class MessageText(str, Enum):
                      "^^This ^^comment ^^was ^^done ^^automatically. ^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
     UNSUBSCRIBE_REPLY = ("You have successfully stopped notifications from LFG Notify Bot.  \n"
-                         "If this bot was helpful, please let me know that I was a [good bot here](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories/) and leave some feedback so my human can improve me.  \n"
+                         "If this bot was helpful, please let me know that I was a [good bot here](https://www.reddit.com/user/LFG_Notify_Bot/comments/olknl5/share_your_success_stories) and leave some feedback so my human can improve me.  \n"
                          "&nbsp;  \n"
                          "^^For ^^error ^^reporting, ^^please ^^message ^^my [^^human.](https://www.reddit.com/user/Perfekthuntr)")
 
