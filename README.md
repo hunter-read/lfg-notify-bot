@@ -102,7 +102,7 @@ If you see a blatant issue, please add an [issue to the github page](https://git
   **A:** Probably not yet, but you can submit an [issue to the github page](https://github.com/hunter-read/lfg-notify-bot/issues) or [upvote features you want to see](https://www.reddit.com/user/LFG_Notify_Bot/comments/k9heax/feature_requests/) on reddit. I have currently no features on my todo list, so please don't hesitate to ask for something.  
   
 * **Q:** How can I help?  
-  **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features. And if the bot was helpful, [leave a comment on reddit with your success story or a good/bad bot message](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories). Or you can buy me a [coffee](https://www.buymeacoffee.com/HunterRead). 
+  **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features. And if the bot was helpful, [leave a comment on reddit with your success story or a good/bad bot message](https://www.reddit.com/user/LFG_Notify_Bot/comments/jxsf6t/accolades_and_success_stories).
 
 * **Q:** You should make an app/website.  
   **A:** I like reddit and overall the lfg subreddit is full of good people, but also getting a app/website with the user base needed to sustain it is very difficult. There is [now a web page to subscribe](https://readpnw.dev/lfg) to the bot easily however.

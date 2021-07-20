@@ -30,8 +30,7 @@
           <v-select v-model="selectedIdentity" :items="identities" label="Identity" required multiple chips hint="(Optional) Find groups that match your identity" persistent-hint></v-select>
           <v-combobox v-model="selectedKeywords" :items="keywords" label="Keywords" multiple chips hint="(Optional) Type in word and hit enter. Include some if you want a more specific match" persistent-hint></v-combobox>
           <div class="text-center"><v-btn :disabled="selectedGames.length == 0" color="blue-grey" class="ma-2 white--text submit" @click.native="sendToReddit()" x-large>Submit</v-btn></div>
-          <h6 class="issue"><a href="https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue" target="_blank" rel="noopener noreferrer">Report an Issue</a></h6>
-          <h6 class="coffee"><a href="https://www.buymeacoffee.com/HunterRead" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a></h6>
+          <h6 class="coffee"><a href="https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue" target="_blank" rel="noopener noreferrer">Report an Issue</a></h6>
         </v-form>
       </div>
     </v-container>
