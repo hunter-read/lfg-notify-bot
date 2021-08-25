@@ -24,6 +24,7 @@ LABEL maintainer="hunter@readpnw.dev"
 WORKDIR /code
 
 COPY src/ .
+COPY web/ /web/lfg
 
 # copy only the dependencies installation from the 1st stage image
 COPY --from=builder /root/.local /root/.local
