@@ -25,7 +25,7 @@ LFG Notify Bot
 
 This is a bot that aims to make using [r/lfg](https://www.reddit.com/r/lfg/) easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to endlessly scroll the subreddit, it can be difficult to find a game. So this bot is here to help.
 
-<h3 align="center"> >>> There is <a href="https://readpnw.dev/lfg" target="_blank">now a web page to subscribe</a> to the bot easily <<< </h3>
+<h3 align="center"> >>> There is <a href="https://lfg.readpnw.dev" target="_blank">now a web page to subscribe</a> to the bot easily <<< </h3>
 
 # How to Use
 
