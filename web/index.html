@@ -13,6 +13,11 @@
 <script type="text/x-template" id="app-template">
   <v-app>
     <v-container>
+      <v-alert type="error" dismissible>
+        <h3 style="text-align: center">DO NOT USE THIS BOT if you have WILLFULLY choosen NOT to be vaccinated against Covid-19.</h3>
+        This is a tool for people who care about others, who love and respect their local community, and who want the TTRPG community to thrive.
+        You can help stop the pandemic by getting a Covid-19 vaccine if you are able, but anyone who willfully does not get a vaccine, is not welcome to use this tool.
+      </v-alert>
       <div class="form-box">
         <h2>Subscribe with u/LFG_Notify_Bot</h2>
         <h5><a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md#how-to-use"target="_blank" rel="noopener">View the Documentation here for help</a></h5>
@@ -21,7 +26,7 @@
           <v-combobox v-model="selectedTimezone" :items="timezones" label="Timezone" required multiple chips hint="(Optional) You can type in timezones and hit enter if missing from the list." persistent-hint></v-combobox>
           <v-select v-model="selectedDays" :items="days" label="Day of the Week" required multiple chips hint="(Optional) What day of the week are you available" persistent-hint></v-select>
           <v-select v-model="selectedFlair" :items="flairs" label="Flair" multiple chips hint="(Optional) Limit by subreddit flair. Defaults to Player's wanted & GM and player(s) wanted" persistent-hint></v-select>
-          <v-select v-model="selectedLocation" :items="locations" label="Location" hint="Play online or off, just make sure to get vaccinated if you can" persistent-hint></v-select>
+          <v-select v-model="selectedLocation" :items="locations" label="Location" hint="Play online or off" persistent-hint></v-select>
           <v-select v-model="selectedNSFW" :items="nsfw" label="NSFW" hint="Don't play these games at work" persistent-hint></v-select>
           <v-select v-model="selectedAge" :items="ages" label="Age Range" hint="Limit play to adults or anyone" persistent-hint></v-select>
           <v-select v-model="selectedPbp" :items="pbp" label="Play-by-Post" hint="Play over messages, through discord or a VTT" persistent-hint></v-select>
