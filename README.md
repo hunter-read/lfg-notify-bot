@@ -22,12 +22,6 @@ LFG Notify Bot
   </a>
 </p>
 
-## DO NOT USE THIS BOT if you have WILLFULLY choosen NOT to be vaccinated against Covid-19.
-This is a tool for people who care about others, who love and respect their local community, and who want the TTRPG community to thrive.
-You can help stop the pandemic by getting a Covid-19 vaccine if you are able, but anyone who willfully does not get a vaccine, is not welcome to use this tool.
- 
---------------------------------
-
 This is a bot that aims to make using [r/lfg](https://www.reddit.com/r/lfg/) easier to use and provide notifications when a tabletop game that meets your criteria is posted on reddit. It can be hard to find a game that matches your schedule or plays a tabletop game that is uncommon. And unless you are lucky, have an open schedule, or are able to endlessly scroll the subreddit, it can be difficult to find a game. So this bot is here to help.
 
 <h3 align="center"> >>> There is <a href="https://lfg.readpnw.dev" target="_blank">now a web page to subscribe</a> to the bot easily <<< </h3>
@@ -112,8 +106,6 @@ If you see a blatant issue, please add an [issue to the github page](https://git
 * **Q:** You should make an app/website.  
   **A:** I like reddit and overall the lfg subreddit is full of good people, but also getting a app/website with the user base needed to sustain it is very difficult. There is [now a web page to subscribe](https://readpnw.dev/lfg) to the bot easily however.  
 
-* **Q:** Why can't I use this bot if I choose to remain unvaccinated?  
-  **A:** Do you know why doctor's and nurses around the world are exhausted? It's because people are not getting vaccinated, keep getting Covid-19, and ending up in the hospital. People are dying from Covid-19 every day, some people are dying because Covid-19 patients make hospitals unable to care for other treatable issues. It's a tiny little shot in the arm, and then you move on with your life. If you don't like it, and still refuse to get vaccinated, F*** You! I hope there is always a tiny rock in all your shoes that you can never get out.  
 
 Have a question, that is not answered here? [Send the developer a message](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Question)
   

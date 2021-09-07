@@ -13,11 +13,7 @@
 <script type="text/x-template" id="app-template">
   <v-app>
     <v-container>
-      <v-alert type="error" dismissible>
-        <h3 style="text-align: center">DO NOT USE THIS BOT if you have WILLFULLY choosen NOT to be vaccinated against Covid-19.</h3>
-        This is a tool for people who care about others, who love and respect their local community, and who want the TTRPG community to thrive.
-        You can help stop the pandemic by getting a Covid-19 vaccine if you are able, but anyone who willfully does not get a vaccine, is not welcome to use this tool.
-      </v-alert>
+      <v-alert type="warning" dismissible><h3>Get Vaccinated, and Stay Safe</h3>Oh and when the GM asks, "Are you sure?", you'd better listen.</v-alert>
       <div class="form-box">
         <h2>Subscribe with u/LFG_Notify_Bot</h2>
         <h5><a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/README.md#how-to-use"target="_blank" rel="noopener">View the Documentation here for help</a></h5>
@@ -35,6 +31,7 @@
           <v-select v-model="selectedIdentity" :items="identities" label="Identity" required multiple chips hint="(Optional) Find groups that match your identity" persistent-hint></v-select>
           <v-combobox v-model="selectedKeywords" :items="keywords" label="Keywords" multiple chips hint="(Optional) Type in word and hit enter. Include some if you want a more specific match" persistent-hint></v-combobox>
           <div class="text-center"><v-btn :disabled="selectedGames.length == 0" color="blue-grey" class="ma-2 white--text submit" @click.native="sendToReddit()" x-large>Submit</v-btn></div>
+          <h6>{{randomText()}}</h6>
           <h6 class="coffee"><a href="https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Issue" target="_blank" rel="noopener noreferrer">Report an Issue</a></h6>
         </v-form>
       </div>
