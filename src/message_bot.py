@@ -115,7 +115,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
     full_message = message.subject + ' ' + message.body
     __logger.info(f"New Message: {message.author.name} - {message.subject}")
     if message.was_comment:
-        if "comment reply" in message.subject:
+        if "comment reply" in message.subject or "post reply" in message.subject:
             return None
         return MessageText.COMMENT_REPLY
 
