@@ -28,7 +28,7 @@ This is a bot that aims to make using [r/lfg](https://www.reddit.com/r/lfg/) eas
 
 # How to Use
 
-[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below, or use [this web page](https://readpnw.dev/lfg) to help generate your message. **Note**: Only *game* is **required**, everything else is optional.
+[Send the bot a message](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) with the subject **"Subscribe"** and in the message include the information below, or use [this web page](https://lfg.readpnw.dev) to help generate your message. **Note**: Only *game* is **required**, everything else is optional.
 
 | Information | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example/Options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
 | --- | --- | --- |
@@ -104,7 +104,7 @@ If you see a blatant issue, please add an [issue to the github page](https://git
   **A:** Best way to do so is [submit issues](https://github.com/hunter-read/lfg-notify-bot/issues) for bugs or features. And if the bot was helpful, [leave a comment on reddit with your success story or a good/bad bot message](https://www.reddit.com/user/LFG_Notify_Bot/comments/olknl5/share_your_success_stories/).
 
 * **Q:** You should make an app/website.  
-  **A:** I like reddit and overall the lfg subreddit is full of good people, but also getting a app/website with the user base needed to sustain it is very difficult. There is [now a web page to subscribe](https://readpnw.dev/lfg) to the bot easily however.  
+  **A:** I like reddit and overall the lfg subreddit is full of good people, but also getting a app/website with the user base needed to sustain it is very difficult. There is [now a web page to subscribe](https://lfg.readpnw.dev) to the bot easily however.  
 
 
 Have a question, that is not answered here? [Send the developer a message](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Question)
