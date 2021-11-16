@@ -1,5 +1,5 @@
-praw==7.4.0
-redis==3.5.3
+praw==7.5.0
+redis==4.0.0
 schedule==1.1.0
-Flask==2.0.1
+Flask==2.0.2
 gunicorn==20.1.0
