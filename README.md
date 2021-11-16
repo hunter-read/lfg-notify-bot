@@ -1,6 +1,8 @@
 LFG Notify Bot
 =============================================================================
 <p align="center">
+    <a href="https://www.digitalocean.com/?refcode=4afde7f13fdf&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" height="40" /></a>
+  <br>
   <a href="https://www.python.org/downloads/release/python-380/" target="_blank">
     <img src="https://img.shields.io/badge/python-v3.8%2B-blue" alt="python-version">
   </a>
@@ -15,7 +17,7 @@ LFG Notify Bot
     <img src="https://img.shields.io/github/license/hunter-read/lfg-notify-bot" alt="license">
   </a>
   <a href="https://stats.uptimerobot.com/KQlMrsqmqr" target="_blank">
-    <img src="https://img.shields.io/uptimerobot/ratio/m786376456-4d6cc003c3e5f06efeb0a058" alt="uptime">
+    <img src="https://img.shields.io/uptimerobot/ratio/m789250467-2e8d90b6ba78dcf3e5a722a6" alt="uptime">
   </a>
   <a href="https://github.com/hunter-read/lfg-notify-bot/commits/main" target="_blank">
     <img src="https://img.shields.io/github/last-commit/hunter-read/lfg-notify-bot/main" alt="uptime">
