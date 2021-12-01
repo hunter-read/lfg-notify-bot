@@ -1,9 +1,6 @@
-name: Continuous Integration
+name: ci
 
-on:
-  push:
-    branches:
-      - 'main'
+on: workflow_dispatch
 
 jobs:
   docker:
@@ -27,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: hunterreadca/lfg-notify-bot:latest
+          tags: hunterreadca/lfg-notify-bot:stable
           platforms: linux/amd64,linux/arm64
       -
         name: Image digest
