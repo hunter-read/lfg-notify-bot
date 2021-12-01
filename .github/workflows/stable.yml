@@ -1,4 +1,4 @@
-name: ci
+name: Push stable
 
 on: workflow_dispatch
 
