@@ -73,7 +73,7 @@ class User:
         else:
             query += f"and one_shot != {OneShot.ONLY.value} "
 
-        if self.lgbtq > Identity.NONE.value:
+        if self.lgbtq > Identity.NONE.flag:
             query += "and ((lgbtq & ?) > 0 or lgbtq = 0) "
             params.append(self.lgbtq)
         else:

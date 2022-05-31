@@ -192,7 +192,7 @@ class Post:
         self.permalink: str = kwargs.get("permalink", None)
         self.play_by_post: bool = kwargs.get("play_by_post", False)
         self.one_shot: bool = kwargs.get("one_shot", False)
-        self.lgbtq: int = kwargs.get("lgbtq", Identity.NONE.value)
+        self.lgbtq: int = kwargs.get("lgbtq", Identity.NONE.flag)
         self.age_limit: int = kwargs.get("age_limit", AgeLimit.NONE.value)
         self.vtt: int = kwargs.get("vtt", Vtt.NONE.flag)
 
