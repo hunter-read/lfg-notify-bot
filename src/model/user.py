@@ -73,9 +73,11 @@ class User:
         else:
             query += f"and one_shot != {OneShot.ONLY.value} "
 
-        if self.lgbtq:
+        if self.lgbtq > Identity.NONE.value:
             query += "and ((lgbtq & ?) > 0 or lgbtq = 0) "
             params.append(self.lgbtq)
+        else:
+            query += "and lgbtq = 0 "
 
         if self.age_limit == AgeLimit.NONE.value:
             query += f"and age_limit <= {AgeLimit.NONE.value} "
