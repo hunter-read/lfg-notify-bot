@@ -16,7 +16,7 @@ __redis: Redis = Redis()
 __production: bool = os.environ.get('PROFILE') == "production"
 
 
-def parse_API_exception(err: praw.exceptions.RedditAPIException) -> int:
+def parse_API_exception(err: praw.exceptions.RedditAPIException, username: str) -> int:
     match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
 
     if "RATELIMIT" in str(err) and match:
@@ -28,16 +28,16 @@ def parse_API_exception(err: praw.exceptions.RedditAPIException) -> int:
         __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
         return sleep_time
     elif "USER_DOESNT_EXIST" in str(err):
-        __logger.info("User does not exist")
+        __logger.info(f"User {username} does not exist")
         return -1
     elif "NOT_WHITELISTED_BY_USER" in str(err):
-        __logger.info("User has blocked bot")
+        __logger.info(f"User {username} has blocked bot")
         return -1
-    elif "That user is invalid" in str(err):
-        __logger.info("Invalid User.")
+    elif "INVALID_USER" in str(err):
+        __logger.info(f"Invalid User {username}.")
         return -1
     else:
-        __logger.error(f"Api Error: {err}")
+        __logger.error(f"Api Error for {username}: {err}")
         return 30
 
 
@@ -55,7 +55,7 @@ def message_user(notification: Notification) -> int:
         return 0
 
     except praw.exceptions.RedditAPIException as error:
-        return parse_API_exception(error)
+        return parse_API_exception(error, notification.username)
 
     except prawcore.exceptions.ServerError as err:
         __logger.error(f"Server Error: {err}")
