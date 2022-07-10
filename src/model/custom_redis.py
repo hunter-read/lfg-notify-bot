@@ -1,6 +1,7 @@
 from enum import Enum
 import json
 import os
+import time
 
 import redis
 
@@ -52,12 +53,33 @@ class Notification(AbstractRedisObject):
 class Redis:
     def __init__(self):
         self.__redis: redis.Redis = redis.Redis(host=os.environ.get('REDIS_HOST', 'localhost'))
+        self.__backoff: int = 1
 
     def push(self, data: AbstractRedisObject) -> None:
-        self.__redis.lpush(data._list_name, data.serialize())
+        try:
+            self.__redis.lpush(data._list_name, data.serialize())
+        except redis.exceptions.ConnectionError as e:
+            self.backoff_or_raise()
+        self.__backoff = 1
+
+
 
     def append(self, data: AbstractRedisObject) -> None:
-        self.__redis.rpush(data._list_name, data.serialize())
+        try:
+            self.__redis.rpush(data._list_name, data.serialize())
+        except redis.exceptions.ConnectionError as e:
+            self.backoff_or_raise()
+        self.__backoff = 1
 
     def blocking_pop(self, obj: AbstractRedisObject) -> None:
-        obj.deserialize(self.__redis.blpop(obj._list_name)[1])
+        try:
+            obj.deserialize(self.__redis.blpop(obj._list_name)[1])
+        except redis.exceptions.ConnectionError as e:
+            self.backoff_or_raise()
+        self.__backoff = 1
+        
+    def backoff_or_raise(self) -> None:
+        if (self.__backoff > 4): 
+            raise Exception("Redis is down")
+        time.sleep(15*self.__backoff)
+        self.__backoff *= 2
