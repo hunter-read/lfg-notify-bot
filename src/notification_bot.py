@@ -33,6 +33,9 @@ def parse_API_exception(err: praw.exceptions.RedditAPIException) -> int:
     elif "NOT_WHITELISTED_BY_USER" in str(err):
         __logger.info("User has blocked bot")
         return -1
+    elif "That user is invalid" in str(err):
+        __logger.info("Invalid User.")
+        return -1
     else:
         __logger.error(f"Api Error: {err}")
         return 30
@@ -45,7 +48,7 @@ def message_user(notification: Notification) -> int:
 
     try:
         redditor = __reddit.redditor(notification.username)
-        redditor.message(notification.subject, notification.body)
+        redditor.message(subject=notification.subject, message=notification.body)
 
     except prawcore.exceptions.Forbidden as err:
         __logger.error(f"Error sending message to {notification.username}: {err}")
