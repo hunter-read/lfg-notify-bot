@@ -47,7 +47,7 @@ def message_user(notification: Notification) -> int:
         return 0
 
     try:
-        redditor = __reddit.redditor(notification.username)
+        redditor = __reddit.redditor(name=notification.username)
         redditor.message(subject=notification.subject, message=notification.body)
 
     except prawcore.exceptions.Forbidden as err:
