@@ -22,10 +22,29 @@ def read_messages(db: Database):
         if __production ^ message.subject.endswith("devtesting"):
             message.mark_read()
             if reply:
-                message.reply(reply)
+                handle_reply(message, reply)
         else:
             __logger.info(f"Message to {message.author.name}\n{reply}")
         time.sleep(2)
+
+
+def handle_reply(message: praw.models.Message, reply: str) -> None:
+    while True:
+        try:
+            message.reply(body=reply)
+            break;
+        except praw.exceptions.RedditAPIException as err:
+            match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
+            if "RATELIMIT" in str(err) and match:
+                sleep_time = int(match.group(1)) + 1
+                if match.group(2) == "minute":
+                    sleep_time = (sleep_time * 60)
+                if match.group(2) == "millisecond":
+                    sleep_time = 1
+                __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")
+                time.sleep(sleep_time)
+            else:
+                raise err
 
 
 def handle_subscribe(db: Database, user: User, message: praw.models.Message) -> str:
