@@ -46,13 +46,18 @@ def generate_statistics():
     if not file:
         return
     __logger.info("Generating post statistics")
+    year_2022 = file + '_2022'
     with Database() as db:
         data = Post.statistics(db)
+        data["generated_time"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
-    data["generated_time"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    with open(file, 'w') as fp:
+        data_2022 = Post.statistics(db, date='2022-01-01')
+        data_2022["generated_time"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        
+    with open(file + ".json", 'w') as fp:
         json.dump(data, fp)
-
+    with open(year_2022 + ".json", 'w') as fp:
+        json.dump(data_2022, fp)
 
 def main():
     __logger.info("Starting scheduled bot")
