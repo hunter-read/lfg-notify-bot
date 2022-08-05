@@ -45,8 +45,7 @@ def generate_statistics():
     file = os.environ.get('STATISTICS_FILE')
     if not file:
         return
-    __logger.info("Generating post statistics")
-    year = datetime.date.today.year()
+    year = datetime.now().strftime("%Y")
     file_year = f'{file}_{year}'
     with Database() as db:
         data = Post.statistics(db)
@@ -59,6 +58,8 @@ def generate_statistics():
         json.dump(data, fp)
     with open(file_year + ".json", 'w') as fp:
         json.dump(data_year, fp)
+    
+    __logger.info("Generated post statistics")
 
 def main():
     __logger.info("Starting scheduled bot")
