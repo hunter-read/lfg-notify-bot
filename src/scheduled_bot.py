@@ -45,7 +45,7 @@ def generate_statistics():
     file = os.environ.get('STATISTICS_FILE')
     if not file:
         return
-    year = datetime.now().strftime("%Y")
+    year = datetime.datetime.today().year
     file_year = f'{file}_{year}'
     with Database() as db:
         data = Post.statistics(db)
