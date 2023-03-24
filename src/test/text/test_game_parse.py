@@ -56,7 +56,8 @@ game_data = [
     ("(flexible)", {"FLEXIBLE"}),
     ("<Flexible>", {"FLEXIBLE"}),
     ("{Flexible}", {"FLEXIBLE"}),
-    ("[FLEXIBLE]", {"FLEXIBLE"})
+    ("[FLEXIBLE]", {"FLEXIBLE"}),
+    ("[Flexible Time(GMT-5)]", set())
 ]
 
 
