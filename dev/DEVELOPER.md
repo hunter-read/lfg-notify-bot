@@ -3,7 +3,7 @@ Currently made of 4 bots, one that reads incoming user messages, another that pa
 
 ## Requirements
 ### Main Codebase
-* python 3.8+
+* python 3.11+
 * praw
 * redis
 * schedule

@@ -1,4 +1,4 @@
-FROM python:3.9 AS builder
+FROM python:3.11 AS builder
 
 WORKDIR /code
 COPY requirements.txt .
@@ -15,7 +15,7 @@ ENV DATABASE=/code/lfg_tables.db
 ENV PROFILE=development
 
 # second unnamed stage
-FROM python:3.9-slim
+FROM python:3.11-slim
 LABEL maintainer="hunter@readpnw.dev"
 
 WORKDIR /code
