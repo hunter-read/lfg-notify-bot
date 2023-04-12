@@ -4,7 +4,7 @@ LFG Notify Bot
     <a href="https://www.digitalocean.com/?refcode=4afde7f13fdf&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" height="40" /></a>
   <br>
   <a href="https://www.python.org/downloads/release/python-380/" target="_blank">
-    <img src="https://img.shields.io/badge/python-v3.8%2B-blue" alt="python-version">
+    <img src="https://img.shields.io/badge/python-v3.11%2B-blue" alt="python-version">
   </a>
   <a href="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml" target="_blank">
     <img src="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml/badge.svg" alt="github action status">
