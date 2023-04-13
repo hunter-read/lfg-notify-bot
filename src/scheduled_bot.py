@@ -1,11 +1,12 @@
 from logging import Logger
 import datetime
 import json
-import os
 import time
 
 import praw
 import schedule
+from io import BytesIO
+from minio import Minio
 
 from model import Database, MessageText, Notification, Post, Redis, User
 from service import init_logger, find_users_and_queue
@@ -42,11 +43,7 @@ def delete_overlimit_users():
 
 
 def generate_statistics():
-    file = os.environ.get('STATISTICS_FILE')
-    if not file:
-        return
     year = datetime.datetime.today().year
-    file_year = f'{file}_{year}'
     with Database() as db:
         data = Post.statistics(db)
         data["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z")
@@ -54,10 +51,16 @@ def generate_statistics():
         data_year = Post.statistics(db, date=f"{year}-01-01")
         data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z")
         
-    with open(file + ".json", 'w') as fp:
-        json.dump(data, fp)
-    with open(file_year + ".json", 'w') as fp:
-        json.dump(data_year, fp)
+    client = Minio(__reddit.config.custom["statistics_endpoint"], 
+                   __reddit.config.custom["minio_access_key"], 
+                   __reddit.config.custom["minio_secret_key"], 
+                   secure=True)
+    
+    byte = json.dumps(data).encode("utf-8")
+    client.put_object(__reddit.config.custom["bucket_name"], "statistics.json", byte, len(byte), content_type="application/json")
+    
+    byte_year = json.dumps(data_year).encode("utf-8")
+    client.put_object("lfg-notify-bot", f"statistics_{year}.json", byte_year, len(byte_year), content_type="application/json")    
     
     __logger.info("Generated post statistics")
 

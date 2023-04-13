@@ -2,3 +2,4 @@ praw==7.7.0
 redis==4.5.4
 schedule==1.2.0
 hiredis==2.2.2
+minio==7.1.14
