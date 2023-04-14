@@ -57,10 +57,10 @@ def generate_statistics():
                    secure=True)
     
     byte = json.dumps(data).encode("utf-8")
-    client.put_object(__reddit.config.custom["bucket_name"], "statistics.json", byte, len(byte), content_type="application/json")
+    client.put_object(__reddit.config.custom["bucket_name"], "statistics.json", BytesIO(byte), len(byte), content_type="application/json")
     
     byte_year = json.dumps(data_year).encode("utf-8")
-    client.put_object("lfg-notify-bot", f"statistics_{year}.json", byte_year, len(byte_year), content_type="application/json")    
+    client.put_object("lfg-notify-bot", f"statistics_{year}.json", BytesIO(byte_year), len(byte_year), content_type="application/json")    
     
     __logger.info("Generated post statistics")
 
