@@ -1,6 +1,8 @@
 import datetime
 import json
 import time
+import functools
+import traceback
 from logging import Logger
 from io import BytesIO
 
@@ -9,14 +11,30 @@ import schedule
 from minio import Minio
 
 from model import Database, MessageText, Notification, Post, Redis, User
-from service import init_logger, find_users_and_queue
+from service import init_logger, find_users_and_queue, init_health_check, set_unhealthy
 
 
-__reddit: praw.Reddit = praw.Reddit("scheduled")
+__NAME: str = "scheduled"
+__reddit: praw.Reddit = praw.Reddit(__NAME)
 __logger: Logger = init_logger()
 __redis: Redis = Redis()
 
 
+def catch_exceptions():
+    def catch_exceptions_decorator(job_func):
+        @functools.wraps(job_func)
+        def wrapper(*args, **kwargs):
+            try:
+                return job_func(*args, **kwargs)
+            except:
+                __logger.critical(f"Unexpected error: {traceback.format_exc()}")
+                set_unhealthy(__NAME)
+                return schedule.CancelJob
+        return wrapper
+    return catch_exceptions_decorator
+
+
+@catch_exceptions()
 def update_flairless_submission():
     '''
     This function will check for any submissions that have been posted in the last 7 minutes and have no flair.
@@ -35,6 +53,7 @@ def update_flairless_submission():
                 find_users_and_queue(db, submission, post)
 
 
+@catch_exceptions()
 def delete_overlimit_users():
     '''
     Find all users that have more than 200 notifications queued and unsubscribe them.
@@ -51,6 +70,7 @@ def delete_overlimit_users():
             user.delete(db)
 
 
+@catch_exceptions()
 def generate_statistics():
     '''
     Generate post statistics for the bot and upload them to the Minio server.
@@ -79,19 +99,18 @@ def generate_statistics():
     
     __logger.info("Generated post statistics")
 
+
 def main():
-    __logger.info("Starting scheduled bot")
     while True:
         schedule.run_pending()
         time.sleep(60)
 
 
 if __name__ == "__main__":
+    __logger.info("Starting scheduled bot")
+    init_health_check(__NAME)
     schedule.every(2).minutes.do(update_flairless_submission)
     schedule.every(4).hours.at(":00").do(delete_overlimit_users)
     schedule.every().day.at("23:59").do(generate_statistics)
-    try:
-        main()
-    except Exception as e:
-        __logger.critical(f"Unexpected error: {e}")
-        raise
+    
+    main()
