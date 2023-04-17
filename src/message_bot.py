@@ -7,11 +7,12 @@ import praw
 import prawcore
 
 from model import Database, MessageText, User, Flair, PlayByPost, Nsfw, Location, Identity, OneShot, AgeLimit, Vtt
-from service import init_logger
+from service import init_logger, init_health_check, set_unhealthy
 from text import parse_timezone, parse_day, parse_game, game_abbreviation_to_string, timezone_to_gmt, sort_days, find_all_keyword, parse_flair, parse_message_flags
 
 
-__reddit: praw.Reddit = praw.Reddit("message")
+__NAME: str = "message"
+__reddit: praw.Reddit = praw.Reddit(__NAME)
 __logger: Logger = init_logger()
 __production: bool = os.environ.get('PROFILE') == "production"
 
@@ -154,6 +155,7 @@ def parse_incoming_message(db: Database, message: praw.models.Message) -> str:
 
 def main():
     __logger.info("Starting incoming message bot")
+    init_health_check(__NAME)
     with Database() as db:
         while True:
             try:
@@ -174,7 +176,8 @@ def main():
                 time.sleep(60)
             except Exception as e:
                 __logger.critical(f"Unexpected error: {e}")
-                raise
+                set_unhealthy(__NAME)
+                time.sleep(60)
 
 
 if __name__ == "__main__":

@@ -7,10 +7,11 @@ import prawcore
 
 from logging import Logger
 from model import Database, Notification, Redis, User
-from service import init_logger
+from service import init_logger, init_health_check, set_unhealthy
 
 
-__reddit: praw.Reddit = praw.Reddit("notification")
+__NAME: str = "notification"
+__reddit: praw.Reddit = praw.Reddit(__NAME)
 __logger: Logger = init_logger()
 __redis: Redis = Redis()
 __production: bool = os.environ.get('PROFILE') == "production"
@@ -69,30 +70,33 @@ def message_user(notification: Notification) -> int:
 
 def main():
     __logger.info("Starting notification bot")
+    init_health_check(__NAME)
     with Database() as db:
         while True:
-            notification = Notification()
-            __redis.blocking_pop(notification)
-            user = User(username=notification.username)
-            return_value = 0
-            if notification.type == Notification.NotificationType.SUBMISSION and user.exists(db):
-                return_value = message_user(notification)
-                if return_value == 0:
-                    user.update_notification_count(db)
-            else:
-                return_value = message_user(notification)
+            try:
+                notification = Notification()
+                __redis.blocking_pop(notification)
+                user = User(username=notification.username)
+                return_value = 0
+                if notification.type == Notification.NotificationType.SUBMISSION and user.exists(db):
+                    return_value = message_user(notification)
+                    if return_value == 0:
+                        user.update_notification_count(db)
+                else:
+                    return_value = message_user(notification)
 
-            if return_value > 0:
-                __redis.push(notification)
-                time.sleep(return_value)
-            elif return_value < 0:
-                __logger.info(f"Deleting user {user.username} due to deleted or banned account")
-                user.delete(db)
+                if return_value > 0:
+                    __redis.push(notification)
+                    time.sleep(return_value)
+                elif return_value < 0:
+                    __logger.info(f"Deleting user {user.username} due to deleted or banned account")
+                    user.delete(db)
+            except Exception as e:
+                __logger.critical(f"Unexpected error: {e}")
+                set_unhealthy(__NAME)
+                time.sleep(60)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        __logger.critical(f"Unexpected error: {e}")
-        raise
+    main()
+

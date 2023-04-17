@@ -5,11 +5,12 @@ import praw
 import prawcore
 
 from model import Database, Post
-from service import init_logger, find_users_and_queue
+from service import init_logger, find_users_and_queue, init_health_check, set_unhealthy
 from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, sort_days, parse_location, parse_submission_flags
 
 
-__reddit: praw.Reddit = praw.Reddit("submission")
+__NAME: str = "submission"
+__reddit: praw.Reddit = praw.Reddit(__NAME)
 __subreddit: praw.models.Subreddit = __reddit.subreddit("lfg")
 __logger: Logger = init_logger()
 
@@ -76,6 +77,7 @@ def parse_submission(submission: praw.models.Submission, post: Post):
 
 def main():
     __logger.info("Starting submission bot")
+    init_health_check(__NAME)
     with Database() as db:
         while True:
             try:
@@ -88,7 +90,8 @@ def main():
                 time.sleep(10)
             except Exception as e:
                 __logger.critical(f"Unexpected error: {e}")
-                raise
+                set_unhealthy(__NAME)
+                time.sleep(60)
 
 
 if __name__ == "__main__":

@@ -101,16 +101,16 @@ def generate_statistics():
 
 
 def main():
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
-
-if __name__ == "__main__":
     __logger.info("Starting scheduled bot")
     init_health_check(__NAME)
     schedule.every(2).minutes.do(update_flairless_submission)
     schedule.every(4).hours.at(":00").do(delete_overlimit_users)
     schedule.every().day.at("23:59").do(generate_statistics)
     
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+
+
+if __name__ == "__main__":    
     main()
