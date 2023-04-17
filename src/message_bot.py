@@ -33,7 +33,7 @@ def handle_reply(message: praw.models.Message, reply: str) -> None:
     while True:
         try:
             message.reply(body=reply)
-            break;
+            break
         except praw.exceptions.RedditAPIException as err:
             match = re.search(r"(\d+)\s(minute|millisecond|second)", str(err))
             if "RATELIMIT" in str(err) and match:

@@ -26,7 +26,7 @@ def catch_exceptions():
         def wrapper(*args, **kwargs):
             try:
                 return job_func(*args, **kwargs)
-            except:
+            except Exception:
                 __logger.critical(f"Unexpected error: {traceback.format_exc()}")
                 set_unhealthy(__NAME)
                 return schedule.CancelJob
@@ -84,19 +84,19 @@ def generate_statistics():
 
         data_year = Post.statistics(db, date=f"{year}-01-01")
         data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
-        
-    client = Minio(__reddit.config.custom["statistics_endpoint"], 
-                   __reddit.config.custom["minio_access_key"], 
-                   __reddit.config.custom["minio_secret_key"], 
+
+    client = Minio(__reddit.config.custom["statistics_endpoint"],
+                   __reddit.config.custom["minio_access_key"],
+                   __reddit.config.custom["minio_secret_key"],
                    secure=True)
-    
+
     # Upload statistics to Minio
     byte = json.dumps(data).encode("utf-8")
     client.put_object(__reddit.config.custom["bucket_name"], "statistics.json", BytesIO(byte), len(byte), content_type="application/json")
-    
+
     byte_year = json.dumps(data_year).encode("utf-8")
-    client.put_object("lfg-notify-bot", f"statistics_{year}.json", BytesIO(byte_year), len(byte_year), content_type="application/json")    
-    
+    client.put_object("lfg-notify-bot", f"statistics_{year}.json", BytesIO(byte_year), len(byte_year), content_type="application/json")
+
     __logger.info("Generated post statistics")
 
 
@@ -106,11 +106,11 @@ def main():
     schedule.every(2).minutes.do(update_flairless_submission)
     schedule.every(4).hours.at(":00").do(delete_overlimit_users)
     schedule.every().day.at("23:59").do(generate_statistics)
-    
+
     while True:
         schedule.run_pending()
         time.sleep(60)
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     main()

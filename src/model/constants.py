@@ -71,6 +71,9 @@ class Vtt(Enum):
     ASTRAL = (16, "Astral Tabletop")
     TABLEPLOP = (32, "TablePlop")
     TALESPIRE = (64, "TaleSpire")
+    ONE_MORE_MULTIVERSE = (128, "One More Multiverse")
+    OWLBEAR_RODEO = (256, "Owlbear Rodeo")
+    ABOVE_VTT = (512, "Above VTT")
 
     def __init__(self, flag: int, string: str):
         self.flag = flag
@@ -86,6 +89,9 @@ class Vtt(Enum):
         flag & cls.ASTRAL.flag and strings.append(cls.ASTRAL.string)
         flag & cls.TABLEPLOP.flag and strings.append(cls.TABLEPLOP.string)
         flag & cls.TALESPIRE.flag and strings.append(cls.TALESPIRE.string)
+        flag & cls.ONE_MORE_MULTIVERSE.flag and strings.append(cls.ONE_MORE_MULTIVERSE.string)
+        flag & cls.OWLBEAR_RODEO.flag and strings.append(cls.OWLBEAR_RODEO.string)
+        flag & cls.ABOVE_VTT.flag and strings.append(cls.ABOVE_VTT.string)
         return strings
 
 

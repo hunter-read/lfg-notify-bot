@@ -16,7 +16,7 @@ Reccomend to run in a docker compose file with redis. Also needs to connect to a
 
 ### Testing
 * pytest (`py.test`)
-* flake8 (`flake8 . --count --exit-zero --max-complexity=10  --statistics --ignore=E501`)
+* flake8 (`flake8 . --count --exit-zero --max-complexity=20  --statistics --ignore=E501`)
 
 ## Changes
 If you see an issue or want to add a feature make sure there is an issue for it, and fork the repo and submit a PR for it. I usually review PR's within 24 hours but can take up to 72 hours.

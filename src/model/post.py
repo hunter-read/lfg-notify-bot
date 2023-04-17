@@ -48,10 +48,10 @@ class Post:
         pbp = db.query("SELECT sum(play_by_post = 1) FROM post WHERE date_created >= ?", [date])[0][0]
         one_shot = db.query("SELECT sum(one_shot = 1) FROM post WHERE date_created >= ?", [date])[0][0]
         identity = db.query("SELECT sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0) FROM post WHERE date_created >= ?", [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date])[0]
-        vtt = db.query("SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0) FROM post WHERE date_created >= ?", [Vtt.ROLL20.flag, Vtt.FOUNDRY.flag, Vtt.FANTASY_GROUNDS.flag, Vtt.TABLETOP_SIM.flag, Vtt.ASTRAL.flag, Vtt.TALESPIRE.flag, Vtt.TABLEPLOP.flag, date])[0]
+        vtt = db.query("SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0)  FROM post WHERE date_created >= ?", [Vtt.ROLL20.flag, Vtt.FOUNDRY.flag, Vtt.FANTASY_GROUNDS.flag, Vtt.TABLETOP_SIM.flag, Vtt.ASTRAL.flag, Vtt.TALESPIRE.flag, Vtt.TABLEPLOP.flag, Vtt.ONE_MORE_MULTIVERSE.flag, Vtt.OWLBEAR_RODEO.flag, Vtt.ABOVE_VTT.flag, date])[0]
         day = db.query("SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%') FROM post WHERE date_created >= ?", [date])[0]
         flair = db.query("SELECT sum(flair='GM and player(s) wanted'), sum(flair='Player(s) wanted'), sum(flair='GM wanted') FROM post WHERE date_created >= ?", [date])[0]
-        dnd = db.query("SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%') FROM post WHERE date_created >= ?", [date])[0]
+        dnd = db.query("SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%'), sum(game like '%1DND%') FROM post WHERE date_created >= ?", [date])[0]
         pf = db.query("SELECT sum(game like '%PF2E%'), sum(game like '%PF1E%') FROM post WHERE date_created >= ?", [date])[0]
         sr = db.query("SELECT sum(game like '%SR6%'), sum(game like '%SR5%'), sum(game like '%SR4%'), sum(game like '%SR3%') FROM post WHERE date_created >= ?", [date])[0]
         a_to_c = db.query("SELECT sum(game like '%40K%'), sum(game like '%BITD%'), sum(game like '%BRP%'), sum(game like '%COC%'), sum(game like '%COFD%'), sum(game like '%CYBERPUNK%') FROM post WHERE date_created >= ?", [date])[0]
@@ -125,6 +125,7 @@ class Post:
                 "3.5": dnd[2],
                 "4e": dnd[1],
                 "5e": dnd[0],
+                "1dnd": dnd[8],
                 "earthdawn": d_to_e[4],
                 "fate": f_to_g[0],
                 "feast": f_to_g[1],

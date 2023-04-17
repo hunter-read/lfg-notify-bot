@@ -62,10 +62,8 @@ class Redis:
                 self.__redis.lpush(data._list_name, data.serialize())
                 self.__backoff = 1
                 success = True
-            except redis.exceptions.ConnectionError as e:
+            except redis.exceptions.ConnectionError:
                 self.backoff_or_raise()
-
-
 
     def append(self, data: AbstractRedisObject) -> None:
         success = False
@@ -74,7 +72,7 @@ class Redis:
                 self.__redis.rpush(data._list_name, data.serialize())
                 self.__backoff = 1
                 success = True
-            except redis.exceptions.ConnectionError as e:
+            except redis.exceptions.ConnectionError:
                 self.backoff_or_raise()
 
     def blocking_pop(self, obj: AbstractRedisObject) -> None:
@@ -84,12 +82,12 @@ class Redis:
                 obj.deserialize(self.__redis.blpop(obj._list_name)[1])
                 self.__backoff = 1
                 success = True
-            except redis.exceptions.ConnectionError as e:
+            except redis.exceptions.ConnectionError:
                 self.backoff_or_raise()
-        
+
     def backoff_or_raise(self) -> None:
-        if (self.__backoff > 8): 
+        if (self.__backoff > 8):
             self.__backoff = 1
             raise Exception("Redis is down")
-        time.sleep(15*self.__backoff)
+        time.sleep(15 * self.__backoff)
         self.__backoff *= 2

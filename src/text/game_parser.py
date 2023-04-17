@@ -25,6 +25,7 @@ __game_dict = {
     "DND2E": "D&D 2nd Edition",
     "3E": "D&D 3rd Edition",
     "4E": "D&D 4th Edition",
+    "1DND": "One D&D",
     "EARTHDAWN": "Earthdawn",
     "FATE": "Fate Core",
     "FEAST": "Feast of Legends",
@@ -45,7 +46,7 @@ __game_dict = {
     "SWRPG": "Star Wars RPG",
     "SWN": "Stars Without Numbers",
 }
-__game_regex = re.compile(r"(CoC|3\.5|[3-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD|(?:(?:\[|<|\(|{)(?:Flexible|Other)(?:\]|>|\)|})))", flags=re.IGNORECASE)
+__game_regex = re.compile(r"(CoC|3\.5|[3-5]e|PF[1-2]e|BitD|BRP|CofD|Cyberpunk|DLC|DLR|DCC|DW|ODND|ADND|BX|DND2e|1DND|Earthdawn|Fate|Feast|FWS|GURPS|L5R|MCC|MotW|MM3|Numenera|SWADE|SWD|SR[3-6]|Starfinder|SWRPG|SWN|40K|WoD|(?:(?:\[|<|\(|{)(?:Flexible|Other)(?:\]|>|\)|})))", flags=re.IGNORECASE)
 
 
 def parse_game(text: str) -> typing.Set[str]:
