@@ -1,11 +1,11 @@
-from logging import Logger
 import datetime
 import json
 import time
+from logging import Logger
+from io import BytesIO
 
 import praw
 import schedule
-from io import BytesIO
 from minio import Minio
 
 from model import Database, MessageText, Notification, Post, Redis, User
@@ -18,6 +18,10 @@ __redis: Redis = Redis()
 
 
 def update_flairless_submission():
+    '''
+    This function will check for any submissions that have been posted in the last 7 minutes and have no flair.
+    If a flair has been added, it will update the database and queue the users for notification.
+    '''
     with Database() as db:
         now = datetime.datetime.utcnow() - datetime.timedelta(minutes=7)
         results = Post.find_post_by_date_created_greater_than_and_no_flair(db, now.strftime("%Y-%m-%d %H:%M:%S"))
@@ -32,6 +36,11 @@ def update_flairless_submission():
 
 
 def delete_overlimit_users():
+    '''
+    Find all users that have more than 200 notifications queued and unsubscribe them.
+    This prevents the bot from sending too many notifications to a user, which could cause the bot to be banned.
+    Also, it is unlikely that a user would want to receive more than 200 notifications.
+    '''
     __logger.info("Running scheduled service to remove overlimit users")
     with Database() as db:
         results = User.find_users_by_notification_count_greater_than(db, 200)
@@ -43,19 +52,25 @@ def delete_overlimit_users():
 
 
 def generate_statistics():
+    '''
+    Generate post statistics for the bot and upload them to the Minio server.
+    Generates statistics for all time and for the current year.
+    '''
     year = datetime.datetime.today().year
+    # Generate statistics
     with Database() as db:
         data = Post.statistics(db)
-        data["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z")
+        data["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
 
         data_year = Post.statistics(db, date=f"{year}-01-01")
-        data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z")
+        data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
         
     client = Minio(__reddit.config.custom["statistics_endpoint"], 
                    __reddit.config.custom["minio_access_key"], 
                    __reddit.config.custom["minio_secret_key"], 
                    secure=True)
     
+    # Upload statistics to Minio
     byte = json.dumps(data).encode("utf-8")
     client.put_object(__reddit.config.custom["bucket_name"], "statistics.json", BytesIO(byte), len(byte), content_type="application/json")
     
