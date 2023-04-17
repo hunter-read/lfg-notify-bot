@@ -71,7 +71,7 @@ nsfw plw offline 21+ lgbtq
 ## Notes / Tips
 * **By default** only *online*, *non-nsfw*, and "GM and player(s) wanted" or "Player(s) wanted" *flaired* posts are matched.
 * You can include as many *games*, *timezones*, *days of the week*, *keywords* as you want and the bot will send you a message when someone posts a game looking for players that meets your criteria. 
-* If using *keywords*, keep them short and use abbreviations if they exist. Instead of just using `[curse of strahd]`,  also use `[strahd]` and `[cos]`. More is usually better, as keywords match any of your inputs. 
+* If using *keywords*, keep them short and use abbreviations if they exist. Instead of just using `[curse of strahd]`, use `[strahd]` and `[cos]`. More is usually better, as keywords match any of your inputs. 
 * It's **NOT** recommended to include *keywords* used by other options, such as *identity*, *vtt*, or any other option.
 * **Don't** include every *day of the week*, every *timezone*, or all *vtt* options. By default all options are included, these are meant to filter down the notifications.
 * The bot provides many filters, but you don't need to use them all, pick the ones that you care about most. Too many options, and the bot won't find any posts, but too few (especially for D&D 5th Edition) and you may get too many.
@@ -116,6 +116,5 @@ If you see a blatant issue, please add an [issue to the github page](https://git
 Have a question, that is not answered here? [Send the developer a message](https://www.reddit.com/message/compose/?to=Perfekthuntr&subject=LFG%20Notification%20Bot%20Question)
   
 ### User Data
-By subscribing to this bot, you agree to provide your reddit username and search preferences to be stored by LFG Notify Bot. When you unsubscribe, that data is deleted permenantly within 24 hours. This data is never shared.
-
+By subscribing to this bot, you agree to provide your reddit username and search preferences to be stored by LFG Notify Bot. When you unsubscribe, that data is deleted permenantly within 24 hours. User data is never shared.
 

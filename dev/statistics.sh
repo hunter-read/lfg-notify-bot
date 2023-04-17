@@ -28,7 +28,8 @@ SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum
  sum(game like '%SWRPG%'), sum(game like '%CYBERPUNK%'), sum(game like '%40K%'), sum(game like '%MOTW%'), sum(game like '%FATE%'), sum(game like '%GURPS%'), sum(game like '%STARFINDER%'), 
  sum(game like '%BITD%'), sum(game like '%COFD%'), sum(game like '%MM3%'), sum(game like '%SWN%'), sum(game like '%SWADE%'), sum(game like '%3E%'), sum(game like '%SR6%'), sum(game like '%SR5%'), 
  sum(game like '%SR4%'), sum(game like '%SR3%'), sum(game like '%DND2E%'), sum(game like '%ODND%'), sum(game like '%BRP%'), sum(game like '%BX%'), sum(game like '%DLC%'), sum(game like '%DLR%'), 
- sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%'), sum(game like '%FEAST%'), sum(game like '%FWS%'), sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%NUMENERA%'), sum(game like '%SWD%'), sum(game like '%FLEXIBLE%') FROM user;
+ sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%'), sum(game like '%FEAST%'), sum(game like '%FWS%'), sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%NUMENERA%'), 
+ sum(game like '%SWD%'), sum(game like '%FLEXIBLE%'), sum(game like '%1DND%') FROM user;
 SELECT count(id) FROM post $where GROUP BY nsfw ORDER BY nsfw;
 SELECT count(id) FROM post WHERE flair IN ('GM and player(s) wanted', 'Player(s) wanted', 'GM wanted') $sql_and GROUP BY flair ORDER BY flair;
 SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%'),sum(day is null) FROM post $where;
@@ -44,7 +45,7 @@ SELECT sum(online = 1), sum(online = 0), sum(online = -1) FROM post $where;
 SELECT sum(play_by_post = 1) FROM post $where;
 SELECT sum(one_shot = 1) FROM post $where;
 SELECT sum(lgbtq & 1 > 0), sum(lgbtq & 4 > 0), sum(lgbtq & 2 > 0), sum(lgbtq & 8 > 0) FROM post $where;
-SELECT sum(vtt & 1 > 0), sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 16 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0) FROM post $where;
+SELECT sum(vtt & 1 > 0), sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 16 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0), sum(vtt & 128 > 0), sum(vtt & 256 > 0), sum(vtt & 512 > 0) FROM post $where;
 EOF
 ))
 # echo ${results[*]}
@@ -78,7 +79,7 @@ echo "Game Stats: "
 game=(${results[3]//|/ })
 echo "  Flexible / Other: ${game[40]}"
 echo "  D&D:"
-echo "    5e: ${game[0]}, 4e: ${game[1]}, 3.5: ${game[2]}, 3e: ${game[20]}, ADND: ${game[3]}, DND2e: ${game[25]}, ODND: ${game[26]}"
+echo "    5e: ${game[0]}, 4e: ${game[1]}, 3.5: ${game[2]}, 3e: ${game[20]}, ADND: ${game[3]}, DND2e: ${game[25]}, ODND: ${game[26]}, 1DND: ${game[41]}"
 echo "  Pathfinder: "
 echo "    PF2e: ${game[4]}, PF1e: ${game[5]}"
 echo "  Others (Grouped alphabetically):"
@@ -125,6 +126,9 @@ echo "  Tabletop Sim: ${vtt[3]}"
 echo "  Astral: ${vtt[4]}"
 echo "  TaleSpire: ${vtt[5]}"
 echo "  TablePlop: ${vtt[6]}"
+echo "  One More Multiverse: ${vtt[7]}"
+echo "  Owlbear Rodeo: ${vtt[8]}"
+echo "  Above VTT: ${vtt[9]}"
 game=(${results[10]//|/ })
 echo "Games stats:"
 echo "  Flexible / Other: ${game[40]}"
