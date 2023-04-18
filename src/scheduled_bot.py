@@ -80,10 +80,10 @@ def generate_statistics():
     # Generate statistics
     with Database() as db:
         data = Post.statistics(db)
-        data["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
+        data["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         data_year = Post.statistics(db, date=f"{year}-01-01")
-        data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
+        data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     client = Minio(__reddit.config.custom["statistics_endpoint"],
                    __reddit.config.custom["minio_access_key"],
