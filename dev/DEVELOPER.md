@@ -9,10 +9,12 @@ Currently made of 4 bots, one that reads incoming user messages, another that pa
 * schedule
 
 ### System requirements
-Docker
+#### Docker
 Each bot can be run in a docker container with the `python3 [submission_bot|message_bot|scheduled_bot|notification_bot].py` CMD, using the dockerfile to build the image.
 Reccomend to run in a docker compose file with redis. Also needs to connect to a redis instance, either in a docker container or on the host machine.
 
+#### Docker-Compose
+A sample docker-compose is provided. By default the volume used is an external one. Create the volume and add praw.ini and the sqlite.db files to it. A sample env file is provided.
 
 ### Testing
 * pytest (`py.test`)
