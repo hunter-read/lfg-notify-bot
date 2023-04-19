@@ -16,11 +16,11 @@ LFG Notify Bot
   <a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE" target="_blank">
     <img src="https://img.shields.io/github/license/hunter-read/lfg-notify-bot" alt="license">
   </a>
-  <a href="https://stats.uptimerobot.com/KQlMrsqmqr" target="_blank">
-    <img src="https://img.shields.io/uptimerobot/ratio/m789250467-2e8d90b6ba78dcf3e5a722a6" alt="uptime">
+  <a href="https://lfg-notification-bot.cronitorstatus.com/" target="_blank">
+    <img src="https://cronitor.io/badges/tVkGfY/production/TpwrXfJLc4oWvfNcAKdYls7kH-E.svg" alt="app-status">
   </a>
-  <a href="https://github.com/hunter-read/lfg-notify-bot/commits/main" target="_blank">
-    <img src="https://img.shields.io/github/last-commit/hunter-read/lfg-notify-bot/main" alt="uptime">
+  <a href="https://lfg-notification-bot.cronitorstatus.com/" target="_blank">
+    <img src="https://cronitor.io/badges/wr8p9L/production/KSD4h05r-y70PHTVQN2ouhtG67I.svg" alt="commits">
   </a>
 </p>
 
@@ -88,7 +88,7 @@ If you see a blatant issue, please add an [issue to the github page](https://git
   **A:** Due to how reddit rate limits messages, the bot can only send 10 messages every 5 minutes. This limit changes with time and karma.  
   
 * **Q:** I sent the bot a message, but I haven't gotten any messages back, is it working?  
-  **A:** When you subscribe, the bot should send a reply with your settings. Make sure you send a [**message**](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) and **do not use** the reddit chat feature. There is also a [status page](https://stats.uptimerobot.com/KQlMrsqmqr) to see if the bot is down for some reason.
+  **A:** When you subscribe, the bot should send a reply with your settings. Make sure you send a [**message**](https://www.reddit.com/message/compose/?to=LFG_Notify_Bot&subject=Subscribe) and **do not use** the reddit chat feature. There is also a [status page](https://lfg-notification-bot.cronitorstatus.com/) to see if the bot is down for some reason.
   
 * **Q:** How do you set the bot to notify you of specific flairs and the Online tag?  
   **A:** See the *Specific flair* filter option. By default all online tagged posts are included.
