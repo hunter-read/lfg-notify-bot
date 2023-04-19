@@ -14,7 +14,7 @@ Each bot can be run in a docker container with the `python3 [submission_bot|mess
 Reccomend to run in a docker compose file with redis. Also needs to connect to a redis instance, either in a docker container or on the host machine.
 
 #### Docker-Compose
-A sample docker-compose is provided. By default the volume used is an external one. Create the volume and add praw.ini and the sqlite.db files to it. A sample env file is provided.
+A sample docker-compose is provided. By default the volume used is an external one. Create the volume and add praw.ini and the sqlite.db files to it. A sample env file is provided. This will also require adding a redis.conf file to the volume.
 
 ### Testing
 * pytest (`py.test`)
