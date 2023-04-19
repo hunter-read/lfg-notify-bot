@@ -1,0 +1,65 @@
+version: "3.9"
+
+x-lfg-bot:
+  &lfg-bot
+  image: hunterreadca/lfg-notify-bot:latest
+  volumes: 
+    - lfg-notify-bot:/data
+  restart: always
+  networks: 
+    - lfg-notify-bot
+  env_file:
+    - stack.env
+  depends_on:
+    - redis
+
+services:
+  submission: 
+    << : *lfg-bot
+    command: python3 submission_bot.py
+    container_name: lfg-submission-bot
+    healthcheck:
+      test: ["CMD", "python3", "service/health.py", "submission"]
+
+
+  notification:
+    << : *lfg-bot
+    command: python3 notification_bot.py
+    container_name: lfg-notification-bot
+    healthcheck:
+      test: ["CMD", "python3", "service/health.py", "notification"]
+
+  message:
+    << : *lfg-bot
+    command: python3 message_bot.py
+    container_name: lfg-message-bot
+    healthcheck:
+      test: ["CMD", "python3", "service/health.py", "message"]
+    
+  scheduled:
+    << : *lfg-bot
+    command: python3 scheduled_bot.py
+    container_name: lfg-scheduled-bot
+    healthcheck:
+      test: ["CMD", "python3", "service/health.py", "scheduled"]
+
+  redis:
+    container_name: lfg-notify-bot-redis
+    image: redis:alpine
+    command: redis-server /data/redis.conf
+    volumes:
+      - lfg-notify-bot:/data
+    networks:
+      - lfg-notify-bot
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+    
+volumes:
+  lfg-notify-bot:
+    external: true
+    
+networks:
+  lfg-notify-bot:
+    driver: bridge
+    name: lfg-notify-bot
