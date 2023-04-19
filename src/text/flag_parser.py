@@ -25,7 +25,7 @@ def __match_identity(text: str) -> int:
 
 def __using_vtt(text: str) -> int:
     flag = Vtt.NONE.flag
-    matches = re.finditer(r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(astral)|(tableplop)|(talespire)|(omm|one more multiverse)|(owlbear)|(above\s?vtt)", text, flags=re.IGNORECASE)
+    matches = re.finditer(r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(astral)|(tableplop)|(talespire)|(\bomm\b|one more multiverse)|(owlbear)|(above\s?vtt)", text, flags=re.IGNORECASE)
     for match in matches:
         if match:
             if match.group(1):

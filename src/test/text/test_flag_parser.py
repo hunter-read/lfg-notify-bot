@@ -74,6 +74,7 @@ message_flags_data = [
     ("talespire", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.TALESPIRE.flag, False, False),
     ("tableplop", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.TABLEPLOP.flag, False, False),
     ("omm", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ONE_MORE_MULTIVERSE.flag, False, False),
+    ("commotion", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.NONE.flag, False, False),
     ("One More Multiverse", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ONE_MORE_MULTIVERSE.flag, False, False),
     ("Owlbear Rodeo", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.OWLBEAR_RODEO.flag, False, False),
     ("Above VTT", Location.ONLINE.value, Nsfw.EXCLUDE.value, PlayByPost.INCLUDE.value, OneShot.INCLUDE.value, Identity.NONE.flag, AgeLimit.NONE.value, Vtt.ABOVE_VTT.flag, False, False),
