@@ -9,7 +9,7 @@ x-lfg-bot:
   networks: 
     - lfg-notify-bot
   env_file:
-    - stack.env
+    - .env
   depends_on:
     - redis
 
