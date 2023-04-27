@@ -2,7 +2,8 @@ from .database import Database
 from .post import Post
 from .user import User
 from .constants import MessageText, Flair, Location, Nsfw, PlayByPost, OneShot, Identity, AgeLimit, Vtt
-from .custom_redis import Notification, Redis
+from .redis import Notification, Redis
+from .spaces import Spaces
 
 __all__ = [
     "Database",
@@ -19,4 +20,5 @@ __all__ = [
     "Vtt",
     "Notification",
     "Redis",
+    "Spaces",
 ]

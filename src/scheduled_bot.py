@@ -1,16 +1,13 @@
 import datetime
-import json
 import time
 import functools
 import traceback
 from logging import Logger
-from io import BytesIO
 
 import praw
 import schedule
-from boto3 import client
 
-from model import Database, MessageText, Notification, Post, Redis, User
+from model import Database, MessageText, Notification, Post, Redis, User, Spaces
 from service import init_logger, find_users_and_queue, init_health_check, set_unhealthy
 
 
@@ -92,26 +89,10 @@ def generate_statistics():
         data_year = Post.statistics(db, date=f"{year}-01-01")
         data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    bclient: client = client(
-        "s3",
-        region_name=__reddit.config.custom["spaces_region_name"],
-        endpoint_url=f"https://{__reddit.config.custom['spaces_region_name']}.digitaloceanspaces.com",
-        aws_access_key_id=__reddit.config.custom["spaces_access_id"],
-        aws_secret_access_key=__reddit.config.custom["spaces_secret_key"],
-    )
-
-    # Upload statistics to Minio
-    byte = json.dumps(data).encode("utf-8")
-    bclient.put_object(Bucket=__reddit.config.custom["bucket_name"], Key="statistics.json", Body=BytesIO(byte))
-
-    byte_year = json.dumps(data_year).encode("utf-8")
-    bclient.put_object(
-        Bucket=__reddit.config.custom["bucket_name"],
-        Key=f"statistics_{year}.json",
-        Body=BytesIO(byte_year),
-        ACL="public-read",
-        ContentType="application/json"
-    )
+    # Upload statistics to Storage
+    spaces: Spaces = Spaces()
+    spaces.upload(data, "statistics.json")
+    spaces.upload(data_year, f"statistics_{year}.json")
 
     __logger.info("Generated post statistics")
 
