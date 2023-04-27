@@ -14,9 +14,9 @@ class Post:
             post.date_updated = result[2]
             post.submission_id = result[3]
             post.flair = result[4]
-            post.game = set(result[5].split(',')) if result[5] else None
-            post.day = set(result[6].split(',')) if result[6] else None
-            post.timezone = set(result[7].split(',')) if result[7] else None
+            post.game = set(result[5].split(",")) if result[5] else None
+            post.day = set(result[6].split(",")) if result[6] else None
+            post.timezone = set(result[7].split(",")) if result[7] else None
             post.time = result[8]
             post.online = result[9]
             post.nsfw = bool(result[10])
@@ -41,45 +41,93 @@ class Post:
         return cls.__parse_results(results)
 
     @classmethod
-    def statistics(cls, db, date: str = '2021-05-20') -> dict:
+    def statistics(cls, db, date: str = "2021-05-20") -> dict:
         total_posts = db.query("SELECT count(id) FROM post WHERE date_created >= ?", [date])[0][0]
         nsfw = db.query("SELECT sum(nsfw = 0), sum(nsfw = 1) FROM post WHERE date_created >= ?", [date])[0]
-        location = db.query("SELECT sum(online = ?), sum(online = ?), sum(online = ?) FROM post WHERE date_created >= ?", [Location.ONLINE.value, Location.ONLINE_AND_OFFLINE.value, Location.OFFLINE.value, date])[0]
+        location = db.query(
+            "SELECT sum(online = ?), sum(online = ?), sum(online = ?) FROM post WHERE date_created >= ?",
+            [Location.ONLINE.value, Location.ONLINE_AND_OFFLINE.value, Location.OFFLINE.value, date],
+        )[0]
         pbp = db.query("SELECT sum(play_by_post = 1) FROM post WHERE date_created >= ?", [date])[0][0]
         one_shot = db.query("SELECT sum(one_shot = 1) FROM post WHERE date_created >= ?", [date])[0][0]
-        identity = db.query("SELECT sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0) FROM post WHERE date_created >= ?", [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date])[0]
-        vtt = db.query("SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0)  FROM post WHERE date_created >= ?", [Vtt.ROLL20.flag, Vtt.FOUNDRY.flag, Vtt.FANTASY_GROUNDS.flag, Vtt.TABLETOP_SIM.flag, Vtt.ASTRAL.flag, Vtt.TALESPIRE.flag, Vtt.TABLEPLOP.flag, Vtt.ONE_MORE_MULTIVERSE.flag, Vtt.OWLBEAR_RODEO.flag, Vtt.ABOVE_VTT.flag, date])[0]
-        day = db.query("SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%') FROM post WHERE date_created >= ?", [date])[0]
-        flair = db.query("SELECT sum(flair='GM and player(s) wanted'), sum(flair='Player(s) wanted'), sum(flair='GM wanted') FROM post WHERE date_created >= ?", [date])[0]
-        dnd = db.query("SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%'), sum(game like '%1DND%') FROM post WHERE date_created >= ?", [date])[0]
-        pf = db.query("SELECT sum(game like '%PF2E%'), sum(game like '%PF1E%') FROM post WHERE date_created >= ?", [date])[0]
-        sr = db.query("SELECT sum(game like '%SR6%'), sum(game like '%SR5%'), sum(game like '%SR4%'), sum(game like '%SR3%') FROM post WHERE date_created >= ?", [date])[0]
-        a_to_c = db.query("SELECT sum(game like '%40K%'), sum(game like '%BITD%'), sum(game like '%BRP%'), sum(game like '%COC%'), sum(game like '%COFD%'), sum(game like '%CYBERPUNK%') FROM post WHERE date_created >= ?", [date])[0]
-        d_to_e = db.query("SELECT sum(game like '%DLC%'), sum(game like '%DLR%'), sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%') FROM post WHERE date_created >= ?", [date])[0]
-        f_to_g = db.query("SELECT sum(game like '%FATE%'), sum(game like '%FEAST%'), sum(game like '%FLEXIBLE%'), sum(game like '%FWS%'), sum(game like '%GURPS%') FROM post WHERE date_created >= ?", [date])[0]
-        h_to_n = db.query("SELECT sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%MOTW%'), sum(game like '%MM3%'), sum(game like '%NUMENERA%') FROM post WHERE date_created >= ?", [date])[0]
-        o_to_z = db.query("SELECT sum(game like '%SWADE%'), sum(game like '%SWN%'), sum(game like '%STARFINDER%'), sum(game like '%SWRPG%'), sum(game like '%SWD%'), sum(game like '%WOD%') FROM post WHERE date_created >= ?", [date])[0]
+        identity = db.query(
+            "SELECT sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0), sum(lgbtq & ? > 0) FROM post WHERE date_created >= ?",
+            [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date],
+        )[0]
+        vtt = db.query(
+            "SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0)  FROM post WHERE date_created >= ?",
+            [
+                Vtt.ROLL20.flag,
+                Vtt.FOUNDRY.flag,
+                Vtt.FANTASY_GROUNDS.flag,
+                Vtt.TABLETOP_SIM.flag,
+                Vtt.ASTRAL.flag,
+                Vtt.TALESPIRE.flag,
+                Vtt.TABLEPLOP.flag,
+                Vtt.ONE_MORE_MULTIVERSE.flag,
+                Vtt.OWLBEAR_RODEO.flag,
+                Vtt.ABOVE_VTT.flag,
+                date,
+            ],
+        )[0]
+        day = db.query(
+            "SELECT sum(day like '%MONDAY%'),sum(day like '%TUESDAY%'),sum(day like '%WEDNESDAY%'),sum(day like '%THURSDAY%'),sum(day like '%FRIDAY%'),sum(day like '%SATURDAY%'),sum(day like '%SUNDAY%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        flair = db.query(
+            "SELECT sum(flair='GM and player(s) wanted'), sum(flair='Player(s) wanted'), sum(flair='GM wanted') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        dnd = db.query(
+            "SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%3E%'), sum(game like '%DND2E%'), sum(game like '%BX%'), sum(game like '%ADND%'), sum(game like '%ODND%'), sum(game like '%1DND%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        pf = db.query(
+            "SELECT sum(game like '%PF2E%'), sum(game like '%PF1E%') FROM post WHERE date_created >= ?", [date]
+        )[0]
+        sr = db.query(
+            "SELECT sum(game like '%SR6%'), sum(game like '%SR5%'), sum(game like '%SR4%'), sum(game like '%SR3%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        a_to_c = db.query(
+            "SELECT sum(game like '%40K%'), sum(game like '%BITD%'), sum(game like '%BRP%'), sum(game like '%COC%'), sum(game like '%COFD%'), sum(game like '%CYBERPUNK%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        d_to_e = db.query(
+            "SELECT sum(game like '%DLC%'), sum(game like '%DLR%'), sum(game like '%DCC%'), sum(game like '%DW%'), sum(game like '%EARTHDAWN%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        f_to_g = db.query(
+            "SELECT sum(game like '%FATE%'), sum(game like '%FEAST%'), sum(game like '%FLEXIBLE%'), sum(game like '%FWS%'), sum(game like '%GURPS%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        h_to_n = db.query(
+            "SELECT sum(game like '%L5R%'), sum(game like '%MCC%'), sum(game like '%MOTW%'), sum(game like '%MM3%'), sum(game like '%NUMENERA%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        o_to_z = db.query(
+            "SELECT sum(game like '%SWADE%'), sum(game like '%SWN%'), sum(game like '%STARFINDER%'), sum(game like '%SWRPG%'), sum(game like '%SWD%'), sum(game like '%WOD%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
 
-        america = db.query("SELECT sum(timezone like '%GMT-4%'), sum(timezone like '%GMT-5%'), sum(timezone like '%GMT-6%'), sum(timezone like '%GMT-7%'), sum(timezone like '%GMT-8%'), sum(timezone like '%GMT-3%'), sum(timezone like '%GMT-9%') FROM post WHERE date_created >= ?", [date])[0]
-        europe = db.query("SELECT sum(timezone like '%GMT-1%' and timezone not like '%GMT-10%'), sum(timezone like '%GMT+0%'), sum(timezone like '%GMT+1%' and timezone not like '%GMT+10%'  and timezone not like '%GMT+11%'), sum(timezone like '%GMT+2%'), sum(timezone like '%GMT+3%') FROM post WHERE date_created >= ?", [date])[0]
-        aus = db.query("SELECT sum(timezone like '%GMT+8%'),  sum(timezone like '%GMT+9%' and timezone not like '%GMT+9:%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created >= ?", [date])[0]
+        america = db.query(
+            "SELECT sum(timezone like '%GMT-4%'), sum(timezone like '%GMT-5%'), sum(timezone like '%GMT-6%'), sum(timezone like '%GMT-7%'), sum(timezone like '%GMT-8%'), sum(timezone like '%GMT-3%'), sum(timezone like '%GMT-9%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        europe = db.query(
+            "SELECT sum(timezone like '%GMT-1%' and timezone not like '%GMT-10%'), sum(timezone like '%GMT+0%'), sum(timezone like '%GMT+1%' and timezone not like '%GMT+10%'  and timezone not like '%GMT+11%'), sum(timezone like '%GMT+2%'), sum(timezone like '%GMT+3%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
+        aus = db.query(
+            "SELECT sum(timezone like '%GMT+8%'),  sum(timezone like '%GMT+9%' and timezone not like '%GMT+9:%'), sum(timezone like '%GMT+9:30%'), sum(timezone like '%GMT+10%' and timezone not like '%GMT+10:%'), sum(timezone like '%GMT+10:30%'), sum(timezone like '%GMT+11%') FROM post WHERE date_created >= ?",
+            [date],
+        )[0]
         return {
             "data_start_date": date,
             "total_posts": total_posts,
-            "nsfw_status": {
-                "sfw": nsfw[0],
-                "nsfw": nsfw[1]
-            },
-            "flair": {
-                "gmplw": flair[0],
-                "plw": flair[1],
-                "gmw": flair[2]
-            },
-            "location": {
-                "online": location[0],
-                "online_and_offline": location[1],
-                "offline": location[2]
-            },
+            "nsfw_status": {"sfw": nsfw[0], "nsfw": nsfw[1]},
+            "flair": {"gmplw": flair[0], "plw": flair[1], "gmw": flair[2]},
+            "location": {"online": location[0], "online_and_offline": location[1], "offline": location[2]},
             "play_by_post": pbp,
             "one_shot": one_shot,
             "identity": {
@@ -95,7 +143,7 @@ class Post:
                 "tabletop_simulator": vtt[3],
                 "astral_tabletop": vtt[4],
                 "talespire": vtt[5],
-                "tableplop": vtt[6]
+                "tableplop": vtt[6],
             },
             "day_of_week": {
                 "monday": day[0],
@@ -174,8 +222,8 @@ class Post:
                     "GMT+10": aus[3],
                     "GMT+10:30": aus[4],
                     "GMT+11": aus[5],
-                }
-            }
+                },
+            },
         }
 
     def __init__(self, **kwargs):
@@ -207,9 +255,9 @@ class Post:
         params = []
         params.append(self.submission_id)
         params.append(self.flair)
-        params.append(','.join(self.game) if self.game else None)
-        params.append(','.join(self.day) if self.day else None)
-        params.append(','.join(self.timezone) if self.timezone else None)
+        params.append(",".join(self.game) if self.game else None)
+        params.append(",".join(self.day) if self.day else None)
+        params.append(",".join(self.timezone) if self.timezone else None)
         params.append(self.time)
         params.append(self.online)
         params.append(int(self.nsfw))
@@ -219,7 +267,10 @@ class Post:
         params.append(self.lgbtq)
         params.append(self.age_limit)
         params.append(self.vtt)
-        db.save("INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+        db.save(
+            "INSERT INTO post (submission_id, flair, game, day, timezone, time, online, nsfw, permalink, play_by_post, one_shot, lgbtq, age_limit, vtt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            params,
+        )
 
     def flags_as_string_list(self) -> list:
         flags = []

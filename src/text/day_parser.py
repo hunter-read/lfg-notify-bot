@@ -11,9 +11,12 @@ abbreviation_dict = {
     "thu": ["THURSDAY"],
     "fri": ["FRIDAY"],
     "sat": ["SATURDAY"],
-    "sun": ["SUNDAY"]
+    "sun": ["SUNDAY"],
 }
-__day_regex = re.compile(r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day|\b(?:mon|tue|tues|wed|thurs|thu|thur|fri|sat|sun)\b|week(?:day|end))", flags=re.IGNORECASE)
+__day_regex = re.compile(
+    r"((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day|\b(?:mon|tue|tues|wed|thurs|thu|thur|fri|sat|sun)\b|week(?:day|end))",
+    flags=re.IGNORECASE,
+)
 
 
 def parse_day(text: str) -> typing.Set[str]:

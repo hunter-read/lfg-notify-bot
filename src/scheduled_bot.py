@@ -30,16 +30,18 @@ def catch_exceptions():
                 __logger.critical(f"Unexpected error: {traceback.format_exc()}")
                 set_unhealthy(__NAME)
                 return schedule.CancelJob
+
         return wrapper
+
     return catch_exceptions_decorator
 
 
 @catch_exceptions()
 def update_flairless_submission():
-    '''
+    """
     This function will check for any submissions that have been posted in the last 7 minutes and have no flair.
     If a flair has been added, it will update the database and queue the users for notification.
-    '''
+    """
     with Database() as db:
         now = datetime.datetime.utcnow() - datetime.timedelta(minutes=7)
         results = Post.find_post_by_date_created_greater_than_and_no_flair(db, now.strftime("%Y-%m-%d %H:%M:%S"))
@@ -55,27 +57,32 @@ def update_flairless_submission():
 
 @catch_exceptions()
 def delete_overlimit_users():
-    '''
+    """
     Find all users that have more than 200 notifications queued and unsubscribe them.
     This prevents the bot from sending too many notifications to a user, which could cause the bot to be banned.
     Also, it is unlikely that a user would want to receive more than 200 notifications.
-    '''
+    """
     __logger.info("Running scheduled service to remove overlimit users")
     with Database() as db:
         results = User.find_users_by_notification_count_greater_than(db, 200)
         for user in results:
             __logger.info(f"Unsubscribing user {user.username} due to max notification count")
-            notification = Notification(username=user.username, subject=MessageText.OVERLIMIT_NOTIFICATION_SUBJECT, body=MessageText.OVERLIMIT_NOTIFICATION_BODY, type=Notification.NotificationType.OVERLIMIT)
+            notification = Notification(
+                username=user.username,
+                subject=MessageText.OVERLIMIT_NOTIFICATION_SUBJECT,
+                body=MessageText.OVERLIMIT_NOTIFICATION_BODY,
+                type=Notification.NotificationType.OVERLIMIT,
+            )
             __redis.push(notification)
             user.delete(db)
 
 
 @catch_exceptions()
 def generate_statistics():
-    '''
+    """
     Generate post statistics for the bot and upload them to the Minio server.
     Generates statistics for all time and for the current year.
-    '''
+    """
     year = datetime.datetime.today().year
     # Generate statistics
     with Database() as db:
@@ -86,19 +93,21 @@ def generate_statistics():
         data_year["generated_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     bclient: client = client(
-            's3',
-            region_name=__reddit.config.custom["spaces_region_name"],
-            endpoint_url=f"https://{__reddit.config.custom['spaces_region_name']}.digitaloceanspaces.com",
-            aws_access_key_id=__reddit.config.custom["spaces_access_id"],
-            aws_secret_access_key=__reddit.config.custom["spaces_secret_key"],
-        )
+        "s3",
+        region_name=__reddit.config.custom["spaces_region_name"],
+        endpoint_url=f"https://{__reddit.config.custom['spaces_region_name']}.digitaloceanspaces.com",
+        aws_access_key_id=__reddit.config.custom["spaces_access_id"],
+        aws_secret_access_key=__reddit.config.custom["spaces_secret_key"],
+    )
 
     # Upload statistics to Minio
     byte = json.dumps(data).encode("utf-8")
     bclient.put_object(Bucket=__reddit.config.custom["bucket_name"], Key="statistics.json", Body=BytesIO(byte))
 
     byte_year = json.dumps(data_year).encode("utf-8")
-    bclient.put_object(Bucket=__reddit.config.custom["bucket_name"], Key=f"statistics_{year}.json", Body=BytesIO(byte_year))
+    bclient.put_object(
+        Bucket=__reddit.config.custom["bucket_name"], Key=f"statistics_{year}.json", Body=BytesIO(byte_year)
+    )
 
     __logger.info("Generated post statistics")
 

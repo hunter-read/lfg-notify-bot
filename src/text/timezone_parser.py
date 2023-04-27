@@ -39,9 +39,12 @@ __tz_dict = {
     "AEST": "GMT+10",
     "AET": "GMT+10,GMT+11",
     "AWDT": "GMT+9",
-    "AWST": "GMT+8"
+    "AWST": "GMT+8",
 }
-__tz_regex = re.compile(r"\b((?:GMT|UTC)\s?(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|(?:ADT|AKDT|AKST|AST|CDT|CST|EDT|EGST|EGT|EST|HDT|HST|MDT|MST|MT|PDT|PST|BST|CEST|CET|EEST|EET|ACDT|ACST|AEDT|AEST|AET|AWDT|AWST)\b)", flags=re.IGNORECASE)
+__tz_regex = re.compile(
+    r"\b((?:GMT|UTC)\s?(?:[+-][0-1]?[0-9]:?[0-5]?[0-9]?)?|(?:ADT|AKDT|AKST|AST|CDT|CST|EDT|EGST|EGT|EST|HDT|HST|MDT|MST|MT|PDT|PST|BST|CEST|CET|EEST|EET|ACDT|ACST|AEDT|AEST|AET|AWDT|AWST)\b)",
+    flags=re.IGNORECASE,
+)
 __gmt_catch_regex = re.compile(r"(?:GMT|UTC)\s?([+-])([0-1]?[0-9]):?(00|30|45)?", flags=re.IGNORECASE)
 
 

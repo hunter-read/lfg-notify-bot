@@ -4,7 +4,9 @@ from text.time_parser import parse_time, to_military_time
 
 
 no_time_data = [
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+    (
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    ),
     ("2009"),
     ("1492"),
     ("2400"),
@@ -18,7 +20,7 @@ no_time_data = [
     ("10 ax"),
     ("12 px"),
     ("12 pmx"),
-    ("xyz0000#")
+    ("xyz0000#"),
 ]
 
 
@@ -40,7 +42,7 @@ to_military_time_data = [
     ("745", "a", "0745"),
     ("12", "a", "0000"),
     ("12", "p", "1200"),
-    ("10", "p", "2200")
+    ("10", "p", "2200"),
 ]
 
 
@@ -67,7 +69,7 @@ military_time_data = [
     ("0100 to 2345", "0100", "2345"),
     ("Lorem ipsum 0700 dolor sit amet", "0700", None),
     ("Lorem ipsum 0100 to 2345 dolor sit amet", "0100", "2345"),
-    ("[1900-2300]", "1900", "2300")
+    ("[1900-2300]", "1900", "2300"),
 ]
 
 
@@ -114,7 +116,7 @@ double_period_time_data = [
     ("07pm-12am", "1900", "0000"),
     ("07 pm - 12 am", "1900", "0000"),
     ("7.30 pm - 12 am", "1930", "0000"),
-    ("[7pm-12am]", "1900", "0000")
+    ("[7pm-12am]", "1900", "0000"),
 ]
 
 
@@ -135,7 +137,7 @@ single_period_time_data = [
     ("2.30 - 7 pm", "1430", "1900"),
     ("11-1pm", "1100", "1300"),
     ("10-1am", "2200", "0100"),
-    ("[7-12am]", "1900", "0000")
+    ("[7-12am]", "1900", "0000"),
 ]
 
 

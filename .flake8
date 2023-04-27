@@ -1,0 +1,4 @@
+[flake8]
+exclude = .venv
+max-complexity = 20
+ignore = E501,W503

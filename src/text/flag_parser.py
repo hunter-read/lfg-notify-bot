@@ -25,7 +25,11 @@ def __match_identity(text: str) -> int:
 
 def __using_vtt(text: str) -> int:
     flag = Vtt.NONE.flag
-    matches = re.finditer(r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(astral)|(tableplop)|(talespire)|(\bomm\b|one more multiverse)|(owlbear)|(above\s?vtt)", text, flags=re.IGNORECASE)
+    matches = re.finditer(
+        r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(astral)|(tableplop)|(talespire)|(\bomm\b|one more multiverse)|(owlbear)|(above\s?vtt)",
+        text,
+        flags=re.IGNORECASE,
+    )
     for match in matches:
         if match:
             if match.group(1):
@@ -67,7 +71,9 @@ def parse_flair(text: str) -> int:
     flair = 0
     if not text:
         return flair
-    matches = re.finditer(r"(gm\sand\splayer\(?s?\)?\swanted|gmplw)|(player\(?s?\)?\swanted|plw)|(gm\swanted|gmw)", text, re.IGNORECASE)
+    matches = re.finditer(
+        r"(gm\sand\splayer\(?s?\)?\swanted|gmplw)|(player\(?s?\)?\swanted|plw)|(gm\swanted|gmw)", text, re.IGNORECASE
+    )
     for match in matches:
         if match.group(1):
             flair |= Flair.GM_AND_PLAYERS_WANTED.flag
@@ -104,7 +110,7 @@ def parse_message_flags(text) -> dict:
         "age_limit": AgeLimit.NONE.value,
         "vtt": Vtt.NONE.flag,
         "match_no_timezone": False,
-        "match_no_day": False
+        "match_no_day": False,
     }
     if not text:
         return flags
@@ -136,7 +142,7 @@ def parse_submission_flags(text) -> dict:
         "one_shot": False,
         "lgbtq": Identity.NONE.flag,
         "age_limit": AgeLimit.NONE.value,
-        "vtt": Vtt.NONE.value
+        "vtt": Vtt.NONE.value,
     }
 
     if not text:

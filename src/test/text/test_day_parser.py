@@ -4,11 +4,13 @@ from text.day_parser import parse_day, sort_days
 
 
 no_day_data = [
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+    (
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    ),
     ("montreal"),
     ("no"),
     ("pst"),
-    ("5e")
+    ("5e"),
 ]
 
 
@@ -34,7 +36,7 @@ day_data = [
     ("sat", {"SATURDAY"}),
     ("sun", {"SUNDAY"}),
     ("weekends", {"SUNDAY", "SATURDAY"}),
-    ("weekdays", {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"})
+    ("weekdays", {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"}),
 ]
 
 
@@ -45,7 +47,10 @@ def test_parse_day(text, result):
 
 days_to_sort_data = [
     ({"SUNDAY", "FRIDAY", "SATURDAY"}, ["Friday", "Saturday", "Sunday"]),
-    ({"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"}, ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
+    (
+        {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"},
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    ),
 ]
 
 

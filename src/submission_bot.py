@@ -6,7 +6,16 @@ import prawcore
 
 from model import Database, Post
 from service import init_logger, find_users_and_queue, init_health_check, set_unhealthy
-from text import timezone_to_gmt, parse_timezone, parse_day, parse_game, parse_time, sort_days, parse_location, parse_submission_flags
+from text import (
+    timezone_to_gmt,
+    parse_timezone,
+    parse_day,
+    parse_game,
+    parse_time,
+    sort_days,
+    parse_location,
+    parse_submission_flags,
+)
 
 
 __NAME: str = "submission"
@@ -17,7 +26,6 @@ __logger: Logger = init_logger()
 
 def read_submissions(db: Database):
     for submission in __subreddit.stream.submissions(skip_existing=True):
-
         post = Post()
 
         __logger.info("-" * 100)

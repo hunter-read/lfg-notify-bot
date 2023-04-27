@@ -14,7 +14,7 @@ __NAME: str = "notification"
 __reddit: praw.Reddit = praw.Reddit(__NAME)
 __logger: Logger = init_logger()
 __redis: Redis = Redis()
-__production: bool = os.environ.get('PROFILE') == "production"
+__production: bool = os.environ.get("PROFILE") == "production"
 
 
 def parse_API_exception(err: praw.exceptions.RedditAPIException, username: str) -> int:
@@ -23,7 +23,7 @@ def parse_API_exception(err: praw.exceptions.RedditAPIException, username: str) 
     if "RATELIMIT" in str(err) and match:
         sleep_time = int(match.group(1)) + 1
         if match.group(2) == "minute":
-            sleep_time = (sleep_time * 60)
+            sleep_time = sleep_time * 60
         if match.group(2) == "millisecond":
             sleep_time = 1
         __logger.warning(f"RATELIMIT. Waiting {sleep_time} seconds")

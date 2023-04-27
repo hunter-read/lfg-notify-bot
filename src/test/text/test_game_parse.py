@@ -4,7 +4,10 @@ from text.game_parser import parse_game
 
 
 game_data = [
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", set()),
+    (
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        set(),
+    ),
     ("CoC", {"COC"}),
     ("3.5", {"3.5"}),
     ("3e", {"3E"}),
@@ -58,7 +61,7 @@ game_data = [
     ("{Flexible}", {"FLEXIBLE"}),
     ("[FLEXIBLE]", {"FLEXIBLE"}),
     ("[Flexible Time(GMT-5)]", set()),
-    ("1DND", {"1DND"})
+    ("1DND", {"1DND"}),
 ]
 
 

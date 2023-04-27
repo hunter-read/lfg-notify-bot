@@ -45,7 +45,7 @@ class User:
 
         if self.timezone:
             query += "and (timezone is null or " + "or".join([" timezone REGEXP ? " for _ in self.timezone]) + ") "
-            params.extend([fr"\b{re.escape(tz)}\b" for tz in self.timezone])
+            params.extend([rf"\b{re.escape(tz)}\b" for tz in self.timezone])
         else:
             query += "and (timezone is null or timezone like '%NOTZ%') "
 
@@ -102,15 +102,15 @@ class User:
 
     def save(self, db: Database) -> None:
         params = []
-        params.append(','.join(self.game))
+        params.append(",".join(self.game))
 
         if self.match_no_timezone and self.timezone:
             self.timezone.add("NOTZ")
-        params.append(','.join(self.timezone) if self.timezone else None)
+        params.append(",".join(self.timezone) if self.timezone else None)
 
         if self.match_no_day and self.day:
             self.day.add("NODAY")
-        params.append(','.join(self.day) if self.day else None)
+        params.append(",".join(self.day) if self.day else None)
 
         params.append(self.nsfw)
         params.append(self.keyword)
@@ -124,9 +124,15 @@ class User:
         params.append(self.username)
 
         if self.exists(db):
-            db.save("UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ?, play_by_post = ?, one_shot = ?, lgbtq = ?, age_limit = ?, vtt = ? WHERE username = ?", params)
+            db.save(
+                "UPDATE user SET date_updated = CURRENT_TIMESTAMP, game = ?, timezone = ?, day = ?, nsfw = ?, keyword = ?, flair = ?, online = ?, play_by_post = ?, one_shot = ?, lgbtq = ?, age_limit = ?, vtt = ? WHERE username = ?",
+                params,
+            )
         else:
-            db.save("INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, play_by_post, one_shot, lgbtq, age_limit, vtt, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+            db.save(
+                "INSERT INTO user (game, timezone, day, nsfw, keyword, flair, online, play_by_post, one_shot, lgbtq, age_limit, vtt, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                params,
+            )
 
     def delete(self, db: Database) -> None:
         if self.username is not None:

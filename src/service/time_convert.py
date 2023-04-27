@@ -2,22 +2,22 @@ import re
 
 
 def to_gmt(time: str, timezone: str) -> str:
-    return __convert_by_timezone(time, timezone, '+')
+    return __convert_by_timezone(time, timezone, "+")
 
 
 def to_timezone(time: str, timezone: str) -> str:
-    return __convert_by_timezone(time, timezone, '-')
+    return __convert_by_timezone(time, timezone, "-")
 
 
 def convert_time_across_timezones(time: str, input_timezone: str, output_timezone: str) -> str:
     gmt_time = to_gmt(time, input_timezone)
     day_change = None
-    if gmt_time.endswith('+') or gmt_time.endswith('-'):
+    if gmt_time.endswith("+") or gmt_time.endswith("-"):
         day_change = gmt_time[4:]
         gmt_time = gmt_time[:4]
 
     new_time = to_timezone(gmt_time, output_timezone)
-    if day_change and (new_time.endswith('+') or new_time.endswith('-')):
+    if day_change and (new_time.endswith("+") or new_time.endswith("-")):
         return new_time[:4]
     elif day_change:
         return f"{new_time}{day_change}"

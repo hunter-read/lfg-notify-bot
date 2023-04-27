@@ -19,7 +19,6 @@ class AbstractRedisObject:
 
 
 class Notification(AbstractRedisObject):
-
     _list_name = "lfg-notification"
 
     class NotificationType(int, Enum):
@@ -33,12 +32,7 @@ class Notification(AbstractRedisObject):
         self.type: Notification.NotificationType = kwargs.get("type", None)
 
     def serialize(self) -> str:
-        data = {
-            "username": self.username,
-            "subject": self.subject,
-            "body": self.body,
-            "type": self.type
-        }
+        data = {"username": self.username, "subject": self.subject, "body": self.body, "type": self.type}
         return json.dumps(data, indent=None)
 
     def deserialize(self, binary: bin):
@@ -52,7 +46,7 @@ class Notification(AbstractRedisObject):
 
 class Redis:
     def __init__(self):
-        self.__redis: redis.Redis = redis.Redis(host=os.environ.get('REDIS_HOST', 'localhost'))
+        self.__redis: redis.Redis = redis.Redis(host=os.environ.get("REDIS_HOST", "localhost"))
         self.__backoff: int = 1
 
     def push(self, data: AbstractRedisObject) -> None:
@@ -86,7 +80,7 @@ class Redis:
                 self.backoff_or_raise()
 
     def backoff_or_raise(self) -> None:
-        if (self.__backoff > 8):
+        if self.__backoff > 8:
             self.__backoff = 1
             raise Exception("Redis is down")
         time.sleep(15 * self.__backoff)

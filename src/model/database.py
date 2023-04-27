@@ -11,9 +11,9 @@ def regexp(expr, item):
 
 class Database(object):
     def __init__(self):
-        if (os.environ.get('DATABASE') is None):
+        if os.environ.get("DATABASE") is None:
             raise AttributeError("DATABASE env variable not set")
-        self.__db_connection = sqlite3.connect(os.environ.get('DATABASE'))
+        self.__db_connection = sqlite3.connect(os.environ.get("DATABASE"))
         self.__db_connection.create_function("REGEXP", 2, regexp)
         self.__db_cursor = None
 

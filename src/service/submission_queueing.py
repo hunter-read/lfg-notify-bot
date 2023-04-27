@@ -30,7 +30,7 @@ def filter_user_list(users: list, submission: Submission) -> list:
             pass
         elif not user.keyword:
             filtered_users.append(user.username)
-        elif re.search(fr"{user.keyword}", submission.title + submission.selftext, re.IGNORECASE):
+        elif re.search(rf"{user.keyword}", submission.title + submission.selftext, re.IGNORECASE):
             filtered_users.append(user.username)
     return filtered_users
 
@@ -56,18 +56,20 @@ def find_users_and_queue(db: Database, submission: Submission, post: Post) -> st
     flags = post.flags_as_string_list()
     notification = Notification()
     notification.subject = MessageText.SUBMISSION_NOTIFICATION_SUBJECT
-    notification.body = (f"Title: {submission.title}  \n"
-                         f"Flair: {submission.link_flair_text}  \n"
-                         f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
-                         f"Day(s): {', '.join(sort_days(post.day)) if post.day else 'Unknown'}  \n"
-                         f"Time: {post.time if post.time else 'Unknown'}  \n"
-                         f"Notes: {', '.join(flags) if flags else 'None'}  \n"
-                         f"Link: https://www.reddit.com{post.permalink}  \n"
-                         f"{MessageText.SUBMISSION_NOTIFICATION_BODY}")
+    notification.body = (
+        f"Title: {submission.title}  \n"
+        f"Flair: {submission.link_flair_text}  \n"
+        f"Timezone(s): {', '.join(post.timezone) if post.timezone else 'Unknown'}  \n"
+        f"Day(s): {', '.join(sort_days(post.day)) if post.day else 'Unknown'}  \n"
+        f"Time: {post.time if post.time else 'Unknown'}  \n"
+        f"Notes: {', '.join(flags) if flags else 'None'}  \n"
+        f"Link: https://www.reddit.com{post.permalink}  \n"
+        f"{MessageText.SUBMISSION_NOTIFICATION_BODY}"
+    )
     notification.type = Notification.NotificationType.SUBMISSION
 
     for user in users:
         notification.username = user
         redis.append(notification)
 
-    return ', '.join(users)
+    return ", ".join(users)
