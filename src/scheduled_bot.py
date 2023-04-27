@@ -106,7 +106,10 @@ def generate_statistics():
 
     byte_year = json.dumps(data_year).encode("utf-8")
     bclient.put_object(
-        Bucket=__reddit.config.custom["bucket_name"], Key=f"statistics_{year}.json", Body=BytesIO(byte_year)
+        Bucket=__reddit.config.custom["bucket_name"],
+        Key=f"statistics_{year}.json",
+        Body=BytesIO(byte_year),
+        ACL="public-read",
     )
 
     __logger.info("Generated post statistics")
