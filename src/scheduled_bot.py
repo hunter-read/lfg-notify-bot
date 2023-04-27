@@ -110,9 +110,7 @@ def generate_statistics():
         Key=f"statistics_{year}.json",
         Body=BytesIO(byte_year),
         ACL="public-read",
-        Metadata={
-            "Content-type": "application/json",
-        }
+        ContentType="application/json"
     )
 
     __logger.info("Generated post statistics")
