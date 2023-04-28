@@ -144,6 +144,9 @@ class Post:
                 "astral_tabletop": vtt[4],
                 "talespire": vtt[5],
                 "tableplop": vtt[6],
+                "one_more_multiverse": vtt[7],
+                "owlbear_rodeo": vtt[8],
+                "above_vtt": vtt[9]
             },
             "day_of_week": {
                 "monday": day[0],
