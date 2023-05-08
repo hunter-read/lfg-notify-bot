@@ -1,5 +1,5 @@
 boto3~=1.26.129
-hiredis==2.2.2
+hiredis==2.2.3
 praw==7.7.0
 redis==4.5.4
 schedule==1.2.0
