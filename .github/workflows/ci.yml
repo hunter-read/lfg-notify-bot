@@ -1,9 +1,12 @@
 name: Continuous Integration
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_run:
+    workflows: ["Build and Test"]
+    branches: [main]
+    types: 
+      - completed
+
 
 jobs:
   docker:
@@ -32,3 +35,6 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      -
+        name: Update Stack
+        run: curl -X POST https://portainer.readpnw.dev/api/stacks/webhooks/bab2a41b-a25f-48f9-b7f4-eb92ca95056a
