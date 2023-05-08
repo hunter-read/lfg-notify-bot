@@ -37,4 +37,4 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
       -
         name: Update Stack
-        run: curl -X POST https://portainer.readpnw.dev/api/stacks/webhooks/bab2a41b-a25f-48f9-b7f4-eb92ca95056a
+        run: curl -X POST https://portainer.readpnw.dev/api/stacks/webhooks/6a95f56b-4086-4993-8dae-35106edd5c33
