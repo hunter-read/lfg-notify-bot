@@ -10,7 +10,7 @@ LFG Notify Bot
     <img src="https://github.com/hunter-read/lfg-notify-bot/actions/workflows/test.yml/badge.svg" alt="github action status">
   </a>
   <a href="https://hub.docker.com/repository/docker/hunterreadca/lfg-notify-bot" target="_blank">
-    <img src="https://img.shields.io/docker/image-size/hunterreadca/lfg-notify-bot/stable" alt="docker">
+    <img src="https://img.shields.io/docker/image-size/hunterreadca/lfg-notify-bot/latest" alt="docker">
   </a>
   <br>
   <a href="https://github.com/hunter-read/lfg-notify-bot/blob/main/LICENSE" target="_blank">
