@@ -1,5 +1,4 @@
-boto3~=1.26.137
-hiredis==2.2.3
+boto3==1.26.*
 praw==7.7.0
 redis==4.5.5
 schedule==1.2.0
