@@ -29,3 +29,4 @@ class Spaces:
             ACL="public-read",
             ContentType="application/json",
         )
+r

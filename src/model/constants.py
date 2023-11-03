@@ -80,7 +80,7 @@ class Vtt(Enum):
     FANTASY_GROUNDS = (2, "Fantasy Grounds")
     TABLETOP_SIM = (4, "Tabletop Simulator")
     FOUNDRY = (8, "Foundry VTT")
-    ASTRAL = (16, "Astral Tabletop")
+    # ASTRAL = (16, "Astral Tabletop") Astral is Defunct
     TABLEPLOP = (32, "TablePlop")
     TALESPIRE = (64, "TaleSpire")
     ONE_MORE_MULTIVERSE = (128, "One More Multiverse")
@@ -98,7 +98,6 @@ class Vtt(Enum):
         flag & cls.FANTASY_GROUNDS.flag and strings.append(cls.FANTASY_GROUNDS.string)
         flag & cls.TABLETOP_SIM.flag and strings.append(cls.TABLETOP_SIM.string)
         flag & cls.FOUNDRY.flag and strings.append(cls.FOUNDRY.string)
-        flag & cls.ASTRAL.flag and strings.append(cls.ASTRAL.string)
         flag & cls.TABLEPLOP.flag and strings.append(cls.TABLEPLOP.string)
         flag & cls.TALESPIRE.flag and strings.append(cls.TALESPIRE.string)
         flag & cls.ONE_MORE_MULTIVERSE.flag and strings.append(cls.ONE_MORE_MULTIVERSE.string)

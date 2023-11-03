@@ -45,7 +45,7 @@ SELECT sum(online = 1), sum(online = 0), sum(online = -1) FROM post $where;
 SELECT sum(play_by_post = 1) FROM post $where;
 SELECT sum(one_shot = 1) FROM post $where;
 SELECT sum(lgbtq & 1 > 0), sum(lgbtq & 4 > 0), sum(lgbtq & 2 > 0), sum(lgbtq & 8 > 0) FROM post $where;
-SELECT sum(vtt & 1 > 0), sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 16 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0), sum(vtt & 128 > 0), sum(vtt & 256 > 0), sum(vtt & 512 > 0) FROM post $where;
+SELECT sum(vtt & 1 > 0), sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0), sum(vtt & 128 > 0), sum(vtt & 256 > 0), sum(vtt & 512 > 0) FROM post $where;
 EOF
 ))
 # echo ${results[*]}
@@ -71,9 +71,8 @@ echo "    Roll20: ${filter[26]}"
 echo "    Fantasy Grounds: ${filter[20]}"
 echo "    Foundry: ${filter[21]}"
 echo "    Tabletop Sim: ${filter[22]}"
-echo "    Astral: ${filter[23]}"
-echo "    TaleSpire: ${filter[24]}"
-echo "    TablePlop: ${filter[25]}"
+echo "    TaleSpire: ${filter[23]}"
+echo "    TablePlop: ${filter[24]}"
 
 echo "Game Stats: "
 game=(${results[3]//|/ })
@@ -123,7 +122,6 @@ echo "  Roll20: ${vtt[0]}"
 echo "  Fantasy Grounds: ${vtt[1]}"
 echo "  Foundry: ${vtt[2]}"
 echo "  Tabletop Sim: ${vtt[3]}"
-echo "  Astral: ${vtt[4]}"
 echo "  TaleSpire: ${vtt[5]}"
 echo "  TablePlop: ${vtt[6]}"
 echo "  One More Multiverse: ${vtt[7]}"

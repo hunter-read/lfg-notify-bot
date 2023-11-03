@@ -26,7 +26,7 @@ def __match_identity(text: str) -> int:
 def __using_vtt(text: str) -> int:
     flag = Vtt.NONE.flag
     matches = re.finditer(
-        r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(astral)|(tableplop)|(talespire)|(\bomm\b|one more multiverse)|(owlbear)|(above\s?vtt)",
+        r"(roll\s?20|r20)|(fantasy ground|fg)|(tabletop sim|tts)|(foundry)|(tableplop)|(talespire)|(\bomm\b|one more multiverse)|(owlbear)|(above\s?vtt)",
         text,
         flags=re.IGNORECASE,
     )
@@ -41,16 +41,14 @@ def __using_vtt(text: str) -> int:
             elif match.group(4):
                 flag |= Vtt.FOUNDRY.flag
             elif match.group(5):
-                flag |= Vtt.ASTRAL.flag
-            elif match.group(6):
                 flag |= Vtt.TABLEPLOP.flag
-            elif match.group(7):
+            elif match.group(6):
                 flag |= Vtt.TALESPIRE.flag
-            elif match.group(8):
+            elif match.group(7):
                 flag |= Vtt.ONE_MORE_MULTIVERSE.flag
-            elif match.group(9):
+            elif match.group(8):
                 flag |= Vtt.OWLBEAR_RODEO.flag
-            elif match.group(10):
+            elif match.group(9):
                 flag |= Vtt.ABOVE_VTT.flag
     return flag
 

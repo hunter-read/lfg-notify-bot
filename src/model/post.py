@@ -55,13 +55,12 @@ class Post:
             [Identity.LGBTQ.flag, Identity.FEM.flag, Identity.POC.flag, Identity.ACCESSIBLE.flag, date],
         )[0]
         vtt = db.query(
-            "SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0)  FROM post WHERE date_created >= ?",
+            "SELECT sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0), sum(vtt & ? > 0) FROM post WHERE date_created >= ?",
             [
                 Vtt.ROLL20.flag,
                 Vtt.FOUNDRY.flag,
                 Vtt.FANTASY_GROUNDS.flag,
                 Vtt.TABLETOP_SIM.flag,
-                Vtt.ASTRAL.flag,
                 Vtt.TALESPIRE.flag,
                 Vtt.TABLEPLOP.flag,
                 Vtt.ONE_MORE_MULTIVERSE.flag,
@@ -141,12 +140,11 @@ class Post:
                 "foundry": vtt[1],
                 "fantasy_grounds": vtt[2],
                 "tabletop_simulator": vtt[3],
-                "astral_tabletop": vtt[4],
-                "talespire": vtt[5],
-                "tableplop": vtt[6],
-                "one_more_multiverse": vtt[7],
-                "owlbear_rodeo": vtt[8],
-                "above_vtt": vtt[9]
+                "talespire": vtt[4],
+                "tableplop": vtt[5],
+                "one_more_multiverse": vtt[6],
+                "owlbear_rodeo": vtt[7],
+                "above_vtt": vtt[8]
             },
             "day_of_week": {
                 "monday": day[0],
