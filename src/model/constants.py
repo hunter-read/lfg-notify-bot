@@ -80,7 +80,7 @@ class Vtt(Enum):
     FANTASY_GROUNDS = (2, "Fantasy Grounds")
     TABLETOP_SIM = (4, "Tabletop Simulator")
     FOUNDRY = (8, "Foundry VTT")
-    # ASTRAL = (16, "Astral Tabletop") Astral is Defunct
+    ASTRAL = (16, "Astral Tabletop") # Astral is Defunct - Leaving here for posterity
     TABLEPLOP = (32, "TablePlop")
     TALESPIRE = (64, "TaleSpire")
     ONE_MORE_MULTIVERSE = (128, "One More Multiverse")
