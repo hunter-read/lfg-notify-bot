@@ -19,9 +19,6 @@ LFG Notify Bot
   <a href="https://lfg-notification-bot.cronitorstatus.com/" target="_blank">
     <img src="https://cronitor.io/badges/tVkGfY/production/TpwrXfJLc4oWvfNcAKdYls7kH-E.svg" alt="app-status">
   </a>
-  <a href="https://lfg-notification-bot.cronitorstatus.com/" target="_blank">
-    <img src="https://cronitor.io/badges/wr8p9L/production/KSD4h05r-y70PHTVQN2ouhtG67I.svg" alt="commits">
-  </a>
 </p>
 
 <h3 align="center"> >>> There is <a href="https://lfg.findtabletop.games" target="_blank">now a web page to subscribe</a> to the bot easily <<< </h3>
