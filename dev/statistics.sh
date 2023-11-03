@@ -23,7 +23,7 @@ SELECT count(id) FROM post $where;
 SELECT sum(timezone is not null), sum(day is not null), sum(nsfw = -1), sum(nsfw = 0), sum(nsfw = 1), sum(flair <> 3), sum(keyword is not null), 
  sum(online = 1), sum(online = 0), sum(online = -1), sum(play_by_post = -1), sum(play_by_post = 0), sum(play_by_post = 1), sum(one_shot = -1), sum(one_shot = 0), sum(one_shot = 1),
  sum(lgbtq & 1 > 0), sum(lgbtq & 4 > 0), sum(lgbtq & 2 > 0), sum(lgbtq & 8 > 0),
- sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 16 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0), sum(vtt & 1 > 0) FROM user;
+ sum(vtt & 2 > 0), sum(vtt & 8 > 0), sum(vtt & 4 > 0), sum(vtt & 64 > 0), sum(vtt & 32 > 0), sum(vtt & 1 > 0) FROM user;
 SELECT sum(game like '%5E%'), sum(game like '%4E%'), sum(game like '%3.5%'), sum(game like '%ADND%'), sum(game like '%PF2E%'), sum(game like '%PF1E%'), sum(game like '%COC%'), sum(game like '%WOD%'), 
  sum(game like '%SWRPG%'), sum(game like '%CYBERPUNK%'), sum(game like '%40K%'), sum(game like '%MOTW%'), sum(game like '%FATE%'), sum(game like '%GURPS%'), sum(game like '%STARFINDER%'), 
  sum(game like '%BITD%'), sum(game like '%COFD%'), sum(game like '%MM3%'), sum(game like '%SWN%'), sum(game like '%SWADE%'), sum(game like '%3E%'), sum(game like '%SR6%'), sum(game like '%SR5%'), 
@@ -122,11 +122,11 @@ echo "  Roll20: ${vtt[0]}"
 echo "  Fantasy Grounds: ${vtt[1]}"
 echo "  Foundry: ${vtt[2]}"
 echo "  Tabletop Sim: ${vtt[3]}"
-echo "  TaleSpire: ${vtt[5]}"
-echo "  TablePlop: ${vtt[6]}"
-echo "  One More Multiverse: ${vtt[7]}"
-echo "  Owlbear Rodeo: ${vtt[8]}"
-echo "  Above VTT: ${vtt[9]}"
+echo "  TaleSpire: ${vtt[4]}"
+echo "  TablePlop: ${vtt[5]}"
+echo "  One More Multiverse: ${vtt[6]}"
+echo "  Owlbear Rodeo: ${vtt[7]}"
+echo "  Above VTT: ${vtt[8]}"
 game=(${results[10]//|/ })
 echo "Games stats:"
 echo "  Flexible / Other: ${game[40]}"

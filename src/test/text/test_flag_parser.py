@@ -401,18 +401,6 @@ message_flags_data = [
         False,
     ),
     (
-        "astral",
-        Location.ONLINE.value,
-        Nsfw.EXCLUDE.value,
-        PlayByPost.INCLUDE.value,
-        OneShot.INCLUDE.value,
-        Identity.NONE.flag,
-        AgeLimit.NONE.value,
-        Vtt.ASTRAL.flag,
-        False,
-        False,
-    ),
-    (
         "talespire",
         Location.ONLINE.value,
         Nsfw.EXCLUDE.value,
