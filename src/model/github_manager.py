@@ -4,7 +4,7 @@ import os
 from github import Github, Auth
 
 
-class GitHubManager:
+class GithubManager:
     """A class for uploading to github."""
 
     def __init__(self):
