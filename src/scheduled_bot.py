@@ -7,7 +7,7 @@ from logging import Logger
 import praw
 import schedule
 
-from model import Database, MessageText, Notification, Post, Redis, User, Spaces
+from model import Database, MessageText, Notification, Post, Redis, User, Spaces, GitHubManager
 from service import init_logger, find_users_and_queue, init_health_check, set_unhealthy
 
 
@@ -93,6 +93,11 @@ def generate_statistics():
     spaces: Spaces = Spaces()
     spaces.upload(data, "statistics.json")
     spaces.upload(data_year, f"statistics_{year}.json")
+
+    # Upload statistics to Github
+    github: GitHubManager = GitHubManager()
+    github.upload(data, "statistics.json")
+    github.upload(data_year, f"statistics_{year}.json")
 
     __logger.info("Generated post statistics")
 
