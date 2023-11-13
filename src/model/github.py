@@ -19,6 +19,6 @@ class GitHubManager:
         return Github(auth=auth)
 
     def upload(self, data: dict, object_name: str) -> None:
-        repo = __client.get_repo(os.environ.get("GITHUB_STATISTICS_REPO"))
+        repo = self.__client.get_repo(os.environ.get("GITHUB_STATISTICS_REPO"))
         contents = repo.get_contents(f"/public/{object_name}")
         repo.update_file(contents.path, f"Update {object_name} - {datetime.datetime.now().strftime('%Y-%m-%d')}", json.dumps(data), contents.sha, branch="main")
