@@ -8,12 +8,12 @@ class GitHubManager:
     """A class for uploading to github."""
 
     def __init__(self):
-        self.__client: client = self.__get_client()
+        self.__client: Github = self.__get_client()
 
     def __del__(self):
         self.__client.close()
 
-    def __get_client(self) -> client:
+    def __get_client(self) -> Github:
         """Return a github client."""
         auth = Auth.Token(os.environ.get("GITHUB_ACCESS_TOKEN"))
         return Github(auth=auth)
