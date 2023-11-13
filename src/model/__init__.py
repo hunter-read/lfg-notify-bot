@@ -3,7 +3,6 @@ from .post import Post
 from .user import User
 from .constants import MessageText, Flair, Location, Nsfw, PlayByPost, OneShot, Identity, AgeLimit, Vtt
 from .redis import Notification, Redis
-from .spaces import Spaces
 from .github_manager import GithubManager
 
 __all__ = [
@@ -21,6 +20,5 @@ __all__ = [
     "Vtt",
     "Notification",
     "Redis",
-    "Spaces",
     "GithubManager"
 ]

@@ -106,7 +106,7 @@ If you see a blatant issue, please add an [issue to the github page](https://git
   **A:** I like reddit and overall the lfg subreddit is full of good people, but also getting a app/website with the user base needed to sustain it is very difficult. There is [now a web page to subscribe](https://lfg.findtabletop.games) to the bot easily however.  
 
 * **Q:** Are you gathering any data or statistics with this bot?  
-  **A:** I do gather generic reddit post data which is updated daily and contains many of the search criteria. *Note:* The data is not perfect. As new filters are added and updates are made to better filter reddit posts, the statistics may vary sligtly over time. [All data](https://lfg.stats.findtabletop.games/statistics.json) | [Year 2023](https://lfg.stats.findtabletop.games/statistics_2023.json) | [Year 2022](https://lfg.stats.findtabletop.games/statistics_2022.json)
+  **A:** I do gather generic reddit post data which is updated daily and contains many of the search criteria. *Note:* The data is not perfect. As new filters are added and updates are made to better filter reddit posts, the statistics may vary sligtly over time. [All data](https://lfg.findtabletop.games/public/statistics.json) | [Year 2023](https://lfg.findtabletop.games/public/statistics_2023.json) | [Year 2022](https://lfg.findtabletop.games/public/statistics_2022.json)
 
 
 
