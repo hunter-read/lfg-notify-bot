@@ -16,6 +16,12 @@ Reccomend to run in a docker compose file with redis. Also needs to connect to a
 #### Docker-Compose
 A sample docker-compose is provided. By default the volume used is an external one. Create the volume and add praw.ini and the sqlite.db files to it. A sample env file is provided. This will also require adding a redis.conf file to the volume.
 
+
+### Venv
+* Create the venv: `python3 -m venv .venv`
+* Activate venv: `source .venv/bin/activate`
+* Install dependencies: `pip3 install -r requirements.txt`
+
 ### Testing
 * pytest (`py.test`)
 * flake8 (`flake8 . --count --exit-zero --max-complexity=20  --statistics --ignore=E501`)
