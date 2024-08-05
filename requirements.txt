@@ -1,4 +1,4 @@
 praw==7.7.1
-redis==5.0.7
+redis==5.0.8
 schedule==1.2.2
 PyGithub==2.3.0
