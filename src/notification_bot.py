@@ -54,7 +54,7 @@ def message_user(notification: Notification) -> int:
     except prawcore.exceptions.Forbidden as err:
         __logger.error(f"Error sending message to {notification.username} (Forbidden): {err}")
         return 0
-    
+
     except prawcore.exceptions.NotFound as err:
         __logger.error(f"Error sending message to {notification.username} (Not Found 404): {err}")
         return 30

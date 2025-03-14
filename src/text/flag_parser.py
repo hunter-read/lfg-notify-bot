@@ -9,7 +9,7 @@ __one_shot = r"one[-\s]?shot"
 
 def __match_identity(text: str) -> int:
     flag = Identity.NONE.flag
-    matches = re.finditer(r"(lgbtq?[+]?)|(\bfem\b)|(\bpoc\b)|(accessible)", text, flags=re.IGNORECASE)
+    matches = re.finditer(r"(lgbtq?(?:\+|plus)?)|(\bfem\b)|(\bpoc\b)|(accessible)", text, flags=re.IGNORECASE)
     for match in matches:
         if match:
             if match.group(1):
