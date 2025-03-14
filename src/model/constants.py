@@ -86,6 +86,8 @@ class Vtt(Enum):
     ONE_MORE_MULTIVERSE = (128, "One More Multiverse")
     OWLBEAR_RODEO = (256, "Owlbear Rodeo")
     ABOVE_VTT = (512, "Above VTT")
+    SIGIL = (1024, "Sigil")
+    THEATER_OF_THE_MIND = (2048, "Theater of the Mind")
 
     def __init__(self, flag: int, string: str):
         self.flag = flag
@@ -103,6 +105,8 @@ class Vtt(Enum):
         flag & cls.ONE_MORE_MULTIVERSE.flag and strings.append(cls.ONE_MORE_MULTIVERSE.string)
         flag & cls.OWLBEAR_RODEO.flag and strings.append(cls.OWLBEAR_RODEO.string)
         flag & cls.ABOVE_VTT.flag and strings.append(cls.ABOVE_VTT.string)
+        flag & cls.SIGIL.flag and strings.append(cls.SIGIL.string)
+        flag & cls.THEATER_OF_THE_MIND.flag and strings.append(cls.THEATER_OF_THE_MIND.string)
         return strings
 
 
