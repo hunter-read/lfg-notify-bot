@@ -96,6 +96,9 @@ def main():
             except praw.exceptions.RedditAPIException as err:
                 __logger.error(f"API error: {err}")
                 time.sleep(10)
+            except prawcore.exceptions.NotFound as err:
+                __logger.error(f"Not Found 404 error: {err}")
+                time.sleep(30)
             except Exception as e:
                 __logger.critical(f"Unexpected error: {e}")
                 set_unhealthy(__NAME)
