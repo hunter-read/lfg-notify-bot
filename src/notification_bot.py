@@ -52,8 +52,12 @@ def message_user(notification: Notification) -> int:
         redditor.message(subject=notification.subject, message=notification.body)
 
     except prawcore.exceptions.Forbidden as err:
-        __logger.error(f"Error sending message to {notification.username}: {err}")
+        __logger.error(f"Error sending message to {notification.username} (Forbidden): {err}")
         return 0
+    
+    except prawcore.exceptions.NotFound as err:
+        __logger.error(f"Error sending message to {notification.username} (Not Found 404): {err}")
+        return 30
 
     except praw.exceptions.RedditAPIException as error:
         return parse_API_exception(error, notification.username)

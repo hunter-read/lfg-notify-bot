@@ -182,6 +182,9 @@ def main():
                 read_messages(db)
             except prawcore.exceptions.Forbidden as err:
                 __logger.error(f"Error sending reply: {err}")
+            except prawcore.exceptions.NotFound as err:
+                __logger.error(f"Not Found 404 error: {err}")
+                time.sleep(30)
             except prawcore.exceptions.ServerError as err:
                 __logger.error(f"Server Error: {err}")
                 time.sleep(10)
