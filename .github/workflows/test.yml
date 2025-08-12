@@ -1,7 +1,6 @@
+name: Build and Test
 permissions:
   contents: read
-name: Build and Test
-
 on: [push]
 
 jobs:
