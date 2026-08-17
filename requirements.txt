@@ -1,4 +1,4 @@
-praw==8.0.2
+praw==8.0.3
 redis==8.1.0
 schedule==1.2.2
 PyGithub==2.9.1
