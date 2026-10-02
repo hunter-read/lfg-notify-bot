@@ -1,5 +1,8 @@
 # LFG Notify Bot
 
+> [!WARNING]
+> **End of support:** This bot relies on Reddit's public API. Once Reddit discontinues public API access (expected around March 2027), the bot will stop working and will no longer be supported. There are no plans to migrate the bot to Reddit's developer platform, [Devvit](https://developers.reddit.com/).
+
 <p align="center">
     <a href="https://www.digitalocean.com/?refcode=4afde7f13fdf&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" height="40" /></a>
   <br>
